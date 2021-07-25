@@ -1,0 +1,878 @@
+body {
+  font-family: 'Oswald', sans-serif;
+}
+body .padding-15 {
+  padding: 15px;
+}
+body .background-division-top {
+  background-color: #eff5f2;
+  border-bottom: 1px solid #d6deda;
+}
+body .background-division-bottom {
+  background-color: #eff5f2;
+  border-top: 1px solid #d6deda;
+}
+body .background-white {
+  background-color: rgba(255,255,255,0.9);
+  padding-bottom: 30px;
+}
+body .margin-top-10 {
+  margin-top: 10px;
+}
+body .font-color-gray {
+  color: #696969;
+}
+body .font-color-orange {
+  color: #ff8c00;
+}
+body .font-color-red {
+  color: #f00;
+}
+body .no-margin {
+  margin: 0;
+}
+body .no-margin-top {
+  margin-top: 0;
+}
+body .no-padding-right {
+  padding-right: 0;
+}
+body .no-padding {
+  padding: 0;
+}
+body .margin-side-auto {
+  padding: 0 70px;
+}
+body .margin-top-30 {
+  margin-top: 30px;
+}
+body .padding-top-10 {
+  padding-top: 15px;
+}
+body .padding-top-30 {
+  padding-top: 30px;
+  text-align: center;
+}
+body .padding-bot-30 {
+  padding-bottom: 30px;
+}
+body .font-size-16 {
+  font-size: 16px;
+}
+body .section-padding {
+  padding: 30px 0;
+}
+body .twitter .twitter-timeline {
+  height: 625px !important;
+}
+body .margin-left-15 {
+  margin-left: 15px;
+}
+@font-face {
+  font-family: 'Poppins-Black';
+  src: local('☺'), url("../fonts/Poppins-Black.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-BlackItalic';
+  src: local('☺'), url("../fonts/Poppins-BlackItalic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-Bold';
+  src: local('☺'), url("../fonts/Poppins-Bold.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-BoldItalic';
+  src: local('☺'), url("../fonts/Poppins-BoldItalic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-ExtraBold';
+  src: local('☺'), url("../fonts/Poppins-ExtraBold.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-ExtraBoldItalic';
+  src: local('☺'), url("../fonts/Poppins-ExtraBoldItalic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-ExtraLight';
+  src: local('☺'), url("../fonts/Poppins-ExtraLight.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-ExtraLightItalic';
+  src: local('☺'), url("../fonts/Poppins-ExtraLightItalic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-Italic';
+  src: local('☺'), url("../fonts/Poppins-Italic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-Light';
+  src: local('☺'), url("../fonts/Poppins-Light.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-LightItalic';
+  src: local('☺'), url("../fonts/Poppins-LightItalic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-Medium';
+  src: local('☺'), url("../fonts/Poppins-Medium.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-MediumItalic';
+  src: local('☺'), url("../fonts/Poppins-MediumItalic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-Regular';
+  src: local('☺'), url("../fonts/Poppins-Regular.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-SemiBold';
+  src: local('☺'), url("../fonts/Poppins-SemiBold.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-SemiBoldItalic';
+  src: local('☺'), url("../fonts/Poppins-SemiBoldItalic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-Thin';
+  src: local('☺'), url("../fonts/Poppins-Thin.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins-ThinItalic';
+  src: local('☺'), url("../fonts/Poppins-ThinItalic.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+body section#menu {
+  height: 72px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+body section#menu #custom-menu.navbar-default {
+  background-color: #f6f6f6;
+  border-radius: 0;
+  border-width: 0;
+  font-size: 16px;
+  min-height: 96px;
+  padding: 16px 0;
+}
+body section#menu #custom-menu.navbar-default .navbar-brand {
+  height: 100%;
+  padding: 0;
+}
+body section#menu #custom-menu.navbar-default .navbar-brand img {
+  height: 64px;
+}
+body section#menu #custom-menu.navbar-default .navbar-header a.navbar-brand {
+  color: #fff;
+}
+body section#menu #custom-menu.navbar-default .navbar-nav.navbar-right {
+  height: 72px;
+  display: flex;
+  align-items: center;
+}
+body section#menu #custom-menu.navbar-default .navbar-nav>li>a {
+  color: #151515;
+  font-family: 'Poppins-Regular';
+  font-size: 16px;
+  text-transform: uppercase;
+}
+body section#menu #custom-menu.navbar-default .navbar-nav>li>a:hover,
+body section#menu #custom-menu.navbar-default .navbar-nav>li>a:focus {
+  color: #0075c1;
+  font-weight: 700;
+  text-decoration: underline;
+}
+body section#menu #custom-menu.navbar-default .navbar-nav>li>a.menu_active,
+body section#menu #custom-menu.navbar-default .navbar-nav>li>a.menu_active:hover,
+body section#menu #custom-menu.navbar-default .navbar-nav>li>a.menu_active:focus {
+  color: #0075c1;
+  font-weight: 700;
+  text-decoration: underline;
+}
+body section#menu #custom-menu.navbar-default .navbar-toggle {
+  border-color: #ddd;
+}
+body section#menu #custom-menu.navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+body section#menu #custom-menu.navbar-default .navbar-toggle:hover,
+body section#menu #custom-menu.navbar-default .navbar-toggle:focus {
+  background-color: #ddd;
+}
+body section#menu #custom-menu.navbar-default .navbar-toggle:hover .icon-bar,
+body section#menu #custom-menu.navbar-default .navbar-toggle:focus .icon-bar {
+  background-color: #fff;
+}
+body section#menu #custom-menu.navbar {
+  border: 0;
+  border-radius: unset;
+  margin-bottom: 0;
+}
+body section#footer {
+  background-color: #f6f6f6;
+  font-size: 14px;
+  padding: 30px 0;
+  text-decoration: none;
+}
+body section#footer h3 {
+  color: #151515;
+  font-size: 20px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+body section#footer a {
+  color: #151515;
+  text-decoration: none;
+}
+body section#footer p {
+  line-height: 14px;
+  margin: 0;
+}
+body section#design {
+  background-color: #184c89;
+  color: #fff;
+  font-size: 11px;
+  height: 20px;
+  overflow: hidden;
+  width: 100%;
+}
+body section#design a {
+  color: #fff;
+  text-decoration: none;
+}
+body #hero {
+  position: relative;
+  margin-top: 100px;
+}
+body #hero .img-src-1 {
+  background-image: url("../images/banners/airport-baja-transportation-01.jpg");
+}
+body #hero .img-src-2 {
+  background-image: url("../images/banners/airport-baja-transportation-02.jpg");
+}
+body #hero .img-src-3 {
+  background-image: url("../images/banners/airport-baja-transportation-03.jpg");
+}
+body #hero .img-src-4 {
+  background-image: url("../images/banners/airport-baja-transportation-04.jpg");
+}
+body #hero .img-src-5 {
+  background-image: url("../images/banners/airport-baja-transportation-05.jpg");
+}
+body #hero .img-size {
+  background-position: center;
+  background-size: cover;
+  height: 680px;
+  width: 100%;
+}
+body #hero .tripadvisor {
+  position: absolute;
+  top: 25px;
+  z-index: 1;
+  left: 25px;
+}
+body .carousel-indicators li {
+  background-color: transparent;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+}
+body .carousel-indicators .active {
+  background-color: #184c89;
+  border-color: #184c89;
+  height: 24px;
+  width: 24px;
+}
+@media (max-width: 991px) {
+  body #hero .img-size {
+    height: 400px;
+  }
+}
+body section#activities h3 {
+  margin-top: 0;
+  padding-top: 0;
+}
+body section#activities img {
+  border-radius: 15px;
+}
+body section#promo {
+  background: #fff;
+  padding: 30px 0;
+}
+body section#promo h2 {
+  padding: 20px 0;
+}
+body section#promo a {
+  color: #fff;
+  padding: 10px;
+}
+body section#units #step1 .easy-autocomplete.eac-round,
+body section#units #step2 .easy-autocomplete.eac-round,
+body section#units #step3 .easy-autocomplete.eac-round {
+  width: auto !important;
+}
+body section#units #step1 input,
+body section#units #step2 input,
+body section#units #step3 input,
+body section#units #step1 select,
+body section#units #step2 select,
+body section#units #step3 select,
+body section#units #step1 textarea,
+body section#units #step2 textarea,
+body section#units #step3 textarea {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 0;
+  height: 30px;
+  margin-bottom: 5px;
+  outline: none;
+  padding: 0 10px;
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+body section#units #step1 input.submit-button,
+body section#units #step2 input.submit-button,
+body section#units #step3 input.submit-button {
+  background-color: #f6f6f6;
+  color: #000;
+  float: right;
+  width: 150px;
+}
+body section#units #step1 input.submit-button[disabled="disabled"],
+body section#units #step2 input.submit-button[disabled="disabled"],
+body section#units #step3 input.submit-button[disabled="disabled"] {
+  opacity: 0.5;
+}
+body section#units #step1 label,
+body section#units #step2 label,
+body section#units #step3 label {
+  font-size: 10px;
+  font-weight: 400;
+}
+body section#units #step1 #suburban-capacity,
+body section#units #step2 #suburban-capacity,
+body section#units #step3 #suburban-capacity,
+body section#units #step1 #hiace-capacity,
+body section#units #step2 #hiace-capacity,
+body section#units #step3 #hiace-capacity,
+body section#units #step1 #sprinter-capacity,
+body section#units #step2 #sprinter-capacity,
+body section#units #step3 #sprinter-capacity {
+  display: none;
+}
+body section#units #step2,
+body section#units #step3 {
+  display: none;
+}
+body section#book-now {
+  padding: 0;
+  margin-top: 130px;
+}
+body section#book-now .title {
+  color: #000;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 5px;
+  text-align: center;
+  text-transform: uppercase;
+}
+body section#book-now .title p {
+  margin: 0;
+  padding: 0;
+}
+body section#book-now #book #PreBook .price {
+  height: 40px !important;
+  overflow: hidden;
+}
+body section#book-now #book #PreBook .price p#price {
+  color: #000;
+  font-size: 30px;
+  line-height: 40px;
+  margin: 0;
+  text-align: right;
+}
+body section#book-now #book #PreBook select,
+body section#book-now #book #PreBook input {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
+  height: 30px;
+  margin: 5px 0;
+  padding-left: 10px;
+  width: 100%;
+}
+body section#book-now #book #PreBook h1,
+body section#book-now #book #PreBook h3 {
+  color: #000;
+  text-align: center;
+}
+body section#book-now #book #PreBook input.submit-button {
+  background-color: #000;
+  border-radius: 8px;
+  color: #fff;
+  float: right;
+  width: 150px;
+}
+body section#book-now #book #PreBook input.submit-button[disabled="disabled"] {
+  opacity: 0.5;
+}
+body section#book-now #book #Book .price {
+  height: 40px !important;
+  overflow: hidden;
+}
+body section#book-now #book #Book .price p#priceBig {
+  color: #000;
+  font-size: 30px;
+  line-height: 40px;
+  margin: 0;
+  text-align: right;
+}
+body section#book-now #book #Book select,
+body section#book-now #book #Book input {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
+  height: 30px;
+  margin: 5px 0;
+  padding-left: 10px;
+  width: 100%;
+}
+body section#book-now #book #Book h1,
+body section#book-now #book #Book h3 {
+  color: #000;
+  text-align: center;
+}
+body section#book-now #suburbanCapacity,
+body section#book-now #escaladeCapacity,
+body section#book-now #hiaceCapacity,
+body section#book-now #shuttleCapacity,
+body section#book-now #sprinterCapacity {
+  display: none;
+}
+body #Thanks,
+body form#Book {
+  display: none;
+}
+body #Thanks {
+  background-color: #fef000;
+  height: auto;
+  padding: 30px 0;
+  text-align: center;
+}
+body #Thanks p {
+  color: #000;
+  font-size: 20px;
+  margin: 0;
+}
+body #Thanks img {
+  border: 0;
+  width: auto;
+}
+body .border-line {
+  border: 1px solid #000;
+  height: 30px;
+  line-height: 30px;
+  margin-bottom: 2px;
+  overflow: hidden;
+}
+body .border-line #resume-hotel-img,
+body .border-line #resume-arrival-airline-img,
+body .border-line #resume-departure-airline-img {
+  display: inline-block;
+  height: 30px;
+}
+body .border-line #resume-hotel,
+body .border-line #resume-arrival-airline,
+body .border-line #resume-departure-airline,
+body .border-line #resume-departure-date,
+body .border-line #resume-departure-time,
+body .border-line #resume-arrival-date,
+body .border-line #resume-arrival-time {
+  display: inline-block;
+}
+body .border-line #resume-arrival-time,
+body .border-line #resume-departure-time,
+body .border-line #resume-arrival-flight,
+body .border-line #resume-departure-flight {
+  padding-left: 5px;
+}
+body .border-line #resume-passenger-suv,
+body .border-line #resume-passenger-van {
+  display: none;
+}
+body .border-line.separator {
+  background-color: #fef000;
+}
+body #display-arrival,
+body #display-departure {
+  display: none;
+}
+body .form-group {
+  border: 1px solid #000;
+  margin-bottom: 16px;
+}
+body .form-group label {
+  background-color: #fff;
+  font-size: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin: 0;
+  min-width: 100px;
+  position: relative;
+  text-align: center;
+  top: -10px;
+}
+@media (max-width: 991px) {
+  body .tripadvisor {
+    display: none;
+  }
+}
+body section#zones {
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #000;
+  padding: 30px 0;
+}
+body section#zones .col-sm-3 .box-hover:hover {
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+body section#zones .title {
+  background-color: #184c89;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  border-top: 1px solid #000;
+  color: #fff;
+}
+body section#zones h4 {
+  font-size: 30px;
+}
+body section#zones p.price-italic {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  font-size: 18px;
+  font-style: italic;
+  height: 30px;
+  justify-content: center;
+  margin: 0;
+}
+body section#zones p.subprice-italic {
+  margin: 0;
+  padding: 2px 0;
+}
+body section#zones p.price-zone {
+  color: #000;
+  font-size: 20px;
+  font-weight: bolder;
+  margin: 0;
+}
+body section#zones p.little {
+  color: #000;
+  margin-bottom: 5px;
+}
+body section#zones .ico-zone {
+  border: 1px solid #000;
+  color: #fff;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+}
+body section#zones .ico-hotel {
+  border: 1px solid #184c89;
+  border-radius: 4px;
+  display: inline-block;
+  height: 82px;
+  margin: 5px;
+  overflow: hidden;
+  width: 82px;
+}
+body section#zones .ico-hotel img {
+  height: 40px;
+  width: 80px;
+}
+body section#zones .ico-hotel p {
+  background-color: #184c89;
+  color: #fff;
+  display: block;
+  font-size: 12px;
+  height: 40px;
+  line-height: 20px;
+  margin: 0;
+}
+body section#zones .btn.btn-info {
+  background-color: #000;
+  border-color: #000;
+  border-radius: 0;
+}
+body section#zones .btn.btn-info.link {
+  background-color: #188b1f;
+  border: 1px solid #000;
+  color: #000;
+  font-size: 12px;
+  margin-top: 10px;
+  width: 100%;
+}
+body section#services {
+  padding: 20px 0;
+}
+body section#services h3 {
+  color: #184c89;
+}
+body section#welcome {
+  padding: 30px 0;
+}
+body section#welcome p {
+  color: #000;
+  font-size: 20px;
+}
+body section#welcome h2.section-title {
+  color: #000;
+}
+body section#mini-banner {
+  margin-top: 100px;
+  position: relative;
+}
+body section#about-us {
+  padding: 30px 0;
+}
+body section#about-us p {
+  color: #000;
+  font-size: 20px;
+  font-weight: 200;
+  text-align: justify;
+}
+body section#about-us h3 {
+  color: #fff;
+  text-align: center;
+}
+body section#our-services {
+  padding: 30px 0;
+}
+body section#our-services h2.section-title {
+  color: #000;
+}
+body section#our-services p {
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+}
+body section#our-services h3 {
+  align-items: center;
+  color: #000;
+  display: flex;
+  font-size: 18px;
+  height: 60px;
+  text-align: center;
+}
+body section#our-services .our-services-group {
+  margin-top: 100px;
+}
+body section#our-services .our-services-inputs {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+}
+body section#cabo-information {
+  padding: 30px 0;
+}
+body section#cabo-information p {
+  color: #fff;
+  font-size: 20px;
+}
+body section#cabo-information h3 {
+  color: #fff;
+  height: 60px;
+  text-align: center;
+}
+body section#more-services {
+  padding: 30px 0;
+}
+body section#more-services p {
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+}
+body section#more-services h3 {
+  color: #000;
+  display: flex;
+  font-size: 18px;
+  height: 60px;
+  text-align: center;
+}
+body section#more-services h2.section-title {
+  color: #000;
+}
+body section#contact-us {
+  color: #000;
+  padding: 30px 0;
+}
+body section#contact-us h2.section-title {
+  color: #000;
+}
+body section#contact-us a {
+  color: #000;
+  font-size: 24px;
+  margin-left: 50px;
+  padding: 20px 0;
+}
+body section#contact-us a i {
+  font-size: 60px;
+}
+body section#city-tours-lpz {
+  padding: 30px 0;
+}
+body section#city-tours-lpz h2.section-title {
+  color: #000;
+}
+body section#city-tours-lpz p {
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+}
+body section#city-tours-lpz h3 {
+  align-items: center;
+  color: #000;
+  display: flex;
+  font-size: 18px;
+  height: 60px;
+  text-align: center;
+}
+body section#city-tours-lpz .city-tours-space {
+  margin-top: 100px;
+}
+body section#city-tours-lpz .city-tours-img {
+  text-align: center;
+  width: 100%;
+}
+body section#city-tours-lpz .city-tours-wrapper {
+  margin-top: 50px;
+}
+body .city-tours-wrapper {
+  margin: 20px 0;
+}
+body section#units {
+  padding: 30px 0;
+}
+body section#units #reserve-suburban:hover,
+body section#units #reserve-hiace:hover,
+body section#units #reserve-sprinter:hover {
+  cursor: pointer;
+}
+body section#units #reserve-suburban .unit-image img,
+body section#units #reserve-hiace .unit-image img,
+body section#units #reserve-sprinter .unit-image img {
+  width: 90%;
+}
+body section#units #reserve-suburban:hover .unit-image img,
+body section#units #reserve-hiace:hover .unit-image img,
+body section#units #reserve-sprinter:hover .unit-image img {
+  width: 90%;
+}
+body section#units .unit-txt p {
+  font-size: 18px;
+  font-weight: bolder;
+  height: 20px;
+  line-height: 20px;
+}
+body section#units .unit-txt p.subtitle {
+  font-size: 16px;
+  font-weight: 200;
+}
+body section#units .unit-txt p.book {
+  background-color: #f6f6f6;
+  color: #000;
+  font-size: 12px;
+  height: auto;
+  margin-top: 10px;
+  padding: 10px 16px;
+  width: 100%;
+}
+body section#testimonials {
+  padding: 30px 0;
+}
+body section#testimonials .widSSP.widSSPnarrow {
+  margin: 0 auto;
+}
+body section#testimonials .carousel.slide .item {
+  margin-bottom: 30px;
+}
+body section#testimonials .carousel.slide .item a {
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+}
+body section#testimonials .carousel.slide .item a img {
+  margin-bottom: 10px;
+}
+body section#testimonials .carousel.slide .carousel-indicators {
+  bottom: 0;
+  position: relative;
+}
+body section#testimonials .carousel.slide .carousel-indicators li {
+  border: 2px solid #000;
+  height: 18px;
+  margin: 1px;
+  width: 18px;
+}
+body section#testimonials .carousel.slide .carousel-indicators .active {
+  background-color: #000;
+  border-color: #000;
+}
+body h2.section-title {
+  color: #fff;
+  margin: 0;
+  padding-bottom: 30px;
+  text-transform: uppercase;
+}
+body #blog-article {
+  margin-top: 80px;
+}
+body #blog a {
+  color: #000;
+  display: block;
+  padding: 5px 0;
+  text-decoration: none;
+}
