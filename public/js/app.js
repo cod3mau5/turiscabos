@@ -1929,34 +1929,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     var data = [{
@@ -55423,191 +55395,16 @@ var render = function() {
   return _c(
     "section",
     [
-      _c("b-field", { attrs: { grouped: "", "group-multiline": "" } }, [
-        _c(
-          "div",
-          { staticClass: "control" },
-          [
-            _c(
-              "b-switch",
-              {
-                model: {
-                  value: _vm.isBordered,
-                  callback: function($$v) {
-                    _vm.isBordered = $$v
-                  },
-                  expression: "isBordered"
-                }
-              },
-              [_vm._v("Bordered")]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "control" },
-          [
-            _c(
-              "b-switch",
-              {
-                model: {
-                  value: _vm.isStriped,
-                  callback: function($$v) {
-                    _vm.isStriped = $$v
-                  },
-                  expression: "isStriped"
-                }
-              },
-              [_vm._v("Striped")]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "control" },
-          [
-            _c(
-              "b-switch",
-              {
-                model: {
-                  value: _vm.isNarrowed,
-                  callback: function($$v) {
-                    _vm.isNarrowed = $$v
-                  },
-                  expression: "isNarrowed"
-                }
-              },
-              [_vm._v("Narrowed")]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "control" },
-          [
-            _c(
-              "b-switch",
-              {
-                model: {
-                  value: _vm.isHoverable,
-                  callback: function($$v) {
-                    _vm.isHoverable = $$v
-                  },
-                  expression: "isHoverable"
-                }
-              },
-              [_vm._v("Hoverable")]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "control" },
-          [
-            _c(
-              "b-switch",
-              {
-                model: {
-                  value: _vm.isFocusable,
-                  callback: function($$v) {
-                    _vm.isFocusable = $$v
-                  },
-                  expression: "isFocusable"
-                }
-              },
-              [_vm._v("Focusable")]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "control" },
-          [
-            _c(
-              "b-switch",
-              {
-                model: {
-                  value: _vm.isLoading,
-                  callback: function($$v) {
-                    _vm.isLoading = $$v
-                  },
-                  expression: "isLoading"
-                }
-              },
-              [_vm._v("Loading state")]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "control" },
-          [
-            _c(
-              "b-switch",
-              {
-                model: {
-                  value: _vm.isEmpty,
-                  callback: function($$v) {
-                    _vm.isEmpty = $$v
-                  },
-                  expression: "isEmpty"
-                }
-              },
-              [_vm._v("Empty")]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "control" },
-          [
-            _c(
-              "b-switch",
-              {
-                model: {
-                  value: _vm.hasMobileCards,
-                  callback: function($$v) {
-                    _vm.hasMobileCards = $$v
-                  },
-                  expression: "hasMobileCards"
-                }
-              },
-              [
-                _vm._v("Mobile cards "),
-                _c("small", [_vm._v("(collapsed rows)")])
-              ]
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
       _c(
         "b-table",
         {
           attrs: {
             data: _vm.isEmpty ? [] : _vm.data,
-            bordered: _vm.isBordered,
-            striped: _vm.isStriped,
-            narrowed: _vm.isNarrowed,
-            hoverable: _vm.isHoverable,
+            bordered: true,
+            striped: true,
+            hoverable: true,
             loading: _vm.isLoading,
-            focusable: _vm.isFocusable,
-            "mobile-cards": _vm.hasMobileCards
+            "mobile-cards": true
           },
           scopedSlots: _vm._u([
             {

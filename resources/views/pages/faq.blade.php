@@ -1,4 +1,4 @@
-@extends('layouts.home_master')
+@extends('layouts.pages_master')
 @section('styles')
 <style>
     /*

@@ -1,41 +1,13 @@
 <template>
     <section>
-        <b-field grouped group-multiline>
-            <div class="control">
-                <b-switch v-model="isBordered">Bordered</b-switch>
-            </div>
-            <div class="control">
-                <b-switch v-model="isStriped">Striped</b-switch>
-            </div>
-            <div class="control">
-                <b-switch v-model="isNarrowed">Narrowed</b-switch>
-            </div>
-            <div class="control">
-                <b-switch v-model="isHoverable">Hoverable</b-switch>
-            </div>
-            <div class="control">
-                <b-switch v-model="isFocusable">Focusable</b-switch>
-            </div>
-            <div class="control">
-                <b-switch v-model="isLoading">Loading state</b-switch>
-            </div>
-            <div class="control">
-                <b-switch v-model="isEmpty">Empty</b-switch>
-            </div>
-            <div class="control">
-                <b-switch v-model="hasMobileCards">Mobile cards <small>(collapsed rows)</small></b-switch>
-            </div>
-        </b-field>
 
         <b-table
             :data="isEmpty ? [] : data"
-            :bordered="isBordered"
-            :striped="isStriped"
-            :narrowed="isNarrowed"
-            :hoverable="isHoverable"
+            :bordered="true"
+            :striped="true"
+            :hoverable="true"
             :loading="isLoading"
-            :focusable="isFocusable"
-            :mobile-cards="hasMobileCards">
+            :mobile-cards="true">
 
             <b-table-column field="id" label="ID" width="40" :td-attrs="columnTdAttrs" numeric v-slot="props">
                 @{{ props.row.id }}
