@@ -116,7 +116,7 @@
                             <div class="row">
                             <div class="col-xs-6">
                                 <label>Phone</label>
-                                <input id="form-phone" type="number" name="phone" placeholder="Phone"/>
+                                <input id="form-phone" type="phone" name="phone" placeholder="Phone"/>
                             </div>
                             <div class="col-xs-6" id="suburban-capacity">
                                 <label>Pax</label>

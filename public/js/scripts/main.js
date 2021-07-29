@@ -209,13 +209,15 @@ $( document ).ready(function() {
             "comments": $("#form-comment").val(),
             "destination": $("#form-destination").val(),
             "pricenormal": $("#priceBig2").text(),
-            "pricepaypal": pricepaypal
+            "pricepaypal": pricepaypal,
+            "_token":_token
         };
         $.ajax({
             type: 'POST',
-            url: 'https://mailer.hnb.mx/turiscabos.com/sendmail.php',
+            url: postReservationUrl,
             dataType: "json",
             data: formData,
+
             success: function(response) {
                 $("#step2").css("display", "none");
                 $("#step3").css("display", "block");

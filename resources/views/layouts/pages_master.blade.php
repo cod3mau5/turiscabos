@@ -28,9 +28,7 @@
     <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/main.css')}}" media="screen"/>
     @yield('styles')
-    <!-- JavaScript-->
-    <script src="{{asset('js/scripts/vendors.js')}}"></script>
-    <script src="{{asset('js/scripts/main.js')}}"></script>
+
     <div id="fb-root"></div>
     <script>
       (function (d, s, id) {
@@ -119,5 +117,12 @@
           </div>
         </div>
       </section>
+    <!-- JavaScript-->
+    <script src="{{asset('js/scripts/vendors.js')}}"></script>
+    <script>
+        var postReservationUrl= "{{route('reservation.store')}}";
+        var _token="{{ csrf_token() }}";
+    </script>
+    <script src="{{asset('js/scripts/main.js')}}"></script>
 </body>
 </html>

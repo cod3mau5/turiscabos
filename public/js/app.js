@@ -1929,55 +1929,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    var data = [{
-      'id': 1,
-      'first_name': 'Jesse',
-      'last_name': 'Simmons',
-      'date': '2016/10/15 13:43:27',
-      'gender': 'Male'
-    }, {
-      'id': 2,
-      'first_name': 'John',
-      'last_name': 'Jacobs',
-      'date': '2016/12/15 06:00:53',
-      'gender': 'Male'
-    }, {
-      'id': 3,
-      'first_name': 'Tina',
-      'last_name': 'Gilbert',
-      'date': '2016/04/26 06:26:28',
-      'gender': 'Female'
-    }, {
-      'id': 4,
-      'first_name': 'Clarence',
-      'last_name': 'Flores',
-      'date': '2016/04/10 10:28:46',
-      'gender': 'Male'
-    }, {
-      'id': 5,
-      'first_name': 'Anne',
-      'last_name': 'Lee',
-      'date': '2016/12/06 14:38:38',
-      'gender': 'Female'
-    }, {
-      'id': 'Total',
-      'gender': '2 Females, 3 Males'
-    }];
     return {
-      data: data,
-      isEmpty: false,
-      isBordered: false,
-      isStriped: false,
-      isNarrowed: false,
-      isHoverable: false,
-      isFocusable: false,
-      isLoading: false,
-      hasMobileCards: true
+      data: [],
+      isLoading: false
     };
   },
+  mounted: function mounted() {
+    this.fetchData();
+  },
   methods: {
+    fetchData: function fetchData() {
+      var _this = this;
+
+      axios.get(this.getReservations).then(function (r) {
+        _this.data = r.data;
+      });
+    },
     dateThAttrs: function dateThAttrs(column) {
       return column.label === 'Date' ? {
         title: 'This title is sponsored by "th-attrs" prop',
@@ -2009,7 +2003,8 @@ __webpack_require__.r(__webpack_exports__);
 
       return null;
     }
-  }
+  },
+  props: ['getReservations']
 });
 
 /***/ }),
@@ -55399,12 +55394,13 @@ var render = function() {
         "b-table",
         {
           attrs: {
-            data: _vm.isEmpty ? [] : _vm.data,
-            bordered: true,
-            striped: true,
-            hoverable: true,
-            loading: _vm.isLoading,
-            "mobile-cards": true
+            data: _vm.data ? _vm.data : [],
+            bordered: "",
+            striped: "",
+            hoverable: "",
+            "mobile-cards": "",
+            narrowed: "",
+            loading: _vm.isLoading
           },
           scopedSlots: _vm._u([
             {
@@ -55423,8 +55419,8 @@ var render = function() {
         [
           _c("b-table-column", {
             attrs: {
-              field: "id",
-              label: "ID",
+              field: "reservation",
+              label: "RESERVATION",
               width: "40",
               "td-attrs": _vm.columnTdAttrs,
               numeric: ""
@@ -55435,28 +55431,8 @@ var render = function() {
                 fn: function(props) {
                   return [
                     _vm._v(
-                      "\n            @" + _vm._s(props.row.id) + "\n        "
-                    )
-                  ]
-                }
-              }
-            ])
-          }),
-          _vm._v(" "),
-          _c("b-table-column", {
-            attrs: {
-              field: "first_name",
-              label: "First Name",
-              "td-attrs": _vm.columnTdAttrs
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(props) {
-                  return [
-                    _vm._v(
-                      "\n            @" +
-                        _vm._s(props.row.first_name) +
+                      "\n            " +
+                        _vm._s(props.row.reservation) +
                         "\n        "
                     )
                   ]
@@ -55467,8 +55443,8 @@ var render = function() {
           _vm._v(" "),
           _c("b-table-column", {
             attrs: {
-              field: "last_name",
-              label: "Last Name",
+              field: "name",
+              label: "NAME",
               "td-attrs": _vm.columnTdAttrs
             },
             scopedSlots: _vm._u([
@@ -55477,9 +55453,7 @@ var render = function() {
                 fn: function(props) {
                   return [
                     _vm._v(
-                      "\n            @" +
-                        _vm._s(props.row.last_name) +
-                        "\n        "
+                      "\n            " + _vm._s(props.row.name) + "\n        "
                     )
                   ]
                 }
@@ -55489,26 +55463,42 @@ var render = function() {
           _vm._v(" "),
           _c("b-table-column", {
             attrs: {
-              field: "date",
-              label: "Date",
-              "th-attrs": _vm.dateThAttrs,
+              field: "email",
+              label: "E-MAIL",
+              "td-attrs": _vm.columnTdAttrs
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _vm._v(
+                      "\n            " + _vm._s(props.row.email) + "\n        "
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
+            attrs: {
+              field: "passengers",
+              label: "PASSENGERS",
+              width: "40",
               "td-attrs": _vm.columnTdAttrs,
-              centered: ""
+              numeric: ""
             },
             scopedSlots: _vm._u([
               {
                 key: "default",
                 fn: function(props) {
                   return [
-                    _c("span", { staticClass: "tag is-success" }, [
-                      _vm._v(
-                        "\n                @" +
-                          _vm._s(
-                            new Date(props.row.date).toLocaleDateString()
-                          ) +
-                          "\n            "
-                      )
-                    ])
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(props.row.passengers) +
+                        "\n        "
+                    )
                   ]
                 }
               }
@@ -55516,31 +55506,112 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("b-table-column", {
-            attrs: { label: "Gender", "td-attrs": _vm.columnTdAttrs },
+            attrs: {
+              field: "service",
+              label: "SERVICE",
+              "td-attrs": _vm.columnTdAttrs
+            },
             scopedSlots: _vm._u([
               {
                 key: "default",
                 fn: function(props) {
                   return [
-                    _c(
-                      "span",
-                      [
-                        props.row.id !== "Total"
-                          ? _c("b-icon", {
-                              attrs: {
-                                pack: "fas",
-                                icon:
-                                  props.row.gender === "Male" ? "mars" : "venus"
-                              }
-                            })
-                          : _vm._e(),
-                        _vm._v(
-                          "\n                @" +
-                            _vm._s(props.row.gender) +
-                            "\n            "
-                        )
-                      ],
-                      1
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(props.row.service) +
+                        "\n        "
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
+            attrs: {
+              field: "unit",
+              label: "UNIT",
+              "td-attrs": _vm.columnTdAttrs
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _vm._v(
+                      "\n            " + _vm._s(props.row.unit) + "\n        "
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
+            attrs: {
+              field: "destination",
+              label: "DESTINATION",
+              "td-attrs": _vm.columnTdAttrs
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(props.row.destination) +
+                        "\n        "
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
+            staticClass: "centered",
+            attrs: {
+              field: "pricenormal",
+              label: "PRICE NORMAL",
+              width: "140",
+              "td-attrs": _vm.columnTdAttrs,
+              numeric: ""
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _vm._v(
+                      "\n            $ " +
+                        _vm._s(props.row.pricenormal) +
+                        " USD\n        "
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
+            staticClass: "centered",
+            attrs: {
+              field: "pricepaypal",
+              label: "PRICE PAYPAL",
+              width: "140",
+              "td-attrs": _vm.columnTdAttrs,
+              numeric: ""
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _vm._v(
+                      "\n            $ " +
+                        _vm._s(props.row.pricepaypal) +
+                        " USD\n        "
                     )
                   ]
                 }
