@@ -1,6 +1,18 @@
 <template>
     <section>
 
+        <b-field grouped group-multiline>
+            <div v-for="(column, index) in columnsTemplate"
+                :key="index"
+                class="control">
+                <b-checkbox v-model="column.visible">
+                    <div class="is-size-7">
+                        {{ column.title }}
+                    </div>
+                </b-checkbox>
+            </div>
+        </b-field>
+
         <b-table
             :data="data ? data : []"
             bordered
@@ -10,84 +22,32 @@
             narrowed
             :loading="isLoading">
 
-            <b-table-column field="reservation" label="RESERVATION" width="40"  numeric v-slot="props">
-                {{ props.row.reservation }}
-            </b-table-column>
+                <b-table-column  label="ACTIONS" :sticky="true" headerClass="is-sticky-column-two" cellClass="is-sticky-column-two" v-slot="props">
+                    <div class="is-flex">
+                        <button class="btn btn-sm btn-primary mr-1"  @click="isEditModalActive = true; fetchEditingData(props.row.editRoute)">
+                            Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger " @click="isDeleteModalActive = true; deleteRoute=props.row.deleteRoute">
+                            Eliminar
+                        </button>
+                    </div>
+                </b-table-column>
+                <b-table-column v-for="(column, index) in columnsTemplate"
+                    :key="index"
+                    :label="column.title"
+                    :visible="column.visible"
+                    v-slot="props">
+                    {{ props.row[column.field] }}
+                </b-table-column>
 
-            <b-table-column field="name" label="NAME"  v-slot="props">
-                {{ props.row.name }}
-            </b-table-column>
 
-            <b-table-column field="email" label="E-MAIL"  v-slot="props">
-                {{ props.row.email }}
-            </b-table-column>
 
-            <b-table-column field="phone" label="PHONE"  v-slot="props">
-                {{ props.row.phone }}
-            </b-table-column>
-
-            <b-table-column field="passengers" label="PAX" width="25"  numeric v-slot="props">
-                {{ props.row.passengers }}
-            </b-table-column>
-
-            <b-table-column field="service" label="SERVICE"  v-slot="props">
-                {{ props.row.service }}
-            </b-table-column>
-
-            <b-table-column field="unit" label="UNIT"  v-slot="props">
-                {{ props.row.unit }}
-            </b-table-column>
-
-            <b-table-column field="destination" label="DESTINATION"  v-slot="props">
-                {{ props.row.destination }}
-            </b-table-column>
-
-            <b-table-column field="hotel" label="HOTEL"  v-slot="props">
-                {{ props.row.hotel }}
-            </b-table-column>
-
-            <b-table-column class="centered" field="pricenormal" label="PRICE NORMAL" width="140"  numeric v-slot="props">
-                $ {{ props.row.pricenormal }} USD
-            </b-table-column>
-
-            <b-table-column class="centered" field="pricepaypal" label="PRICE PAYPAL" width="140"  numeric v-slot="props">
-                $ {{ props.row.pricepaypal }} USD
-            </b-table-column>
-
-            <b-table-column  label="ACTIONS" v-slot="props">
-                <div class="is-flex">
-                    <button class="btn btn-sm btn-primary mr-1"  @click="isEditModalActive = true; fetchEditingData(props.row.editRoute)">
-                        Editar
-                    </button>
-                    <button class="btn btn-sm btn-danger " @click="isDeleteModalActive = true; deleteRoute=props.row.deleteRoute">
-                        Eliminar
-                    </button>
-                </div>
-
-            </b-table-column>
-
-            <!-- <b-table-column field="date" label="Date" :th-attrs="dateThAttrs"  centered v-slot="props">
-                <span class="tag is-success">
-                    @{{ new Date(props.row.date).toLocaleDateString() }}
-                </span>
-            </b-table-column> -->
-
-            <!-- <b-table-column label="Gender"  v-slot="props">
-                <span>
-                    <b-icon
-                        v-if="props.row.id !== 'Total'"
-                        pack="fas"
-                        :icon="props.row.gender === 'Male' ? 'mars' : 'venus'">
-                    </b-icon>
-                    @{{ props.row.gender }}
-                </span>
-            </b-table-column> -->
-
-            <template #empty>
-                <div class="has-text-centered">No records</div>
-            </template>
+                <template #empty>
+                    <div class="has-text-centered">No records</div>
+                </template>
 
         </b-table>
+
         <b-modal
             v-model="isDeleteModalActive"
             has-modal-card
@@ -123,17 +83,17 @@
             </form>
 
         </b-modal>
+
         <b-modal
             v-model="isEditModalActive"
             has-modal-card
             trap-focus
             :destroy-on-hide="true"
-            :loading="isLoading"
             aria-modal
             class="is-flex is-justify-content-center">
             <form action="">
 
-                    <div class="modal-card mx-auto" style="">
+                    <div class="modal-card mx-auto">
                         <header class="modal-card-head">
                             <p class="modal-card-title">EDITAR</p>
                             <button
@@ -249,18 +209,63 @@
 
 
             </form>
-
+            <b-loading  v-model="isLoading"></b-loading>
         </b-modal>
     </section>
 
 </template>
-<style lang="scss" scoped>
+<style >
+    span.check{
+        width: 1em!important;
+        height: 1em!important;
+    }
+    .table-wrapper{
+        overflow:auto !important;
+    }
+    .is-sticky-column-one {
+        background: #167df0 !important;
+        color: white !important;
+    }
+    .is-sticky-column-two {
+        background: #23d160 !important;
+        color: white !important;
+    }
 </style>
 
 <script>
     export default {
         data() {
             return {
+                columnsTemplate: [
+                    { title: 'RESERVATION', field: 'reservation', visible: false },
+                    { title: 'NAME', field: 'name', visible: true },
+                    { title: 'E-MAIL', field: 'email', visible: false },
+                    { title: 'PAX', field: 'passengers', visible: true },
+                    { title: 'SERVICE', field: 'service', visible: true },
+
+                    { title: 'DESTINATION', field: 'destination', visible: true },
+                    { title: 'HOTEL', field: 'hotel', visible: true },
+
+                    { title: 'ARRIVAL DATE', field: 'arrivaldate', visible: true },
+                    { title: 'ARRIVAL TIME', field: 'arrivaltime', visible: true },
+                    { title: 'ARRIVAL AIRLINE', field: 'arrivalairline', visible: true },
+                    { title: 'ARRIVAL FLIGHT', field: 'arrivalflight', visible: true },
+
+                    { title: 'DEPARTURE DATE', field: 'departuredate', visible: true },
+                    { title: 'DEPARTURE TIME', field: 'departuretime', visible: true },
+                    { title: 'DEPARTURE AIRLINE', field: 'departureairline', visible: true },
+                    { title: 'DEPARTURE FLIGHT', field: 'departureflight', visible: true },
+
+
+                    { title: 'OCATION', field: 'ocation', visible: false },
+                    { title: 'COMMENTS', field: 'comments', visible: false },
+                    { title: 'ORIGIN', field: 'origin', visible: false },
+
+                    { title: 'PRICE NORMAL', field: 'pricenormal', visible: true },
+                    { title: 'PRICE PAYPAL', field: 'pricepaypal', visible: false },
+
+
+                ],
                 data:[],
                 isLoading: false,
                 isDeleteModalActive: false,
