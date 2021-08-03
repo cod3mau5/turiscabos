@@ -120,7 +120,7 @@
     <!-- JavaScript-->
     <script src="{{asset('js/scripts/vendors.js')}}"></script>
     <script>
-        var postReservationUrl= "{{route('reservation.store')}}";
+        var postReservationUrl= "{{route('reservations.store')}}";
         var _token="{{ csrf_token() }}";
     </script>
     <script src="{{asset('js/scripts/main.js')}}"></script>

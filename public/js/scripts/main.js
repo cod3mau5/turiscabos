@@ -1,27 +1,27 @@
-var airlines = null;
-    cars = null;
-    unit = null;
-    selectedZone = null;
-    selectedHotel = null;
-    selectedService = null;
-    selectedUnit = null;
-    selectedArrivalDate = null;
-    selectedArrivalTime = null;
-    selectedArrivalAirline = null;
-    selectedArrivalFlight = null;
-    selectedDepartureDate = null;
-    selectedDepartureTime = null;
-    selectedDepartureAirline = null;
-    selectedDepartureFlight = null;
-    selectedAirlineArrival = '../images/icons/airlines/aeromexico.jpg';
-    selectedAirlineDeparture = '../images/icons/airlines/aeromexico.jpg';
-    selectedPassengerSuburban = null;
-    selectedPassengerHiace = null;
-    selectedPassengerSprinter = null;
-    selectedName = null;
-    selectedPhone = null;
-    selectedEmail = null;
-    hotelicon = null;
+var airlines = null,
+    cars = null,
+    unit = null,
+    selectedZone = null,
+    selectedHotel = null,
+    selectedService = null,
+    selectedUnit = null,
+    selectedArrivalDate = null,
+    selectedArrivalTime = null,
+    selectedArrivalAirline = null,
+    selectedArrivalFlight = null,
+    selectedDepartureDate = null,
+    selectedDepartureTime = null,
+    selectedDepartureAirline = null,
+    selectedDepartureFlight = null,
+    selectedAirlineArrival = '../images/icons/airlines/aeromexico.jpg',
+    selectedAirlineDeparture = '../images/icons/airlines/aeromexico.jpg',
+    selectedPassengerSuburban = null,
+    selectedPassengerHiace = null,
+    selectedPassengerSprinter = null,
+    selectedName = null,
+    selectedPhone = null,
+    selectedEmail = null,
+    hotelicon = null,
     pricePaypal = null;
 
 $( document ).ready(function() {
@@ -210,6 +210,7 @@ $( document ).ready(function() {
             "destination": $("#form-destination").val(),
             "pricenormal": $("#priceBig2").text(),
             "pricepaypal": pricepaypal,
+            "origin": $("#form-origin").val(),
             "_token":_token
         };
         $.ajax({

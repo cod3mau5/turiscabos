@@ -1,25 +1,21 @@
 @extends('layouts.app')
 
 @section('styles')
-    @if(auth()->user()->role == 'seller')
+
         <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}"/>
         <link rel="stylesheet" href="{{asset('css/main.css')}}" media="screen"/>
-    @endif
+
 @endsection
 
 @section('content')
-
+@if(auth()->user()->role == 'admin')
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h1 class="mx-auto">@if(auth()->user()->role == 'admin') LISTADO DE RESERVAS @else CREAR RESERVA @endif</h1>
-                        @if(auth()->user()->role == 'admin')
-                            <div class="col text-right">
-                                <a href="{{route('reservations.create')}}" class="btn btn-success">NUEVA RESERVA</a>
-                            </div>
-                        @endif
+                        <h1 class="mx-auto"> CREAR RESERVA </h1>
+
                     </div>
 
                     <div class="card-body">
@@ -28,22 +24,6 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        @if(auth()->user()->role == 'admin')
-                            <div id="app">
-                                <reservation-list-component
-                                get-reservations="{{ route('reservations.index') }}"
-                                store-reservation="{{ route('reservations.store') }}"
-                                {{-- show-reservation="{{ route('reservations.show') }}" --}}
-                                {{-- update-reservation="{{ route('reservations.update') }}" --}}
-                                {{-- destroy-reservation="{{ route('reservations.destroy') }}" --}}
-                                {{-- edit-reservation="{{ route('reservations.edit') }}" --}}
-                                {{-- csrf-token="@csrf"
-                                method-delete="@method('DELETE')" --}}
-                                >
-                                </reservation-list-component>
-                            </div>
-                        @else
-                        <div id="app">
                             <section id="units">
                                 <div class="container">
                                     <div class="row">
@@ -292,8 +272,8 @@
                                     </div>
                                 </div>
                             </section>
-                        </div>
-                        @endif
+
+
                     </div>
 
                     </div>
@@ -301,18 +281,18 @@
             </div>
         </div>
     </div>
+@else
+<h1 class="text-center">NO ERES UN ADMINISTRADOR</h1>
+@endif
 
 @endsection
 @section('scripts')
     <!-- Scripts -->
-    @if(auth()->user()->role == 'admin')
-        <script src="{{ asset('js/app.js') }}" defer></script>
-        @else
         <script src="{{asset('js/scripts/vendors.js')}}"></script>
         <script>
             var postReservationUrl= "{{route('reservations.store')}}";
             var _token="{{ csrf_token() }}";
         </script>
         <script src="{{asset('js/scripts/main.js')}}"></script>
-    @endif
+
 @endsection

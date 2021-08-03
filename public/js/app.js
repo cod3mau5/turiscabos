@@ -1954,11 +1954,200 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       data: [],
-      isLoading: false
+      isLoading: false,
+      isDeleteModalActive: false,
+      isEditModalActive: false,
+      deleteRoute: '',
+      editingData: []
     };
   },
   mounted: function mounted() {
@@ -1968,40 +2157,20 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var _this = this;
 
+      this.isLoading = true;
       axios.get(this.getReservations).then(function (r) {
         _this.data = r.data;
+        _this.isLoading = false;
       });
     },
-    dateThAttrs: function dateThAttrs(column) {
-      return column.label === 'Date' ? {
-        title: 'This title is sponsored by "th-attrs" prop',
-        "class": 'has-text-success'
-      } : null;
-    },
-    columnTdAttrs: function columnTdAttrs(row, column) {
-      if (row.id === 'Total') {
-        if (column.label === 'ID') {
-          return {
-            colspan: 4,
-            "class": 'has-text-weight-bold',
-            style: {
-              'text-align': 'left !important'
-            }
-          };
-        } else if (column.label === 'Gender') {
-          return {
-            "class": 'has-text-weight-semibold'
-          };
-        } else {
-          return {
-            style: {
-              display: 'none'
-            }
-          };
-        }
-      }
+    fetchEditingData: function fetchEditingData(editRoute) {
+      var _this2 = this;
 
-      return null;
+      this.isLoading = true;
+      axios.get(editRoute).then(function (r) {
+        _this2.editingData = r.data;
+        _this2.isLoading = false;
+      });
     }
   },
   props: ['getReservations']
@@ -55229,7 +55398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ReservationListComponent_vue_vue_type_template_id_740de37e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReservationListComponent.vue?vue&type=template&id=740de37e& */ "./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&");
+/* harmony import */ var _ReservationListComponent_vue_vue_type_template_id_740de37e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReservationListComponent.vue?vue&type=template&id=740de37e&scoped=true& */ "./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&scoped=true&");
 /* harmony import */ var _ReservationListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReservationListComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ReservationListComponent.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -55241,11 +55410,11 @@ __webpack_require__.r(__webpack_exports__);
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
   _ReservationListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _ReservationListComponent_vue_vue_type_template_id_740de37e___WEBPACK_IMPORTED_MODULE_0__.render,
-  _ReservationListComponent_vue_vue_type_template_id_740de37e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _ReservationListComponent_vue_vue_type_template_id_740de37e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ReservationListComponent_vue_vue_type_template_id_740de37e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "740de37e",
   null
   
 )
@@ -55306,19 +55475,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&":
-/*!*********************************************************************************************!*\
-  !*** ./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e& ***!
-  \*********************************************************************************************/
+/***/ "./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&scoped=true&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&scoped=true& ***!
+  \*********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationListComponent_vue_vue_type_template_id_740de37e___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationListComponent_vue_vue_type_template_id_740de37e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationListComponent_vue_vue_type_template_id_740de37e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationListComponent_vue_vue_type_template_id_740de37e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationListComponent_vue_vue_type_template_id_740de37e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReservationListComponent.vue?vue&type=template&id=740de37e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationListComponent_vue_vue_type_template_id_740de37e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReservationListComponent.vue?vue&type=template&id=740de37e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&scoped=true&");
 
 
 /***/ }),
@@ -55371,10 +55540,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&":
-/*!************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e& ***!
-  \************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ReservationListComponent.vue?vue&type=template&id=740de37e&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -55422,7 +55591,6 @@ var render = function() {
               field: "reservation",
               label: "RESERVATION",
               width: "40",
-              "td-attrs": _vm.columnTdAttrs,
               numeric: ""
             },
             scopedSlots: _vm._u([
@@ -55442,11 +55610,7 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("b-table-column", {
-            attrs: {
-              field: "name",
-              label: "NAME",
-              "td-attrs": _vm.columnTdAttrs
-            },
+            attrs: { field: "name", label: "NAME" },
             scopedSlots: _vm._u([
               {
                 key: "default",
@@ -55462,11 +55626,7 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("b-table-column", {
-            attrs: {
-              field: "email",
-              label: "E-MAIL",
-              "td-attrs": _vm.columnTdAttrs
-            },
+            attrs: { field: "email", label: "E-MAIL" },
             scopedSlots: _vm._u([
               {
                 key: "default",
@@ -55482,11 +55642,26 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("b-table-column", {
+            attrs: { field: "phone", label: "PHONE" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _vm._v(
+                      "\n            " + _vm._s(props.row.phone) + "\n        "
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
             attrs: {
               field: "passengers",
-              label: "PASSENGERS",
-              width: "40",
-              "td-attrs": _vm.columnTdAttrs,
+              label: "PAX",
+              width: "25",
               numeric: ""
             },
             scopedSlots: _vm._u([
@@ -55506,11 +55681,7 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("b-table-column", {
-            attrs: {
-              field: "service",
-              label: "SERVICE",
-              "td-attrs": _vm.columnTdAttrs
-            },
+            attrs: { field: "service", label: "SERVICE" },
             scopedSlots: _vm._u([
               {
                 key: "default",
@@ -55528,11 +55699,7 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("b-table-column", {
-            attrs: {
-              field: "unit",
-              label: "UNIT",
-              "td-attrs": _vm.columnTdAttrs
-            },
+            attrs: { field: "unit", label: "UNIT" },
             scopedSlots: _vm._u([
               {
                 key: "default",
@@ -55548,11 +55715,7 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("b-table-column", {
-            attrs: {
-              field: "destination",
-              label: "DESTINATION",
-              "td-attrs": _vm.columnTdAttrs
-            },
+            attrs: { field: "destination", label: "DESTINATION" },
             scopedSlots: _vm._u([
               {
                 key: "default",
@@ -55570,12 +55733,27 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("b-table-column", {
+            attrs: { field: "hotel", label: "HOTEL" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _vm._v(
+                      "\n            " + _vm._s(props.row.hotel) + "\n        "
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
             staticClass: "centered",
             attrs: {
               field: "pricenormal",
               label: "PRICE NORMAL",
               width: "140",
-              "td-attrs": _vm.columnTdAttrs,
               numeric: ""
             },
             scopedSlots: _vm._u([
@@ -55600,7 +55778,6 @@ var render = function() {
               field: "pricepaypal",
               label: "PRICE PAYPAL",
               width: "140",
-              "td-attrs": _vm.columnTdAttrs,
               numeric: ""
             },
             scopedSlots: _vm._u([
@@ -55617,9 +55794,443 @@ var render = function() {
                 }
               }
             ])
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
+            attrs: { label: "ACTIONS" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(props) {
+                  return [
+                    _c("div", { staticClass: "is-flex" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-primary mr-1",
+                          on: {
+                            click: function($event) {
+                              _vm.isEditModalActive = true
+                              _vm.fetchEditingData(props.row.editRoute)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Editar\n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-danger ",
+                          on: {
+                            click: function($event) {
+                              _vm.isDeleteModalActive = true
+                              _vm.deleteRoute = props.row.deleteRoute
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Eliminar\n                "
+                          )
+                        ]
+                      )
+                    ])
+                  ]
+                }
+              }
+            ])
           })
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            "destroy-on-hide": false,
+            "aria-role": "dialog",
+            "aria-label": "Example Modal",
+            "aria-modal": ""
+          },
+          model: {
+            value: _vm.isDeleteModalActive,
+            callback: function($$v) {
+              _vm.isDeleteModalActive = $$v
+            },
+            expression: "isDeleteModalActive"
+          }
+        },
+        [
+          _c("form", { attrs: { action: "" } }, [
+            _c(
+              "div",
+              { staticClass: "modal-card", staticStyle: { width: "auto" } },
+              [
+                _c("header", { staticClass: "modal-card-head" }, [
+                  _c("p", { staticClass: "modal-card-title" }, [
+                    _vm._v("Alerta!")
+                  ]),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass: "delete",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.isDeleteModalActive = false
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "section",
+                  { staticClass: "modal-card-body" },
+                  [
+                    _c("b-field", {
+                      attrs: {
+                        label: "Estas deguro que deseas eliminar esta reserva?"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "footer",
+                  { staticClass: "modal-card-foot" },
+                  [
+                    _c("b-button", {
+                      attrs: { label: "Cancelar" },
+                      on: {
+                        click: function($event) {
+                          _vm.isDeleteModalActive = false
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("b-button", {
+                      attrs: { label: "Si, eliminar", type: "is-danger" }
+                    })
+                  ],
+                  1
+                )
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          staticClass: "is-flex is-justify-content-center",
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            "destroy-on-hide": true,
+            loading: _vm.isLoading,
+            "aria-modal": ""
+          },
+          model: {
+            value: _vm.isEditModalActive,
+            callback: function($$v) {
+              _vm.isEditModalActive = $$v
+            },
+            expression: "isEditModalActive"
+          }
+        },
+        [
+          _c("form", { attrs: { action: "" } }, [
+            _c("div", { staticClass: "modal-card mx-auto" }, [
+              _c("header", { staticClass: "modal-card-head" }, [
+                _c("p", { staticClass: "modal-card-title" }, [
+                  _vm._v("EDITAR")
+                ]),
+                _vm._v(" "),
+                _c("button", {
+                  staticClass: "delete",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.isEditModalActive = false
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "section",
+                { staticClass: "modal-card-body" },
+                [
+                  _c("div", { staticClass: "columns is-mobile" }, [
+                    _c(
+                      "div",
+                      { staticClass: "column is-half" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Nombre" } },
+                          [
+                            _c("b-input", {
+                              attrs: { type: "text", required: "" },
+                              model: {
+                                value: _vm.editingData.name,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "name", $$v)
+                                },
+                                expression: "editingData.name"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "column is-half" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Email" } },
+                          [
+                            _c("b-input", {
+                              attrs: { type: "email", required: "" },
+                              model: {
+                                value: _vm.editingData.email,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "email", $$v)
+                                },
+                                expression: "editingData.email"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "columns is-mobile" }, [
+                    _c(
+                      "div",
+                      { staticClass: "column is-one-third" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Passengers" } },
+                          [
+                            _c("b-input", {
+                              attrs: { type: "number", required: "" },
+                              model: {
+                                value: _vm.editingData.passengers,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "passengers", $$v)
+                                },
+                                expression: "editingData.passengers"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "column is-one-third" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Service" } },
+                          [
+                            _c(
+                              "b-select",
+                              {
+                                model: {
+                                  value: _vm.editingData.service,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editingData, "service", $$v)
+                                  },
+                                  expression: "editingData.service"
+                                }
+                              },
+                              [
+                                _c("option", { attrs: { value: "One Way" } }, [
+                                  _vm._v(
+                                    "\n                                            One Way\n                                        "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Round Trip" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Round Trip\n                                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "column is-one-third" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Unit" } },
+                          [
+                            _c("b-input", {
+                              attrs: { type: "text", required: "" },
+                              model: {
+                                value: _vm.editingData.unit,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "unit", $$v)
+                                },
+                                expression: "editingData.unit"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "columns is-mobile" }, [
+                    _c(
+                      "div",
+                      { staticClass: "column is-half" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Destination" } },
+                          [
+                            _c("b-input", {
+                              attrs: { type: "text", required: "" },
+                              model: {
+                                value: _vm.editingData.destination,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "destination", $$v)
+                                },
+                                expression: "editingData.destination"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "column is-half" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Hotel" } },
+                          [
+                            _c("b-input", {
+                              attrs: { type: "text", required: "" },
+                              model: {
+                                value: _vm.editingData.hotel,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "hotel", $$v)
+                                },
+                                expression: "editingData.hotel"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    { attrs: { label: "Price Normal" } },
+                    [
+                      _c("b-input", {
+                        attrs: { type: "number", required: "" },
+                        model: {
+                          value: _vm.editingData.pricenormal,
+                          callback: function($$v) {
+                            _vm.$set(_vm.editingData, "pricenormal", $$v)
+                          },
+                          expression: "editingData.pricenormal"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    { attrs: { label: "Price PayPal" } },
+                    [
+                      _c("b-input", {
+                        attrs: { type: "number", required: "" },
+                        model: {
+                          value: _vm.editingData.pricepaypal,
+                          callback: function($$v) {
+                            _vm.$set(_vm.editingData, "pricepaypal", $$v)
+                          },
+                          expression: "editingData.pricepaypal"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "footer",
+                { staticClass: "modal-card-foot" },
+                [
+                  _c("b-button", {
+                    attrs: { label: "Cancelar" },
+                    on: {
+                      click: function($event) {
+                        _vm.isEditModalActive = false
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("b-button", {
+                    attrs: { label: "Actualizar", type: "is-primary" }
+                  })
+                ],
+                1
+              )
+            ])
+          ])
+        ]
       )
     ],
     1

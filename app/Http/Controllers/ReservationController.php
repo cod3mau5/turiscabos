@@ -4,12 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReservationsExport;
+
 
 class ReservationController extends Controller
 {
     public function index(){
         $reservations=Reservation::get()->all();
+        foreach($reservations as $reservation){
+            $reservation->setAttribute('editRoute', route('reservations.edit',$reservation->id));
+            $reservation->setAttribute('deleteRoute', route('reservations.destroy',$reservation->id));
+        }
         return $reservations;
+    }
+    public function create(){
+        return view('reservations.sales.app_create');
     }
     public function store(Request $request)
     {
@@ -118,7 +128,8 @@ class ReservationController extends Controller
 
     public function edit(Reservation $reservation)
     {
-        //
+        $reservation->setAttribute('updateRoute', route('reservations.update',$reservation->id));
+        return $reservation;
     }
 
     public function update(Request $request, Reservation $reservation)
@@ -128,5 +139,9 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         //
+    }
+    public function exportExcel()
+    {
+        return Excel::download(new ReservationsExport, 'reservations.xlsx');
     }
 }

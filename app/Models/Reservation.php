@@ -35,5 +35,6 @@ class Reservation extends Model
         'destination',
         'pricenormal',
         'pricepaypal',
+        'origin'
     ];
 }

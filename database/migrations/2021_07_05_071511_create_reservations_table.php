@@ -45,6 +45,9 @@ class CreateReservationsTable extends Migration
             $table->float('pricenormal',8,2);
             $table->float('pricepaypal',8,2);
 
+            //platform details
+            $table->string('origin');
+
             $table->timestamps();
             // homepage: https://turiscabos.netlify.app
             // passengerssuburban: 1
