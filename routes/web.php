@@ -16,3 +16,4 @@ Auth::routes();
 Route::get('/home', [Controllers\HomeController::class, 'index'])->name('internal');
 
 Route::resource('reservations', Controllers\ReservationController::class);
+Route::get('/reservations-excel',[ Controllers\ReservationController::class,'exportExcel'])->name('export-excel');

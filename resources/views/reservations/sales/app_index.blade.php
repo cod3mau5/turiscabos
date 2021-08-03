@@ -18,7 +18,9 @@
                         @if(auth()->user()->role == 'admin')
                             <div class="col text-right">
                                 <a href="{{route('reservations.create')}}" class="btn btn-success">NUEVA RESERVA</a>
+                                <a href="{{route('export-excel')}}" class="btn btn-info">EXPORTAR RESERVAS</a>
                             </div>
+
                         @endif
                     </div>
 
@@ -32,13 +34,6 @@
                             <div id="app">
                                 <reservation-list-component
                                 get-reservations="{{ route('reservations.index') }}"
-                                store-reservation="{{ route('reservations.store') }}"
-                                {{-- show-reservation="{{ route('reservations.show') }}" --}}
-                                {{-- update-reservation="{{ route('reservations.update') }}" --}}
-                                {{-- destroy-reservation="{{ route('reservations.destroy') }}" --}}
-                                {{-- edit-reservation="{{ route('reservations.edit') }}" --}}
-                                {{-- csrf-token="@csrf"
-                                method-delete="@method('DELETE')" --}}
                                 >
                                 </reservation-list-component>
                             </div>
