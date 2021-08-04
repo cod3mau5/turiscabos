@@ -2114,6 +2114,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2128,7 +2129,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'E-MAIL',
         field: 'email',
-        visible: false
+        visible: true
       }, {
         title: 'PAX',
         field: 'passengers',
@@ -2164,19 +2165,19 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'DEPARTURE DATE',
         field: 'departuredate',
-        visible: true
+        visible: false
       }, {
         title: 'DEPARTURE TIME',
         field: 'departuretime',
-        visible: true
+        visible: false
       }, {
         title: 'DEPARTURE AIRLINE',
         field: 'departureairline',
-        visible: true
+        visible: false
       }, {
         title: 'DEPARTURE FLIGHT',
         field: 'departureflight',
-        visible: true
+        visible: false
       }, {
         title: 'OCATION',
         field: 'ocation',
@@ -2226,6 +2227,18 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(editRoute).then(function (r) {
         _this2.editingData = r.data;
         _this2.isLoading = false;
+      });
+    },
+    deleteReservation: function deleteReservation() {
+      var _this3 = this;
+
+      this.isLoading = true;
+      axios.post(this.deleteRoute, {
+        "_method": "delete"
+      }).then(function () {
+        _this3.fetchData();
+
+        _this3.isDeleteModalActive = false;
       });
     }
   },
@@ -56253,15 +56266,31 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("b-button", {
-                      attrs: { label: "Si, eliminar", type: "is-danger" }
+                      attrs: { label: "Si, eliminar", type: "is-danger" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteReservation()
+                        }
+                      }
                     })
                   ],
                   1
                 )
               ]
             )
-          ])
-        ]
+          ]),
+          _vm._v(" "),
+          _c("b-loading", {
+            model: {
+              value: _vm.isLoading,
+              callback: function($$v) {
+                _vm.isLoading = $$v
+              },
+              expression: "isLoading"
+            }
+          })
+        ],
+        1
       ),
       _vm._v(" "),
       _c(

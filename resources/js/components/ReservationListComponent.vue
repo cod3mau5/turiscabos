@@ -76,12 +76,13 @@
                             @click="isDeleteModalActive=false" />
                         <b-button
                             label="Si, eliminar"
-                            type="is-danger" />
+                            type="is-danger"
+                            @click="deleteReservation()"/>
                     </footer>
                 </div>
 
             </form>
-
+            <b-loading  v-model="isLoading"></b-loading>
         </b-modal>
 
         <b-modal
@@ -239,7 +240,7 @@
                 columnsTemplate: [
                     { title: 'RESERVATION', field: 'reservation', visible: false },
                     { title: 'NAME', field: 'name', visible: true },
-                    { title: 'E-MAIL', field: 'email', visible: false },
+                    { title: 'E-MAIL', field: 'email', visible: true },
                     { title: 'PAX', field: 'passengers', visible: true },
                     { title: 'SERVICE', field: 'service', visible: true },
 
@@ -251,10 +252,10 @@
                     { title: 'ARRIVAL AIRLINE', field: 'arrivalairline', visible: true },
                     { title: 'ARRIVAL FLIGHT', field: 'arrivalflight', visible: true },
 
-                    { title: 'DEPARTURE DATE', field: 'departuredate', visible: true },
-                    { title: 'DEPARTURE TIME', field: 'departuretime', visible: true },
-                    { title: 'DEPARTURE AIRLINE', field: 'departureairline', visible: true },
-                    { title: 'DEPARTURE FLIGHT', field: 'departureflight', visible: true },
+                    { title: 'DEPARTURE DATE', field: 'departuredate', visible: false },
+                    { title: 'DEPARTURE TIME', field: 'departuretime', visible: false },
+                    { title: 'DEPARTURE AIRLINE', field: 'departureairline', visible: false },
+                    { title: 'DEPARTURE FLIGHT', field: 'departureflight', visible: false },
 
 
                     { title: 'OCATION', field: 'ocation', visible: false },
@@ -290,6 +291,13 @@
                 axios.get(editRoute).then((r)=>{
                     this.editingData =r.data;
                     this.isLoading=false;
+                });
+            },
+            deleteReservation(){
+                this.isLoading = true;
+                axios.post(this.deleteRoute,{"_method":"delete"}).then(()=>{
+                    this.fetchData();
+                    this.isDeleteModalActive=false;
                 });
             }
 

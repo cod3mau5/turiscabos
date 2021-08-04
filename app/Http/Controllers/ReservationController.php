@@ -102,7 +102,7 @@ class ReservationController extends Controller
     }
     public function destroy(Reservation $reservation)
     {
-        //
+        $reservation->delete();
     }
     public function exportExcel()
     {
