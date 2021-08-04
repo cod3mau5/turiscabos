@@ -16,7 +16,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.css').'?'.rand(5, 15) }}" rel="stylesheet">
 
             @yield('styles')
 
