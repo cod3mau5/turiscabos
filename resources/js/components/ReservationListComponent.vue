@@ -277,6 +277,7 @@
         },
         mounted(){
             this.fetchData();
+            alert('updated');
         },
         methods: {
             fetchData(){
