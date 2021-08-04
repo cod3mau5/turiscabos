@@ -17,6 +17,7 @@ class ReservationController extends Controller
         $reservations=Reservation::get()->all();
         foreach($reservations as $reservation){
             $reservation->setAttribute('editRoute', route('reservations.edit',$reservation->id));
+            $reservation->setAttribute('updateRoute', route('reservations.update',$reservation->id));
             $reservation->setAttribute('deleteRoute', route('reservations.destroy',$reservation->id));
         }
         return $reservations;
@@ -98,7 +99,7 @@ class ReservationController extends Controller
 
     public function update(Request $request, Reservation $reservation)
     {
-        //
+        $reservation->update($request->except('_token'));
     }
     public function destroy(Reservation $reservation)
     {

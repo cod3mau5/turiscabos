@@ -21,6 +21,8 @@ class CreateReservationsTable extends Migration
             $table->string('email');
             $table->integer('phone');
             $table->integer('passengers');
+            $table->boolean('babysit')->default(0);
+            $table->boolean('shoppingstop')->default(0);
             //arrival info
             $table->date('arrivaldate')->nullable();
             $table->time('arrivaltime')->nullable();
@@ -49,10 +51,7 @@ class CreateReservationsTable extends Migration
             $table->string('origin');
 
             $table->timestamps();
-            // homepage: https://turiscabos.netlify.app
-            // passengerssuburban: 1
-            // passengershiace: 1
-            // passengerssprinter: 1
+
         });
     }
 

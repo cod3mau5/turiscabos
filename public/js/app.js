@@ -2115,6 +2115,162 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2204,12 +2360,12 @@ __webpack_require__.r(__webpack_exports__);
       isDeleteModalActive: false,
       isEditModalActive: false,
       deleteRoute: '',
+      updateRoute: '',
       editingData: []
     };
   },
   mounted: function mounted() {
     this.fetchData();
-    alert('updated');
   },
   methods: {
     fetchData: function fetchData() {
@@ -2241,9 +2397,18 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.isDeleteModalActive = false;
       });
+    },
+    updateReservation: function updateReservation() {
+      var _this4 = this;
+
+      this.isLoading = true;
+      this.editingData._token = this._token;
+      axios.put(this.updateRoute, this.editingData).then(function (r) {
+        _this4.isLoading = false;
+      });
     }
   },
-  props: ['getReservations']
+  props: ['getReservations', '_token']
 });
 
 /***/ }),
@@ -56136,6 +56301,7 @@ var render = function() {
                           on: {
                             click: function($event) {
                               _vm.isEditModalActive = true
+                              _vm.updateRoute = props.row.updateRoute
                               _vm.fetchEditingData(props.row.editRoute)
                             }
                           }
@@ -56331,248 +56497,641 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c(
-                "section",
-                { staticClass: "modal-card-body" },
-                [
-                  _c("div", { staticClass: "columns is-mobile" }, [
-                    _c(
-                      "div",
-                      { staticClass: "column is-half" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Nombre" } },
-                          [
-                            _c("b-input", {
-                              attrs: { type: "text", required: "" },
-                              model: {
-                                value: _vm.editingData.name,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.editingData, "name", $$v)
-                                },
-                                expression: "editingData.name"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "column is-half" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Email" } },
-                          [
-                            _c("b-input", {
-                              attrs: { type: "email", required: "" },
-                              model: {
-                                value: _vm.editingData.email,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.editingData, "email", $$v)
-                                },
-                                expression: "editingData.email"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns is-mobile" }, [
-                    _c(
-                      "div",
-                      { staticClass: "column is-one-third" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Passengers" } },
-                          [
-                            _c("b-input", {
-                              attrs: { type: "number", required: "" },
-                              model: {
-                                value: _vm.editingData.passengers,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.editingData, "passengers", $$v)
-                                },
-                                expression: "editingData.passengers"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "column is-one-third" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Service" } },
-                          [
-                            _c(
-                              "b-select",
-                              {
-                                model: {
-                                  value: _vm.editingData.service,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.editingData, "service", $$v)
-                                  },
-                                  expression: "editingData.service"
-                                }
-                              },
-                              [
-                                _c("option", { attrs: { value: "One Way" } }, [
-                                  _vm._v(
-                                    "\n                                            One Way\n                                        "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "option",
-                                  { attrs: { value: "Round Trip" } },
-                                  [
-                                    _vm._v(
-                                      "\n                                            Round Trip\n                                        "
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "column is-one-third" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Unit" } },
-                          [
-                            _c("b-input", {
-                              attrs: { type: "text", required: "" },
-                              model: {
-                                value: _vm.editingData.unit,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.editingData, "unit", $$v)
-                                },
-                                expression: "editingData.unit"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns is-mobile" }, [
-                    _c(
-                      "div",
-                      { staticClass: "column is-half" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Destination" } },
-                          [
-                            _c("b-input", {
-                              attrs: { type: "text", required: "" },
-                              model: {
-                                value: _vm.editingData.destination,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.editingData, "destination", $$v)
-                                },
-                                expression: "editingData.destination"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "column is-half" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Hotel" } },
-                          [
-                            _c("b-input", {
-                              attrs: { type: "text", required: "" },
-                              model: {
-                                value: _vm.editingData.hotel,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.editingData, "hotel", $$v)
-                                },
-                                expression: "editingData.hotel"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
+              _c("section", { staticClass: "modal-card-body" }, [
+                _c("div", { staticClass: "columns is-mobile" }, [
                   _c(
-                    "b-field",
-                    { attrs: { label: "Price Normal" } },
+                    "div",
+                    { staticClass: "column is-one-third" },
                     [
-                      _c("b-input", {
-                        attrs: { type: "number", required: "" },
-                        model: {
-                          value: _vm.editingData.pricenormal,
-                          callback: function($$v) {
-                            _vm.$set(_vm.editingData, "pricenormal", $$v)
-                          },
-                          expression: "editingData.pricenormal"
-                        }
-                      })
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Nombre" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "name", $$v)
+                              },
+                              expression: "editingData.name"
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   ),
                   _vm._v(" "),
                   _c(
-                    "b-field",
-                    { attrs: { label: "Price PayPal" } },
+                    "div",
+                    { staticClass: "column is-one-third" },
                     [
-                      _c("b-input", {
-                        attrs: { type: "number", required: "" },
-                        model: {
-                          value: _vm.editingData.pricepaypal,
-                          callback: function($$v) {
-                            _vm.$set(_vm.editingData, "pricepaypal", $$v)
-                          },
-                          expression: "editingData.pricepaypal"
-                        }
-                      })
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Email" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "email", required: "" },
+                            model: {
+                              value: _vm.editingData.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "email", $$v)
+                              },
+                              expression: "editingData.email"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-third" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Phone" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "phone", required: "" },
+                            model: {
+                              value: _vm.editingData.phone,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "phone", $$v)
+                              },
+                              expression: "editingData.phone"
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns is-mobile" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Passengers" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "number", required: "" },
+                            model: {
+                              value: _vm.editingData.passengers,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "passengers", $$v)
+                              },
+                              expression: "editingData.passengers"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Service" } },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              model: {
+                                value: _vm.editingData.service,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "service", $$v)
+                                },
+                                expression: "editingData.service"
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "One Way" } }, [
+                                _vm._v(
+                                  "\n                                        One Way\n                                    "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "Round Trip" } }, [
+                                _vm._v(
+                                  "\n                                        Round Trip\n                                    "
+                                )
+                              ])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Unit" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.unit,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "unit", $$v)
+                              },
+                              expression: "editingData.unit"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Ocation" } },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              model: {
+                                value: _vm.editingData.ocation,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "ocation", $$v)
+                                },
+                                expression: "editingData.ocation"
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "Nope" } }, [
+                                _vm._v(
+                                  "\n                                        Nope\n                                    "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "Anniversary" } },
+                                [
+                                  _vm._v(
+                                    "\n                                        Anniversary\n                                    "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "Bachelorette party" } },
+                                [
+                                  _vm._v(
+                                    "\n                                        Bachelorette party\n                                    "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "Birthday" } }, [
+                                _vm._v(
+                                  "\n                                        Birthday\n                                    "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "Wedding" } }, [
+                                _vm._v(
+                                  "\n                                        Wedding\n                                    "
+                                )
+                              ])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns is-mobile" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-half" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Destination" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.destination,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "destination", $$v)
+                              },
+                              expression: "editingData.destination"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-half" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Hotel" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.hotel,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "hotel", $$v)
+                              },
+                              expression: "editingData.hotel"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns is-mobile" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Arrival Date" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.arrivaldate,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "arrivaldate", $$v)
+                              },
+                              expression: "editingData.arrivaldate"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Arrival Time" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.arrivaltime,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "arrivaltime", $$v)
+                              },
+                              expression: "editingData.arrivaltime"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Arrival Ariline" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.arrivalairline,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "arrivalairline", $$v)
+                              },
+                              expression: "editingData.arrivalairline"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Arrival Flight" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.arrivalflight,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "arrivalflight", $$v)
+                              },
+                              expression: "editingData.arrivalflight"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns is-mobile" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Departure Date" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.departuredate,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "departuredate", $$v)
+                              },
+                              expression: "editingData.departuredate"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Departure Time" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.departuretime,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "departuretime", $$v)
+                              },
+                              expression: "editingData.departuretime"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Departure Ariline" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.departureairline,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.editingData,
+                                  "departureairline",
+                                  $$v
+                                )
+                              },
+                              expression: "editingData.departureairline"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-one-quarter" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Departure Flight" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", required: "" },
+                            model: {
+                              value: _vm.editingData.departureflight,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.editingData,
+                                  "departureflight",
+                                  $$v
+                                )
+                              },
+                              expression: "editingData.departureflight"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns is-mobile" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-half" },
+                    [
+                      _c(
+                        "b-field",
+                        [
+                          _c(
+                            "b-checkbox",
+                            {
+                              model: {
+                                value: _vm.editingData.babysit,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "babysit", $$v)
+                                },
+                                expression: "editingData.babysit"
+                              }
+                            },
+                            [_vm._v("Baby chair")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-half" },
+                    [
+                      _c(
+                        "b-field",
+                        [
+                          _c(
+                            "b-checkbox",
+                            {
+                              model: {
+                                value: _vm.editingData.shoppingstop,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editingData, "shoppingstop", $$v)
+                                },
+                                expression: "editingData.shoppingstop"
+                              }
+                            },
+                            [_vm._v("Shopping Stop")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns is-mobile" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-half" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Price Normal" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "number", required: "" },
+                            model: {
+                              value: _vm.editingData.pricenormal,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "pricenormal", $$v)
+                              },
+                              expression: "editingData.pricenormal"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-half" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Price PayPal" } },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "number", required: "" },
+                            model: {
+                              value: _vm.editingData.pricepaypal,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "pricepaypal", $$v)
+                              },
+                              expression: "editingData.pricepaypal"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns is-mobile" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-full" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Comments" } },
+                        [
+                          _c("b-input", {
+                            attrs: { maxlength: "200", type: "textarea" },
+                            model: {
+                              value: _vm.editingData.comments,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editingData, "comments", $$v)
+                              },
+                              expression: "editingData.comments"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ]),
               _vm._v(" "),
               _c(
                 "footer",
@@ -56588,7 +57147,12 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-button", {
-                    attrs: { label: "Actualizar", type: "is-primary" }
+                    attrs: { label: "Actualizar", type: "is-primary" },
+                    on: {
+                      click: function($event) {
+                        return _vm.updateReservation()
+                      }
+                    }
                   })
                 ],
                 1

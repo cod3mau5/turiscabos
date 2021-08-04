@@ -350,9 +350,9 @@ body section#units #step2 .easy-autocomplete.eac-round,
 body section#units #step3 .easy-autocomplete.eac-round {
   width: auto !important;
 }
-body section#units #step1 input,
-body section#units #step2 input,
-body section#units #step3 input,
+body section#units #step1 input.input,
+body section#units #step2 input.input,
+body section#units #step3 input.input,
 body section#units #step1 select,
 body section#units #step2 select,
 body section#units #step3 select,
@@ -369,6 +369,19 @@ body section#units #step3 textarea {
   width: 100%;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+.form-check{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.form-check-label {
+    font-size: 1.5rem!important;
+}
+.form-check-input {
+    width: 20px;
+    height: 20px;
+    margin: 0!important;
 }
 body section#units #step1 input.submit-button,
 body section#units #step2 input.submit-button,

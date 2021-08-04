@@ -26,7 +26,7 @@
     <!-- CSS-->
     <link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700&amp;display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/main.css')}}" media="screen"/>
+    <link rel="stylesheet" href="{{asset('css/main.css') .'?'.rand(5, 15)}}" media="screen"/>
     @yield('styles')
 
     <div id="fb-root"></div>

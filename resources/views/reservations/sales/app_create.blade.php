@@ -3,7 +3,7 @@
 @section('styles')
 
         <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}"/>
-        <link rel="stylesheet" href="{{asset('css/main.css')}}" media="screen"/>
+        <link rel="stylesheet" href="{{asset('css/main.css') .'?'.rand(5, 15) }}" media="screen"/>
 
 @endsection
 

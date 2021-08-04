@@ -24,7 +24,10 @@
 
                 <b-table-column  label="ACTIONS" :sticky="true" headerClass="is-sticky-column-two" cellClass="is-sticky-column-two" v-slot="props">
                     <div class="is-flex">
-                        <button class="btn btn-sm btn-primary mr-1"  @click="isEditModalActive = true; fetchEditingData(props.row.editRoute)">
+                        <button class="btn btn-sm btn-primary mr-1"
+                                @click="isEditModalActive = true;
+                                        updateRoute=props.row.updateRoute;
+                                        fetchEditingData(props.row.editRoute);">
                             Editar
                         </button>
                         <button class="btn btn-sm btn-danger " @click="isDeleteModalActive = true; deleteRoute=props.row.deleteRoute">
@@ -48,6 +51,7 @@
 
         </b-table>
 
+        <!-- UPDATE MODAL -->
         <b-modal
             v-model="isDeleteModalActive"
             has-modal-card
@@ -85,6 +89,7 @@
             <b-loading  v-model="isLoading"></b-loading>
         </b-modal>
 
+        <!-- EDIT MODAL -->
         <b-modal
             v-model="isEditModalActive"
             has-modal-card
@@ -93,125 +98,276 @@
             aria-modal
             class="is-flex is-justify-content-center">
             <form action="">
+                <div class="modal-card mx-auto">
 
-                    <div class="modal-card mx-auto">
-                        <header class="modal-card-head">
-                            <p class="modal-card-title">EDITAR</p>
-                            <button
-                                type="button"
-                                class="delete"
-                                @click="isEditModalActive=false"/>
-                        </header>
-                        <section class="modal-card-body">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">EDITAR</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="isEditModalActive=false"/>
+                    </header>
 
-                            <div class="columns is-mobile">
-                                <div class="column is-half">
-                                    <b-field label="Nombre">
-                                        <b-input
-                                            type="text"
-                                            v-model="editingData.name"
-                                            required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column is-half">
-                                    <b-field label="Email">
-                                        <b-input
-                                            type="email"
-                                            v-model="editingData.email"
-                                            required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
+                    <section class="modal-card-body">
+
+                        <!-- CONTACT INFO -->
+                        <div class="columns is-mobile">
+                            <div class="column is-one-third">
+                                <b-field label="Nombre">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.name"
+                                        required>
+                                    </b-input>
+                                </b-field>
                             </div>
-
-                            <div class="columns is-mobile">
-                                <div class="column is-one-third">
-                                    <b-field label="Passengers">
-                                        <b-input
-                                            type="number"
-                                            v-model="editingData.passengers"
-                                            required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column is-one-third">
-                                    <b-field label="Service">
-                                        <b-select  v-model="editingData.service">
-                                            <option value="One Way">
-                                                One Way
-                                            </option>
-                                            <option value="Round Trip">
-                                                Round Trip
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                                <div class="column is-one-third">
-                                    <b-field label="Unit">
-                                        <b-input
-                                            type="text"
-                                            v-model="editingData.unit"
-                                            required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
+                            <div class="column is-one-third">
+                                <b-field label="Email">
+                                    <b-input
+                                        type="email"
+                                        v-model="editingData.email"
+                                        required>
+                                    </b-input>
+                                </b-field>
                             </div>
-
-                            <div class="columns is-mobile">
-                                <div class="column is-half">
-                                    <b-field label="Destination">
-                                        <b-input
-                                            type="text"
-                                            v-model="editingData.destination"
-                                            required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column is-half">
-                                    <b-field label="Hotel">
-                                        <b-input
-                                            type="text"
-                                            v-model="editingData.hotel"
-                                            required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
+                            <div class="column is-one-third">
+                                <b-field label="Phone">
+                                    <b-input
+                                        type="phone"
+                                        v-model="editingData.phone"
+                                        required>
+                                    </b-input>
+                                </b-field>
                             </div>
+                        </div>
+
+                        <!-- SERVICE INFO -->
+                        <div class="columns is-mobile">
+                            <div class="column is-one-quarter">
+                                <b-field label="Passengers">
+                                    <b-input
+                                        type="number"
+                                        v-model="editingData.passengers"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Service">
+                                    <b-select  v-model="editingData.service">
+                                        <option value="One Way">
+                                            One Way
+                                        </option>
+                                        <option value="Round Trip">
+                                            Round Trip
+                                        </option>
+                                    </b-select>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Unit">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.unit"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Ocation">
+                                    <b-select  v-model="editingData.ocation">
+
+                                        <option value="Nope">
+                                            Nope
+                                        </option>
+
+                                        <option value="Anniversary">
+                                            Anniversary
+                                        </option>
+
+                                        <option value="Bachelorette party">
+                                            Bachelorette party
+                                        </option>
+
+                                        <option value="Birthday">
+                                            Birthday
+                                        </option>
+
+                                        <option value="Wedding">
+                                            Wedding
+                                        </option>
+
+                                    </b-select>
+                                </b-field>
+                            </div>
+                        </div>
+
+                        <!-- DESTINATION & HOTEL -->
+                        <div class="columns is-mobile">
+                            <div class="column is-half">
+                                <b-field label="Destination">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.destination"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-half">
+                                <b-field label="Hotel">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.hotel"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                        </div>
+
+                        <!-- ARRIVAL INFO -->
+                        <div class="columns is-mobile">
+                            <div class="column is-one-quarter">
+                                <b-field label="Arrival Date">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.arrivaldate"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Arrival Time">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.arrivaltime"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Arrival Ariline">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.arrivalairline"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Arrival Flight">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.arrivalflight"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                        </div>
+
+                        <!-- DEPARTURE INFO -->
+                        <div class="columns is-mobile">
+                            <div class="column is-one-quarter">
+                                <b-field label="Departure Date">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.departuredate"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Departure Time">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.departuretime"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Departure Ariline">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.departureairline"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <b-field label="Departure Flight">
+                                    <b-input
+                                        type="text"
+                                        v-model="editingData.departureflight"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                        </div>
+                        <div class="columns is-mobile">
+                            <div class="column is-half">
+                                <b-field>
+                                    <b-checkbox v-model="editingData.babysit">Baby chair</b-checkbox>
+                                </b-field>
+                            </div>
+                            <div class="column is-half">
+                                <b-field>
+                                    <b-checkbox v-model="editingData.shoppingstop">Shopping Stop</b-checkbox>
+                                </b-field>
+                            </div>
+                        </div>
+
+                        <!-- PRICES -->
+                        <div class="columns is-mobile">
+                            <div class="column is-half">
+                                <b-field label="Price Normal">
+                                    <b-input
+                                        type="number"
+                                        v-model="editingData.pricenormal"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                            <div class="column is-half">
+                                <b-field label="Price PayPal">
+                                    <b-input
+                                        type="number"
+                                        v-model="editingData.pricepaypal"
+                                        required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                        </div>
+
+                        <!-- COMMENTS -->
+                        <div class="columns is-mobile">
+                            <div class="column is-full">
+                                <b-field label="Comments">
+                                    <b-input maxlength="200" type="textarea"
+                                    v-model="editingData.comments">
+                                    </b-input>
+                                </b-field>
+                            </div>
+                        </div>
 
 
 
-                            <b-field label="Price Normal">
-                                <b-input
-                                    type="number"
-                                    v-model="editingData.pricenormal"
-                                    required>
-                                </b-input>
-                            </b-field>
+                    </section>
 
-                            <b-field label="Price PayPal">
-                                <b-input
-                                    type="number"
-                                    v-model="editingData.pricepaypal"
-                                    required>
-                                </b-input>
-                            </b-field>
+                    <footer class="modal-card-foot">
+                        <b-button
+                            label="Cancelar"
+                            @click="isEditModalActive=false" />
+                        <b-button
+                            label="Actualizar"
+                            type="is-primary"
+                            @click="updateReservation()"/>
+                    </footer>
 
-                        </section>
-                        <footer class="modal-card-foot">
-                            <b-button
-                                label="Cancelar"
-                                @click="isEditModalActive=false" />
-                            <b-button
-                                label="Actualizar"
-                                type="is-primary" />
-                        </footer>
-                    </div>
-
-
+                </div><!-- /.modal-card -->
             </form>
             <b-loading  v-model="isLoading"></b-loading>
         </b-modal>
+
     </section>
 
 </template>
@@ -265,19 +421,18 @@
                     { title: 'PRICE NORMAL', field: 'pricenormal', visible: true },
                     { title: 'PRICE PAYPAL', field: 'pricepaypal', visible: false },
 
-
                 ],
                 data:[],
                 isLoading: false,
                 isDeleteModalActive: false,
                 isEditModalActive: false,
                 deleteRoute:'',
+                updateRoute:'',
                 editingData:[]
             }
         },
         mounted(){
             this.fetchData();
-            alert('updated');
         },
         methods: {
             fetchData(){
@@ -300,11 +455,19 @@
                     this.fetchData();
                     this.isDeleteModalActive=false;
                 });
+            },
+            updateReservation(){
+                this.isLoading = true;
+                this.editingData._token = this._token;
+                axios.put(this.updateRoute,this.editingData).then((r)=>{
+                    this.isLoading=false;
+                });
             }
 
         },
         props: [
             'getReservations',
+            '_token'
         ],
     }
 </script>

@@ -3,7 +3,7 @@
 @section('styles')
     @if(auth()->user()->role == 'seller')
         <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}"/>
-        <link rel="stylesheet" href="{{asset('css/main.css')}}" media="screen"/>
+        <link rel="stylesheet" href="{{asset('css/main.css') .'?'.rand(5, 15)}}" media="screen"/>
     @endif
 @endsection
 
@@ -34,6 +34,7 @@
                             <div id="app">
                                 <reservation-list-component
                                 get-reservations="{{ route('reservations.index') }}"
+                                _token="{{csrf_token()}}"
                                 >
                                 </reservation-list-component>
                             </div>
