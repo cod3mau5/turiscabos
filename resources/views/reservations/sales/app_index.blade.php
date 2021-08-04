@@ -301,7 +301,7 @@
 @section('scripts')
     <!-- Scripts -->
     @if(auth()->user()->role == 'admin')
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.js').'?'.rand(5, 15) }}" defer></script>
         @else
         <script src="{{asset('js/scripts/vendors.js')}}"></script>
         <script>
