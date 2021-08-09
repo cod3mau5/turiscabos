@@ -19,10 +19,15 @@ class CreateReservationsTable extends Migration
             $table->string('reservation');
             $table->string('name',20);
             $table->string('email');
-            $table->integer('phone');
+            $table->bigInteger('phone');
             $table->integer('passengers');
             $table->boolean('babysit')->default(0);
             $table->boolean('shoppingstop')->default(0);
+            // agent info
+            $table->string('nombrevendedor')->nullable();
+            $table->string('nombrechofer')->nullable();
+            $table->string('numerounidad')->nullable();
+            $table->string('numeroticket')->nullable();
             //arrival info
             $table->date('arrivaldate')->nullable();
             $table->time('arrivaltime')->nullable();

@@ -14,18 +14,18 @@
         </b-field>
 
         <b-table
-            :data="data ? data : []"
+            :data="$store.state.data ? $store.state.data : []"
             bordered
             striped
             hoverable
             mobile-cards
             narrowed
-            :loading="isLoading">
+            :loading="$store.state.isLoading">
 
                 <b-table-column  label="ACTIONS" :sticky="true" headerClass="is-sticky-column-two" cellClass="is-sticky-column-two" v-slot="props">
                     <div class="is-flex">
                         <button class="btn btn-sm btn-primary mr-1"
-                                @click="isEditModalActive = true;
+                                @click="updateEditModal(true);
                                         updateRoute=props.row.updateRoute;
                                         fetchEditingData(props.row.editRoute);">
                             Editar
@@ -35,15 +35,24 @@
                         </button>
                     </div>
                 </b-table-column>
+
                 <b-table-column v-for="(column, index) in columnsTemplate"
                     :key="index"
                     :label="column.title"
                     :visible="column.visible"
                     v-slot="props">
-                    {{ props.row[column.field] }}
+                    <span v-if="column.title === 'BABY CHAIR' || column.title === 'SHOPPING STOP'">
+                        <div v-if="props.row[column.field] == true">
+                            YES
+                        </div>
+                        <div v-else>
+                            NO
+                        </div>
+                    </span>
+                    <span v-else>
+                        {{ props.row[column.field] }}
+                    </span>
                 </b-table-column>
-
-
 
                 <template #empty>
                     <div class="has-text-centered">No records</div>
@@ -51,7 +60,18 @@
 
         </b-table>
 
-        <!-- UPDATE MODAL -->
+        <!-- EDIT MODAL -->
+        <data-form
+            ref="DataForm"
+            :get-reservations="getReservations"
+            :user-role="userRole"
+            :route-transfers="routeTransfers"
+            :update-route="updateRoute"
+            :store-route="storeRoute"
+            :_token="_token">
+        </data-form>
+
+        <!-- DELETE MODAL -->
         <b-modal
             v-model="isDeleteModalActive"
             has-modal-card
@@ -86,298 +106,23 @@
                 </div>
 
             </form>
-            <b-loading  v-model="isLoading"></b-loading>
-        </b-modal>
-
-        <!-- EDIT MODAL -->
-        <b-modal
-            v-model="isEditModalActive"
-            has-modal-card
-            trap-focus
-            :destroy-on-hide="true"
-            aria-modal
-            class="is-flex is-justify-content-center">
-            <form action="">
-                <div class="modal-card mx-auto">
-
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">EDITAR</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="isEditModalActive=false"/>
-                    </header>
-
-                    <section class="modal-card-body">
-
-                        <!-- CONTACT INFO -->
-                        <div class="columns is-mobile">
-                            <div class="column is-one-third">
-                                <b-field label="Nombre">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.name"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-third">
-                                <b-field label="Email">
-                                    <b-input
-                                        type="email"
-                                        v-model="editingData.email"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-third">
-                                <b-field label="Phone">
-                                    <b-input
-                                        type="phone"
-                                        v-model="editingData.phone"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                        </div>
-
-                        <!-- SERVICE INFO -->
-                        <div class="columns is-mobile">
-                            <div class="column is-one-quarter">
-                                <b-field label="Passengers">
-                                    <b-input
-                                        type="number"
-                                        v-model="editingData.passengers"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Service">
-                                    <b-select  v-model="editingData.service">
-                                        <option value="One Way">
-                                            One Way
-                                        </option>
-                                        <option value="Round Trip">
-                                            Round Trip
-                                        </option>
-                                    </b-select>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Unit">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.unit"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Ocation">
-                                    <b-select  v-model="editingData.ocation">
-
-                                        <option value="Nope">
-                                            Nope
-                                        </option>
-
-                                        <option value="Anniversary">
-                                            Anniversary
-                                        </option>
-
-                                        <option value="Bachelorette party">
-                                            Bachelorette party
-                                        </option>
-
-                                        <option value="Birthday">
-                                            Birthday
-                                        </option>
-
-                                        <option value="Wedding">
-                                            Wedding
-                                        </option>
-
-                                    </b-select>
-                                </b-field>
-                            </div>
-                        </div>
-
-                        <!-- DESTINATION & HOTEL -->
-                        <div class="columns is-mobile">
-                            <div class="column is-half">
-                                <b-field label="Destination">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.destination"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-half">
-                                <b-field label="Hotel">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.hotel"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                        </div>
-
-                        <!-- ARRIVAL INFO -->
-                        <div class="columns is-mobile">
-                            <div class="column is-one-quarter">
-                                <b-field label="Arrival Date">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.arrivaldate"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Arrival Time">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.arrivaltime"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Arrival Ariline">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.arrivalairline"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Arrival Flight">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.arrivalflight"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                        </div>
-
-                        <!-- DEPARTURE INFO -->
-                        <div class="columns is-mobile">
-                            <div class="column is-one-quarter">
-                                <b-field label="Departure Date">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.departuredate"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Departure Time">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.departuretime"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Departure Ariline">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.departureairline"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Departure Flight">
-                                    <b-input
-                                        type="text"
-                                        v-model="editingData.departureflight"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                        </div>
-                        <div class="columns is-mobile">
-                            <div class="column is-half">
-                                <b-field>
-                                    <b-checkbox v-model="editingData.babysit">Baby chair</b-checkbox>
-                                </b-field>
-                            </div>
-                            <div class="column is-half">
-                                <b-field>
-                                    <b-checkbox v-model="editingData.shoppingstop">Shopping Stop</b-checkbox>
-                                </b-field>
-                            </div>
-                        </div>
-
-                        <!-- PRICES -->
-                        <div class="columns is-mobile">
-                            <div class="column is-half">
-                                <b-field label="Price Normal">
-                                    <b-input
-                                        type="number"
-                                        v-model="editingData.pricenormal"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-half">
-                                <b-field label="Price PayPal">
-                                    <b-input
-                                        type="number"
-                                        v-model="editingData.pricepaypal"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                        </div>
-
-                        <!-- COMMENTS -->
-                        <div class="columns is-mobile">
-                            <div class="column is-full">
-                                <b-field label="Comments">
-                                    <b-input maxlength="200" type="textarea"
-                                    v-model="editingData.comments">
-                                    </b-input>
-                                </b-field>
-                            </div>
-                        </div>
-
-
-
-                    </section>
-
-                    <footer class="modal-card-foot">
-                        <b-button
-                            label="Cancelar"
-                            @click="isEditModalActive=false" />
-                        <b-button
-                            label="Actualizar"
-                            type="is-primary"
-                            @click="updateReservation()"/>
-                    </footer>
-
-                </div><!-- /.modal-card -->
-            </form>
-            <b-loading  v-model="isLoading"></b-loading>
+            <b-loading  v-model="$store.state.isLoading"></b-loading>
         </b-modal>
 
     </section>
 
 </template>
-<style >
+
+<style>
     span.check{
         width: 1em!important;
         height: 1em!important;
     }
     .table-wrapper{
         overflow:auto !important;
+    }
+    .is-w-400{
+        width: 400px!important;
     }
     .is-sticky-column-one {
         background: #167df0 !important;
@@ -387,10 +132,30 @@
         background: #23d160 !important;
         color: white !important;
     }
+
+    .modal-close.is-large{
+        display: none!important;
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+    span.control-label{
+        color: #363636;
+        display: block;
+        font-size: 1rem;
+        font-weight: 600;
+    }
 </style>
 
 <script>
+import DataForm from "./DataForm";
     export default {
+        components: {
+            DataForm,
+        },
         data() {
             return {
                 columnsTemplate: [
@@ -399,11 +164,13 @@
                     { title: 'E-MAIL', field: 'email', visible: true },
                     { title: 'PAX', field: 'passengers', visible: true },
                     { title: 'SERVICE', field: 'service', visible: true },
+                    { title: 'BABY CHAIR', field: 'babysit', visible: true },
+                    { title: 'SHOPPING STOP', field: 'shoppingstop', visible: true },
 
                     { title: 'DESTINATION', field: 'destination', visible: true },
                     { title: 'HOTEL', field: 'hotel', visible: true },
 
-                    { title: 'ARRIVAL DATE', field: 'arrivaldate', visible: true },
+                    { title: 'ARRIVAL DATE', field: 'arrivaldate', visible: true,},
                     { title: 'ARRIVAL TIME', field: 'arrivaltime', visible: true },
                     { title: 'ARRIVAL AIRLINE', field: 'arrivalairline', visible: true },
                     { title: 'ARRIVAL FLIGHT', field: 'arrivalflight', visible: true },
@@ -413,7 +180,6 @@
                     { title: 'DEPARTURE AIRLINE', field: 'departureairline', visible: false },
                     { title: 'DEPARTURE FLIGHT', field: 'departureflight', visible: false },
 
-
                     { title: 'OCATION', field: 'ocation', visible: false },
                     { title: 'COMMENTS', field: 'comments', visible: false },
                     { title: 'ORIGIN', field: 'origin', visible: false },
@@ -422,52 +188,80 @@
                     { title: 'PRICE PAYPAL', field: 'pricepaypal', visible: false },
 
                 ],
-                data:[],
-                isLoading: false,
-                isDeleteModalActive: false,
-                isEditModalActive: false,
+                isDeleteModalActive:false,
+                isEditModalActive:false,
                 deleteRoute:'',
                 updateRoute:'',
-                editingData:[]
+                editingData:[],
+                transfers: [],
+                unitOptions:true,
             }
         },
         mounted(){
-            this.fetchData();
+            this.fetchData(1);
+            this.storeRole();
+            this.$store.state.logoutRoute = this.logoutRoute;
         },
         methods: {
-            fetchData(){
-                this.isLoading = true;
-                axios.get(this.getReservations).then((r)=>{
-                    this.data =r.data;
-                    this.isLoading=false;
+            // ...mapActions([
+            //     'update'
+            // ]),
+            fetchData(val){
+                let vm=this;
+                vm.isLoading = true;
+                if(val){
+                    axios.get(vm.routeTransfers).then((r)=>{
+                        vm.transfers = r.data;
+                    });
+                }
+                axios.get(vm.getReservations).then((r)=>{
+                    vm.$store.state.data =r.data;
+                    vm.isLoading=false;
                 });
             },
             fetchEditingData(editRoute){
-                this.isLoading = true;
+                this.$store.state.isLoading = true;
                 axios.get(editRoute).then((r)=>{
-                    this.editingData =r.data;
-                    this.isLoading=false;
+                    this.$store.state.formData =r.data;
+                    this.$store.state.formData.babysit==1?this.$store.state.formData.babysit=true:this.$store.state.formData.babysit==false;
+                    this.$store.state.formData.shoppingstop==1?this.$store.state.formData.shoppingstop=true:this.$store.state.formData.shoppingstop==false;
+                    this.$store.state.formData.arrivaldate=new Date(r.data.arrivaldate);
+                    this.$store.state.formData.arrivaldate.setDate(r.data.arrivaldate.getDate() + 1);
+                    if(this.$store.state.formData.service == 'Round Trip'){
+                        this.$store.state.formData.departuredate=new Date(r.data.departuredate);
+                        this.$store.state.formData.departuredate.setDate(r.data.departuredate.getDate() + 1);
+                    }
+                    this.updateFormData(this.$store.state.formData);
+                    this.$store.state.isLoading=false;
                 });
             },
             deleteReservation(){
-                this.isLoading = true;
+                this.$store.state.isLoading = true;
                 axios.post(this.deleteRoute,{"_method":"delete"}).then(()=>{
-                    this.fetchData();
+                    this.fetchData(0);
                     this.isDeleteModalActive=false;
                 });
             },
-            updateReservation(){
-                this.isLoading = true;
-                this.editingData._token = this._token;
-                axios.put(this.updateRoute,this.editingData).then((r)=>{
-                    this.isLoading=false;
-                });
+            storeRole(){
+                this.$store.state.currentRole=this.userRole;
+                this.$store.dispatch('getRoleAction');
+            },
+            updateEditModal(val) {
+                this.$refs.DataForm.updateEditModal(val);
+            },
+            updateFormData(val){
+                this.$store.state.formData=val;
+                 this.$store.dispatch('changeFormData');
             }
-
         },
+        // computed: mapGetters(['line']),
         props: [
+            'routeTransfers',
             'getReservations',
-            '_token'
+            '_token',
+            'userRole',
+            'storeRoute',
+            'logoutRoute'
         ],
     }
 </script>

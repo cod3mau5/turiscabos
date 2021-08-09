@@ -17,7 +17,8 @@
         <!-- Styles -->
         <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css"
+        rel="stylesheet">
             @yield('styles')
 
 

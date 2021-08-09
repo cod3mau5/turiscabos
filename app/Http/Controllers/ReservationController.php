@@ -29,12 +29,14 @@ class ReservationController extends Controller
     {
         // $headers = '';
         // $message = '';
-        if($request['unit'] == 'Chevrolet Suburban'){
-            $request['passengers']= $request['passengerssuburban'];
-        }elseif($request['unit'] == 'Toyota Hiace'){
-            $request['passengers']= $request['passengershiace'];
-        }else{
-            $request['passengers']= $request['passengerssprinter'];
+        if(!$request['nombrevendedor'] && !$request['nombrechofer']){
+            if($request['unit'] == 'Chevrolet Suburban'){
+                $request['passengers']= $request['passengerssuburban'];
+            }elseif($request['unit'] == 'Toyota Hiace'){
+                $request['passengers']= $request['passengershiace'];
+            }else{
+                $request['passengers']= $request['passengerssprinter'];
+            }
         }
         $request['reservation']= rand(1,100);
         $request['pricenormal'] = preg_replace('/[^0-9.]+/', '', $request['pricenormal']);
@@ -47,8 +49,6 @@ class ReservationController extends Controller
         ]);
         if($validated)
             Reservation::create($request->except('_token'));
-
-
 
         // $headers .= "From: sistema@turiscabos.com \r\n";
         // $headers .= "MIME-Version: 1.0\r\n";
@@ -108,5 +108,9 @@ class ReservationController extends Controller
     public function exportExcel()
     {
         return Excel::download(new ReservationsExport, 'reservations.xlsx');
+    }
+    public function  getTransfers(){
+        // return storage_path('app/transfers.json');
+        return json_decode(file_get_contents(storage_path('app/transfers.json')), true);
     }
 }

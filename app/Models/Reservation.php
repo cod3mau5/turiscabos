@@ -35,6 +35,12 @@ class Reservation extends Model
         'destination',
         'pricenormal',
         'pricepaypal',
-        'origin'
+        'origin',
+        'babysit',
+        'shoppingstop',
+        'nombrevendedor',
+        'nombrchofer',
+        'numerounidad',
+        'numeroticket'
     ];
 }

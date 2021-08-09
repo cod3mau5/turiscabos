@@ -153,7 +153,7 @@ $( document ).ready(function() {
         $("#send-prebook").removeAttr('disabled');
     }
 
-    $.getJSON( "../json/transfers.json", function( data ) {
+    $.getJSON(routeTransfersJson, function( data ) {
         for (units in data.units){
             $("#form-unit").append("<option value='" + data.units[units].name + "'>" + data.units[units].name + "</option>");
         }
@@ -211,6 +211,8 @@ $( document ).ready(function() {
             "pricenormal": $("#priceBig2").text(),
             "pricepaypal": pricepaypal,
             "origin": $("#form-origin").val(),
+            "origin": $("#form-babysit").val(),
+            "origin": $("#form-shoppingstop").val(),
             "_token":_token
         };
         $.ajax({
@@ -238,7 +240,7 @@ $( document ).ready(function() {
     });
 
     var options = {
-        url: '../json/transfers.json',
+        url: routeTransfersJson,
         getValue: 'name',
         listLocation: "hotel",
         template: {

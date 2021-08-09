@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "buefy": "^0.9.8"
+        "buefy": "^0.9.8",
+        "vuex": "^3.6.2"
     }
 }

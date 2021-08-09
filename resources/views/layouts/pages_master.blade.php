@@ -120,9 +120,10 @@
     <!-- JavaScript-->
     <script src="{{asset('js/scripts/vendors.js')}}"></script>
     <script>
+        var routeTransfersJson="{{route('get-transfers')}}";
         var postReservationUrl= "{{route('reservations.store')}}";
         var _token="{{ csrf_token() }}";
     </script>
-    <script src="{{asset('js/scripts/main.js')}}"></script>
+    <script src="{{asset('js/scripts/main.js') .'?'.rand(5, 15) }}"></script>
 </body>
 </html>
