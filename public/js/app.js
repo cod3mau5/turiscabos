@@ -57407,7 +57407,7 @@ var render = function() {
                       )
                     ]),
                 _vm._v(" "),
-                _vm.storeRoute
+                _vm.storeRoute && _vm.userRole != "seller"
                   ? _c("div", [
                       _vm.userRole != "seller"
                         ? _c("button", {
@@ -57422,7 +57422,7 @@ var render = function() {
                         : _vm._e()
                     ])
                   : _c("div", [
-                      _vm.userRole != "seller"
+                      _vm.userRole === "admin" || _vm.userRole == "user"
                         ? _c("button", {
                             staticClass: "delete",
                             attrs: { type: "button" },

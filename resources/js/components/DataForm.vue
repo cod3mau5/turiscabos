@@ -20,7 +20,7 @@
                             CREAR RESERVA
                         </p>
 
-                        <div v-if="storeRoute">
+                        <div v-if="storeRoute && userRole != 'seller'">
                             <button
                             v-if="userRole != 'seller'"
                             type="button"
@@ -29,7 +29,7 @@
                         </div>
                         <div v-else>
                             <button
-                                v-if="userRole != 'seller'"
+                                v-if="userRole === 'admin' || userRole == 'user'"
                                 type="button"
                                 class="delete"
                                 @click="updateEditModal(false)"/>
