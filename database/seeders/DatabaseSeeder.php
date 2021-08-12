@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'user',
             'email' => 'user@turiscabos.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'role' => 'admin' //roles: admin, seller
+            'role' => 'user' //roles: admin, seller
         ]);
         \App\Models\User::factory()->create([
             'name' => 'seller',
