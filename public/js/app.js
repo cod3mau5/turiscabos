@@ -2418,22 +2418,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DataForm",
   data: function data() {
     return {
       isModalReservationCreated: false,
-      unitOptions: true,
       transfers: [],
-      currentError: [],
       dataToValidate: {
         'numeroticket': true,
         'passengers': true,
@@ -2443,11 +2434,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'destination': true,
         'hotel': true,
         'numerounidad': true,
-        'nombrevendedor': true,
+        'nombrevendedor': false,
+        'nombrechofer': false,
         'arrivaldate': true,
         'arrivaltime': true,
         'arrivalairline': true,
         'arrivalflight': true,
+        'departuredate': false,
+        'departuretime': false,
+        'departureairline': false,
+        'departureflight': false,
         'pricenormal': true,
         'pricepaypal': true
       }
@@ -2455,6 +2451,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     this.getTransfers();
+    this.setUnitOptions();
+    this.dataToValidate.nombrechofer = this.userRole == 'seller' ? false : true;
+    this.dataToValidate.nombrevendedor = this.userRole == 'seller' ? true : false;
     var vm = this;
     $(document).ready(function () {
       $(document).on('keyup', '.valEmail input', function (event) {
@@ -2517,6 +2516,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   },
   methods: {
+    setUnitOptions: function setUnitOptions() {
+      if (this.userRole == 'seller' || this.storeRoute) {
+        this.$store.state.unitOptions = true;
+      }
+    },
     fetchData: function fetchData(val) {
       var vm = this;
       vm.isLoading = true;
@@ -2524,6 +2528,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (val) {
         axios.get(vm.routeTransfers).then(function (r) {
           vm.transfers = r.data;
+
+          if (vm.userRole == "admin") {
+            var other = {
+              name: 'other'
+            };
+            vm.transfers.units.push(other);
+          }
         });
       }
 
@@ -2537,6 +2548,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get(this.routeTransfers).then(function (r) {
         _this.transfers = r.data;
+
+        if (_this.userRole == "admin") {
+          var other = {
+            name: 'other'
+          };
+
+          _this.transfers.units.push(other);
+        }
       });
     },
     updateEditModal: function updateEditModal(val) {
@@ -2732,8 +2751,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     logout: function logout() {
       axios.post(this.$store.state.logoutRoute, this._token).then(function () {
-        window.location.reload();
+        window.location = '/home';
       });
+    },
+    goToHome: function goToHome() {
+      window.location = "/home";
     },
     validateReservation: function validateReservation(val) {
       var vm = this;
@@ -2746,6 +2768,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       nombre = nombre.replace(/ /g, '');
       var telefono = $('input[name = "telefono"]').val();
       var resEmail = this.valEmail(email);
+      vm.userRole == 'seller' ? vm.dataToValidate.numeroticket = true : vm.dataToValidate.numeroticket = false;
+      vm.$store.state.formData.origin == 'panel_seller' ? vm.dataToValidate.numeroticket = true : vm.dataToValidate.numeroticket = false;
+
+      if ((vm.userRole == "admin" || vm.userRole == "user") && vm.$store.state.formData.origin == 'panel_seller') {
+        vm.dataToValidate.nombrechofer = false;
+        vm.dataToValidate.nombrevendedor = true;
+      } else {
+        vm.dataToValidate.nombrevendedor = false;
+      }
 
       if (resEmail != 1) {
         if (email.length == 0) {
@@ -2774,16 +2805,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         error++;
       }
 
+      if (vm.formData.service == 'Round Trip') {
+        vm.dataToValidate.departuredate = true;
+        vm.dataToValidate.departuretime = true;
+        vm.dataToValidate.departureairline = true;
+        vm.dataToValidate.departureflight = true;
+      } else {
+        vm.dataToValidate.departuredate = false;
+        vm.dataToValidate.departuretime = false;
+        vm.dataToValidate.departureairline = false;
+        vm.dataToValidate.departureflight = false;
+      }
+
       var arrayToValidate = Object.keys(vm.formData);
       Object.keys(vm.dataToValidate).forEach(function (validatorName) {
         if (vm.dataToValidate[validatorName]) {
           /*preguntamos si hay que validar?*/
-          console.log(arrayToValidate);
-
-          if (!arrayToValidate.includes(validatorName)) {
+          if (!arrayToValidate.includes(validatorName) || vm.formData[validatorName] == '' || vm.formData[validatorName] == null) {
             msgError += '- Debe indicar un <b>' + validatorName + '</b><br>';
             error++;
-            vm.currentError.push(validatorName);
           }
         }
       });
@@ -2794,16 +2834,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         $('#modalAlert').modal('show');
       } else {
         if (val) {
+          // if parameter entered to this function is true
           vm.updateReservation();
         } else {
           vm.storeReservation();
         }
       }
-    },
-    addErrors: function addErrors(key) {
-      var msgError, error;
-      msgError += '- Debe indicar un <b>' + key + '</b><br>';
-      error++;
     },
     valEmail: function valEmail(email) {
       var emailRegex;
@@ -2841,6 +2877,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           $('#emailHASH ').val(response.sha);
         }
       });
+    },
+    clearFormData: function clearFormData() {
+      this.$store.state.formData = [];
     }
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
@@ -2849,7 +2888,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   watch: {
     'formData.unit': function formDataUnit(val) {
       if (val == "") {
-        return this.unitOptions = false;
+        return this.$store.state.unitOptions = false;
       }
     },
     'formData.arrivaldate': function formDataArrivaldate(val) {
@@ -3206,6 +3245,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get(vm.getReservations).then(function (r) {
         vm.$store.state.data = r.data;
+        vm.$store.state.isLoading = false;
         vm.isLoading = false;
       });
     },
@@ -3239,9 +3279,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(this.deleteRoute, {
         "_method": "delete"
       }).then(function () {
-        _this2.fetchData(0);
-
         _this2.isDeleteModalActive = false;
+
+        _this2.fetchData(0);
       });
     },
     storeRole: function storeRole() {
@@ -3252,6 +3292,17 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.DataForm.updateEditModal(val);
     },
     updateFormData: function updateFormData(val) {
+      var units = [];
+      Object.values(this.transfers.units).forEach(function (unit) {
+        units.push(unit.name);
+      });
+
+      if (units.includes(val.unit)) {
+        this.$store.state.unitOptions = true;
+      } else {
+        this.$store.state.unitOptions = false;
+      }
+
       this.$store.state.formData = val;
       this.$store.dispatch('changeFormData');
     }
@@ -3347,21 +3398,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
-  state: {
+  state: _defineProperty({
     data: [],
     isLoading: false,
     currentRole: null,
     isEditModalActive: false,
+    unitOptions: true,
     logoutRoute: '',
     formData: {
-      unit: 'Chevrolet Suburban'
-    },
-    unitOptions: ''
-  },
+      unit: 'Private Sedan'
+    }
+  }, "unitOptions", ''),
   mutations: {
     getRole: function getRole(state) {
       state.currentRole = state.currentRole;
@@ -57321,8 +57374,7 @@ var render = function() {
           attrs: {
             "has-modal-card": "",
             "trap-focus": "",
-            "destroy-on-hide":
-              _vm.userRole == "admin" || _vm.userRole == "user" ? true : false,
+            "destroy-on-hide": !_vm.storeRoute ? true : false,
             "aria-modal": ""
           },
           model: {
@@ -57337,42 +57389,67 @@ var render = function() {
           _c("form", { attrs: { action: "" } }, [
             _c("div", { staticClass: "modal-card mx-auto" }, [
               _c("header", { staticClass: "modal-card-head" }, [
-                _c("p", { staticClass: "modal-card-title" }, [
-                  _vm._v(
-                    _vm._s(
-                      _vm.userRole == "admin" || _vm.userRole == "user"
-                        ? "EDITAR RESERVA"
-                        : "CREAR RESERVA"
-                    )
-                  )
-                ]),
+                !_vm.storeRoute
+                  ? _c("p", { staticClass: "modal-card-title" }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(
+                            _vm.userRole == "admin" || _vm.userRole == "user"
+                              ? "EDITAR RESERVA"
+                              : "CREAR RESERVA"
+                          ) +
+                          "\n                        "
+                      )
+                    ])
+                  : _c("p", { staticClass: "modal-card-title" }, [
+                      _vm._v(
+                        "\n                            CREAR RESERVA\n                        "
+                      )
+                    ]),
                 _vm._v(" "),
-                _vm.userRole != "seller"
-                  ? _c("button", {
-                      staticClass: "delete",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.updateEditModal(false)
-                        }
-                      }
-                    })
-                  : _c("button", {
-                      staticClass: "delete is-danger",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.logout()
-                        }
-                      }
-                    })
+                _vm.storeRoute
+                  ? _c("div", [
+                      _vm.userRole != "seller"
+                        ? _c("button", {
+                            staticClass: "delete",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.goToHome()
+                              }
+                            }
+                          })
+                        : _vm._e()
+                    ])
+                  : _c("div", [
+                      _vm.userRole != "seller"
+                        ? _c("button", {
+                            staticClass: "delete",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.updateEditModal(false)
+                              }
+                            }
+                          })
+                        : _c("button", {
+                            staticClass: "delete is-danger",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.logout()
+                              }
+                            }
+                          })
+                    ])
               ]),
               _vm._v(" "),
               _c(
                 "section",
                 { staticClass: "modal-card-body" },
                 [
-                  _vm.userRole == "seller"
+                  _vm.userRole == "seller" ||
+                  _vm.$store.state.formData.origin == "panel_seller"
                     ? _c("div", { staticClass: "columns is-mobile" }, [
                         _c(
                           "div",
@@ -57619,7 +57696,7 @@ var render = function() {
                       "div",
                       { staticClass: "column is-one-quarter" },
                       [
-                        _vm.unitOptions
+                        _vm.$store.state.unitOptions
                           ? _c(
                               "b-field",
                               { attrs: { label: "Unit" } },
@@ -57643,78 +57720,32 @@ var render = function() {
                                       expression: "$store.state.formData.unit"
                                     }
                                   },
-                                  [
-                                    _c(
+                                  _vm._l(_vm.transfers.units, function(
+                                    option,
+                                    index
+                                  ) {
+                                    return _c(
                                       "option",
                                       {
-                                        attrs: { value: "Chevrolet Suburban" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                                Chevrolet Suburban\n                                            "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "Toyota Hiace" } },
-                                      [
-                                        _vm._v(
-                                          "\n                                                Toyota Hiace\n                                            "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      {
-                                        attrs: {
-                                          value: "Mercedes-Benz Sprinter"
+                                        key: index,
+                                        domProps: {
+                                          value:
+                                            option.name == "other"
+                                              ? ""
+                                              : option.name
                                         }
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                                Mercedes-Benz Sprinter\n                                            "
+                                          "\n                                            " +
+                                            _vm._s(option.name) +
+                                            "\n                                        "
                                         )
                                       ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("option", { attrs: { value: "" } }, [
-                                      _vm._v(
-                                        "\n                                                Other\n                                            "
-                                      )
-                                    ])
-                                  ]
+                                    )
+                                  }),
+                                  0
                                 )
-                              ],
-                              1
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        !_vm.unitOptions
-                          ? _c(
-                              "b-field",
-                              { attrs: { label: "Unit" } },
-                              [
-                                _c("b-input", {
-                                  attrs: {
-                                    placeholder: "Type Other Unit",
-                                    type: "text",
-                                    required: ""
-                                  },
-                                  model: {
-                                    value: _vm.$store.state.formData.unit,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.$store.state.formData,
-                                        "unit",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "$store.state.formData.unit"
-                                  }
-                                })
                               ],
                               1
                             )
@@ -57727,28 +57758,56 @@ var render = function() {
                               {
                                 name: "show",
                                 rawName: "v-show",
-                                value: !_vm.unitOptions,
-                                expression: "!unitOptions"
+                                value: !_vm.$store.state.unitOptions,
+                                expression: "!$store.state.unitOptions"
                               }
-                            ]
+                            ],
+                            attrs: { label: "Unit" }
                           },
                           [
-                            _c("b-button", {
+                            _c("b-input", {
                               attrs: {
-                                type: "is-info is-small",
-                                label: "show unit list"
+                                placeholder: "Type Other Unit",
+                                type: "text",
+                                required: ""
                               },
-                              on: {
-                                click: function($event) {
-                                  _vm.unitOptions = true
-                                  _vm.$store.state.formData.unit =
-                                    "Chevrolet Suburban"
-                                }
+                              model: {
+                                value: _vm.$store.state.formData.unit,
+                                callback: function($$v) {
+                                  _vm.$set(
+                                    _vm.$store.state.formData,
+                                    "unit",
+                                    $$v
+                                  )
+                                },
+                                expression: "$store.state.formData.unit"
                               }
                             })
                           ],
                           1
-                        )
+                        ),
+                        _vm._v(" "),
+                        !_vm.$store.state.unitOptions
+                          ? _c(
+                              "b-field",
+                              [
+                                _c("b-button", {
+                                  attrs: {
+                                    type: "is-info is-small",
+                                    label: "show unit list"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.$store.state.unitOptions = true
+                                      _vm.$store.state.formData.unit =
+                                        "Private Sedan"
+                                    }
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          : _vm._e()
                       ],
                       1
                     ),
@@ -57777,45 +57836,19 @@ var render = function() {
                                   expression: "$store.state.formData.ocation"
                                 }
                               },
-                              [
-                                _c("option", { attrs: { value: "Nope" } }, [
+                              _vm._l(_vm.transfers.ocation, function(
+                                option,
+                                index
+                              ) {
+                                return _c("option", { key: index }, [
                                   _vm._v(
-                                    "\n                                            Nope\n                                        "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "option",
-                                  { attrs: { value: "Anniversary" } },
-                                  [
-                                    _vm._v(
-                                      "\n                                            Anniversary\n                                        "
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "option",
-                                  { attrs: { value: "Bachelorette party" } },
-                                  [
-                                    _vm._v(
-                                      "\n                                            Bachelorette party\n                                        "
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("option", { attrs: { value: "Birthday" } }, [
-                                  _vm._v(
-                                    "\n                                            Birthday\n                                        "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("option", { attrs: { value: "Wedding" } }, [
-                                  _vm._v(
-                                    "\n                                            Wedding\n                                        "
+                                    "\n                                            " +
+                                      _vm._s(option.name) +
+                                      "\n                                        "
                                   )
                                 ])
-                              ]
+                              }),
+                              0
                             )
                           ],
                           1
@@ -57961,7 +57994,8 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _vm.userRole == "admin" || _vm.userRole == "user"
+                    _vm.userRole != "seller" &&
+                    _vm.$store.state.formData.origin != "panel_seller"
                       ? _c(
                           "div",
                           { staticClass: "column is-one-quarter" },
@@ -58702,6 +58736,7 @@ var render = function() {
                       on: {
                         click: function($event) {
                           _vm.isModalReservationCreated = false
+                          _vm.clearFormData()
                         }
                       }
                     })

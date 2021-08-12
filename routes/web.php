@@ -10,11 +10,10 @@ Route::get('/gallery',[Controllers\PagesController::class, 'gallery'])->name('ga
 Route::get('/faq',[Controllers\PagesController::class, 'faq'])->name('faq');
 
 Route::get('/mx',[Controllers\PagesController::class, 'mx'])->name('mx');
-
 Auth::routes();
-
 Route::get('/home', [Controllers\HomeController::class, 'index'])->name('internal');
 
 Route::resource('reservations', Controllers\ReservationController::class);
 Route::get('/transfers', [Controllers\ReservationController::class, 'getTransfers'])->name('get-transfers');
 Route::get('/reservations-excel',[ Controllers\ReservationController::class,'exportExcel'])->name('export-excel');
+Route::get('/reservations-user-excel',[ Controllers\ReservationController::class,'exportUserExcel'])->name('export-user-excel');

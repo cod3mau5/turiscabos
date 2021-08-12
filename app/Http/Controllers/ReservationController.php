@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 use App\Exports\ReservationsExport;
-use App\Models\Reservation;
-use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReservationsUserExport;
 
 
 class ReservationController extends Controller
@@ -27,19 +28,26 @@ class ReservationController extends Controller
     }
     public function store(Request $request)
     {
-        // $headers = '';
-        // $message = '';
-        if(!$request['nombrevendedor'] && !$request['nombrechofer']){
-            if($request['unit'] == 'Chevrolet Suburban'){
-                $request['passengers']= $request['passengerssuburban'];
-            }elseif($request['unit'] == 'Toyota Hiace'){
-                $request['passengers']= $request['passengershiace'];
-            }else{
-                $request['passengers']= $request['passengerssprinter'];
+        if(auth()->user()->role !== 'admin'){
+            if(!$request['nombrevendedor'] && !$request['nombrechofer'] || $request['origin']== 'web'){
+                if($request['unit'] == 'Private Sedan'){
+                    $request['passengers']= $request['passengerssuburban'];
+                }elseif($request['unit'] == 'Private SUV'){
+                    $request['passengers']= $request['passengershiace'];
+                }else{
+                    $request['passengers']= $request['passengerssprinter']; //case for Shuttle
+                }
             }
         }
+
         $request['reservation']= rand(1,100);
         $request['pricenormal'] = preg_replace('/[^0-9.]+/', '', $request['pricenormal']);
+        if($request['service'] == 'One Way'){
+            $request['departuredate']=null;
+            $request['departuretime']=null;
+            $request['departureairline']=null;
+            $request['departureflight']=null;
+        }
         $validated= $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -47,24 +55,12 @@ class ReservationController extends Controller
             'phone' => 'required',
             'passengers'=> 'required|numeric'
         ]);
-        if($validated)
-            Reservation::create($request->except('_token'));
+        if($validated){$reservation=Reservation::create($request->except('_token'));}
 
-        // $headers .= "From: sistema@turiscabos.com \r\n";
-        // $headers .= "MIME-Version: 1.0\r\n";
-        // $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-        // $to = "turiscabos@gmail.com, $email";
-        // $subject = "Turiscabos Reservation";
-        $validationOK=true;
-
-        if ($validationOK) {
+        if ($reservation) {
             Mail::to($request['email'])->send(new SendMail($request));
-
             // $success = @mail($to, $subject, $message, $headers);
 
-
-            header('Access-Control-Allow-Origin: *');
-            header('Content-type: application/json');
             $response = array();
             $response[0] = array(
                 'response' => 'success'
@@ -73,8 +69,6 @@ class ReservationController extends Controller
             return json_encode($response);
 
         } else {
-            header('Access-Control-Allow-Origin: *');
-            header('Content-type: application/json');
             $response = array();
             $response[0] = array(
                 'response' => 'error'
@@ -84,13 +78,6 @@ class ReservationController extends Controller
         }
 
     }
-
-    public function show(Reservation $reservation)
-    {
-        //
-    }
-
-
     public function edit(Reservation $reservation)
     {
         $reservation->setAttribute('updateRoute', route('reservations.update',$reservation->id));
@@ -99,18 +86,31 @@ class ReservationController extends Controller
 
     public function update(Request $request, Reservation $reservation)
     {
+        if($request['service'] == 'One Way'){
+            $request['departuredate']=null;
+            $request['departuretime']=null;
+            $request['departureairline']=null;
+            $request['departureflight']=null;
+        }
         $reservation->update($request->except('_token'));
     }
     public function destroy(Reservation $reservation)
     {
         $reservation->delete();
     }
-    public function exportExcel()
-    {
-        return Excel::download(new ReservationsExport, 'reservations.xlsx');
-    }
     public function  getTransfers(){
-        // return storage_path('app/transfers.json');
         return json_decode(file_get_contents(storage_path('app/transfers.json')), true);
     }
+    public function exportExcel()
+    {
+        $date=date('Y-m-d H:i:s');
+        // return Excel::download(new ReservationsExport, 'reservations.xlsx');
+        return (new ReservationsExport)->download('reservations_'.$date.'.xlsx');
+    }
+    public function exportUserExcel()
+    {
+        $date=date('Y-m-d H:i:s');
+        return (new ReservationsUserExport)->download('reservations_'.$date.'.xlsx');
+    }
+
 }

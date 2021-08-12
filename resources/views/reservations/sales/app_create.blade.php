@@ -11,16 +11,22 @@
             user-role="{{auth()->user()->role}}"
             route-transfers="{{route('get-transfers')}}"
             _token="{{csrf_token()}}"
-            store-route="{{route('reservations.create')}}">
+            store-route="{{route('reservations.store')}}"
+            logout-route="{{route('logout')}}">
         </create-reservation>
     </div>
     @elseif(auth()->user()->role == 'user')
-        <create-reservation
-            user-role="{{auth()->user()->role}}"
-            route-transfers="{{route('get-transfers')}}"
-            _token="{{csrf_token()}}"
-            store-route="{{route('reservations.store')}}">
-        </create-reservation>
+<h1 class="text-center">NO ERES UN ADMINISTRADOR</h1>
+
+        {{-- <div class="container-fluid" id="app">
+            <create-reservation
+                user-role="{{auth()->user()->role}}"
+                route-transfers="{{route('get-transfers')}}"
+                _token="{{csrf_token()}}"
+                store-route="{{route('reservations.store')}}"
+                logout-route="{{route('logout')}}">
+            </create-reservation>
+        </div> --}}
 @else
 <h1 class="text-center">NO ERES UN ADMINISTRADOR</h1>
 @endif

@@ -6,27 +6,43 @@
             v-model="$store.state.isEditModalActive"
             has-modal-card
             trap-focus
-            :destroy-on-hide="userRole == 'admin' || userRole == 'user'? true:false"
+            :destroy-on-hide="!storeRoute ? true:false"
             aria-modal
             class="is-flex is-justify-content-center">
             <form action="">
                 <div class="modal-card mx-auto">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">{{ userRole == "admin" || userRole == 'user' ? "EDITAR RESERVA":"CREAR RESERVA"}}</p>
-                        <button
+
+                        <p class="modal-card-title" v-if="!storeRoute">
+                            {{ userRole == "admin" || userRole == 'user' ? "EDITAR RESERVA":"CREAR RESERVA"}}
+                        </p>
+                        <p class="modal-card-title" v-else>
+                            CREAR RESERVA
+                        </p>
+
+                        <div v-if="storeRoute">
+                            <button
                             v-if="userRole != 'seller'"
                             type="button"
                             class="delete"
-                            @click="updateEditModal(false)"/>
-                        <button
-                            v-else
-                            type="button"
-                            class="delete is-danger"
-                            @click="logout()"/>
+                            @click="goToHome()"/>
+                        </div>
+                        <div v-else>
+                            <button
+                                v-if="userRole != 'seller'"
+                                type="button"
+                                class="delete"
+                                @click="updateEditModal(false)"/>
+                            <button
+                                v-else
+                                type="button"
+                                class="delete is-danger"
+                                @click="logout()"/>
+                        </div>
                     </header>
                     <section class="modal-card-body">
-
-                        <div class="columns is-mobile" v-if="userRole == 'seller'">
+                        <!-- TICKET INFO -->
+                        <div class="columns is-mobile" v-if="userRole == 'seller'|| $store.state.formData.origin == 'panel_seller'">
                             <div class="column is-full">
                                 <b-field label="Numero de Ticket">
                                     <b-input
@@ -38,6 +54,7 @@
                                 </b-field>
                             </div>
                         </div>
+
                         <!-- CONTACT INFO -->
                         <div class="columns is-mobile">
                             <div class="column is-one-third">
@@ -110,30 +127,20 @@
                             </div>
                             <div class="column is-one-quarter">
                                     <b-field label="Unit"
-                                        v-if="unitOptions">
+                                        v-if="$store.state.unitOptions">
                                         <b-select
                                             v-model="$store.state.formData.unit"
                                             placeholder="Unit"
                                             required>
-                                            <option value="Chevrolet Suburban">
-                                                Chevrolet Suburban
-                                            </option>
-
-                                            <option value="Toyota Hiace">
-                                                Toyota Hiace
-                                            </option>
-
-                                            <option value="Mercedes-Benz Sprinter">
-                                                Mercedes-Benz Sprinter
-                                            </option>
-
-                                            <option value="">
-                                                Other
-                                            </option>
+                                        <option v-for="(option, index) in transfers.units"
+                                                :key="index"
+                                                :value="option.name == 'other'?'':option.name">
+                                            {{option.name}}
+                                        </option>
 
                                         </b-select>
                                     </b-field>
-                                    <b-field  label="Unit" v-if="!unitOptions">
+                                    <b-field  label="Unit" v-show="!$store.state.unitOptions">
                                         <b-input
                                                 placeholder="Type Other Unit"
                                                 type="text"
@@ -141,9 +148,9 @@
                                                 required>
                                         </b-input>
                                     </b-field>
-                                    <b-field v-show="!unitOptions">
+                                    <b-field v-if="!$store.state.unitOptions">
                                     <b-button
-                                        @click="unitOptions=true;$store.state.formData.unit='Chevrolet Suburban'"
+                                        @click="$store.state.unitOptions=true;$store.state.formData.unit='Private Sedan'"
                                         type="is-info is-small"
                                         label="show unit list"/>
                                     </b-field>
@@ -155,24 +162,8 @@
                                         placeholder="Ocation"
                                         required>
 
-                                        <option value="Nope">
-                                            Nope
-                                        </option>
-
-                                        <option value="Anniversary">
-                                            Anniversary
-                                        </option>
-
-                                        <option value="Bachelorette party">
-                                            Bachelorette party
-                                        </option>
-
-                                        <option value="Birthday">
-                                            Birthday
-                                        </option>
-
-                                        <option value="Wedding">
-                                            Wedding
+                                        <option v-for="(option, index) in transfers.ocation" :key="index">
+                                            {{option.name}}
                                         </option>
 
                                     </b-select>
@@ -220,7 +211,8 @@
                                     </b-input>
                                 </b-field>
                             </div>
-                            <div class="column is-one-quarter" v-if="userRole == 'admin' || userRole == 'user'">
+                            <div class="column is-one-quarter"
+                                v-if="userRole != 'seller' && $store.state.formData.origin != 'panel_seller'">
                                 <b-field label="Nombre chofer">
                                     <b-input
                                             placeholder="Nombre del chofer"
@@ -290,7 +282,6 @@
                                 </b-field>
                             </div>
                         </div>
-
 
                         <!-- DEPARTURE INFO -->
                         <transition name="fade">
@@ -412,6 +403,8 @@
                                 @click="validateReservation()"/>
                         </div>
                     </footer>
+
+                    <!-- MODAL ERRORS-->
                     <div
                         class="modal fade"
                         id="modalAlert"
@@ -470,7 +463,7 @@
                         <b-button
                             label="Si"
                             type="is-info"
-                            @click="isModalReservationCreated=false"/>
+                            @click="isModalReservationCreated=false;clearFormData()"/>
                     </footer>
                 </div>
 
@@ -500,90 +493,112 @@ export default {
     data:()=>
     ({
             isModalReservationCreated:false,
-            unitOptions:true,
             transfers:[],
-            currentError:[],
             dataToValidate:{
                 'numeroticket': true,
                 'passengers': true,
                 'service': true,
                 'unit': true,
                 'ocation': true,
+
                 'destination': true,
                 'hotel': true,
                 'numerounidad': true,
-                'nombrevendedor': true,
+
+                'nombrevendedor':false,
+                'nombrechofer': false,
+
                 'arrivaldate': true,
                 'arrivaltime': true,
                 'arrivalairline': true,
                 'arrivalflight': true,
+
+                'departuredate': false,
+                'departuretime': false,
+                'departureairline': false,
+                'departureflight': false,
+
                 'pricenormal': true,
                 'pricepaypal': true
             }
     }),
     mounted() {
         this.getTransfers();
+        this.setUnitOptions();
+        this.dataToValidate.nombrechofer=this.userRole=='seller' ? false: true;
+        this.dataToValidate.nombrevendedor=this.userRole=='seller' ? true: false;
         var vm=this;
-        $(document).ready(function () {
-            $(document).on('keyup', '.valEmail input', function (event) {
-                event.preventDefault();
-                var respEmail;
-                var email = $(this).val();
-                email = email.replace(/ /g, '');
-                $(this).val(email.toLowerCase());
-                // vm.shaEmail(email);
-                respEmail = vm.valEmail(email);
-                if (respEmail == 1) {
-                    $('.valEmail input').removeClass('is-danger');
-                    $('.valEmail span').css('display', 'none');
-                    $('p.errormail').css('display', 'none');
-                    $('p.successmail').css('display', 'block');
-                    if($('.valEmail').find('p.successmail').length == 0){
-                        $('.valEmail').append('<p class="help successmail" style="color: green; font-size: 12px;">Email válido.</p>');
+        $(document).ready(function ()
+            {
+                $(document).on('keyup', '.valEmail input', function (event) {
+                    event.preventDefault();
+                    var respEmail;
+                    var email = $(this).val();
+                    email = email.replace(/ /g, '');
+                    $(this).val(email.toLowerCase());
+                    // vm.shaEmail(email);
+                    respEmail = vm.valEmail(email);
+                    if (respEmail == 1) {
+                        $('.valEmail input').removeClass('is-danger');
+                        $('.valEmail span').css('display', 'none');
+                        $('p.errormail').css('display', 'none');
+                        $('p.successmail').css('display', 'block');
+                        if($('.valEmail').find('p.successmail').length == 0){
+                            $('.valEmail').append('<p class="help successmail" style="color: green; font-size: 12px;">Email válido.</p>');
+                        }
+                    }else{
+                        $('.valEmail input').addClass('is-danger');
+                        $('.valEmail span').css('display', 'block');
+                        $('p.successmail').css('display', 'none');
+                        $('p.errormail').css('display', 'block');
+                        if($('.valEmail').find('p.errormail').length == 0){
+                            $('.valEmail').append('<p class="help errormail is-danger">Email invalido.</p>');
+                        }
                     }
-                }else{
-                    $('.valEmail input').addClass('is-danger');
-                    $('.valEmail span').css('display', 'block');
-                    $('p.successmail').css('display', 'none');
-                    $('p.errormail').css('display', 'block');
-                    if($('.valEmail').find('p.errormail').length == 0){
-                        $('.valEmail').append('<p class="help errormail is-danger">Email invalido.</p>');
-                    }
-                }
-            });
-            $(document).on('keyup', '.valTel input', function (event) {
-                var respTel;
-                event.preventDefault();
-                console.log('- event keyup valTel');
-                var tel = $(this).val();
-                tel = tel.replace(/ /g, '');
-                tel = tel.replace(/\D/g, '');
-                respTel = vm.valTel(tel);
-                if (respTel == 1) {
-                    $('p.error').css('display', 'none');
-                    $('p.success').css('display', 'block');
-                    if($('.valTel').find('p.success').length == 0){
+                });
+                $(document).on('keyup', '.valTel input', function (event) {
+                    var respTel;
+                    event.preventDefault();
+                    console.log('- event keyup valTel');
+                    var tel = $(this).val();
+                    tel = tel.replace(/ /g, '');
+                    tel = tel.replace(/\D/g, '');
+                    respTel = vm.valTel(tel);
+                    if (respTel == 1) {
                         $('p.error').css('display', 'none');
-                        $('.valTel').append('<p class="help success" style="color: green; font-size: 12px;">Número válido.</p>');
+                        $('p.success').css('display', 'block');
+                        if($('.valTel').find('p.success').length == 0){
+                            $('p.error').css('display', 'none');
+                            $('.valTel').append('<p class="help success" style="color: green; font-size: 12px;">Número válido.</p>');
+                        }
+                    } else {
+                        $('p.success').css('display', 'none');
+                        $('p.error').css('display', 'block');
+                        if($('.valTel').find('p.error').length == 0){
+                            $('.valTel').append('<p class="help error is-danger">Debe proporcionar un Número con 10 dígitos.</p>');
+                        }
                     }
-                } else {
-                    $('p.success').css('display', 'none');
-                    $('p.error').css('display', 'block');
-                    if($('.valTel').find('p.error').length == 0){
-                        $('.valTel').append('<p class="help error is-danger">Debe proporcionar un Número con 10 dígitos.</p>');
-                    }
-                }
-                $(this).val(tel);
-            });
-        });
+                    $(this).val(tel);
+                });
+            }
+        );
     },
     methods:{
+        setUnitOptions(){
+            if(this.userRole == 'seller' || this.storeRoute){
+                this.$store.state.unitOptions=true;
+            }
+        },
         fetchData(val){
                 let vm=this;
                 vm.isLoading = true;
                 if(val){
                     axios.get(vm.routeTransfers).then((r)=>{
                         vm.transfers = r.data;
+                        if(vm.userRole == "admin"){
+                            let other={name:'other'};
+                            vm.transfers.units.push(other);
+                        }
                     });
                 }
                 axios.get(vm.getReservations).then((r)=>{
@@ -594,6 +609,10 @@ export default {
         getTransfers(){
             axios.get(this.routeTransfers).then((r)=>{
                 this.transfers = r.data;
+                if(this.userRole == "admin"){
+                    let other={name:'other'};
+                    this.transfers.units.push(other);
+                }
             });
         },
         updateEditModal(val){
@@ -707,71 +726,84 @@ export default {
         },
         logout(){
             axios.post(this.$store.state.logoutRoute,this._token).then(()=>{
-                window.location.reload();
+                window.location='/home';
             });
         },
-        validateReservation(val) {
-                var vm=this;
-                var nombre;
-                var error = 0;
-                var msgError = '';
-                var email = $('input[name="email"]').val();
-                email=email.replace(/ /g,'');
-                var nombre=$('input[name = "nombre"]').val();
-                nombre=nombre.replace(/ /g,'');
-                var telefono=$('input[name = "telefono"]').val();
-                var resEmail = this.valEmail(email);
-                if (resEmail != 1) {
-                    if(email.length == 0){
-                        msgError += "- Debe indicar un <b>Email</b><br>";
-                    }else{
-                        msgError += "- Debe indicar un <b>Email válido.</b><br>";
-                    }
-                    error++;
-                }
-                if (nombre == '' || nombre.length <= 2) {
-                    if(nombre.length == 0) {
-                        msgError += '- Debe indicar un <b>Nombre</b><br>';
-                    }else{
-                        msgError += '- Debe indicar un <b>Nombre</b> válido. (mayor a 2 caracteres)<br>';
-                    }
-                    error++;
-                }
-                var respTel = this.valTel(telefono);
-                if (respTel != 1) {
-                    msgError += '- Debe indicar un <b>Teléfono de 10 digitos.</b><br>';
-                    error++;
-                }
-
-
-                var arrayToValidate=Object.keys(vm.formData);
-                Object.keys(vm.dataToValidate).forEach(function(validatorName){
-                    if(vm.dataToValidate[validatorName]){/*preguntamos si hay que validar?*/
-                    console.log(arrayToValidate);
-                        if(!arrayToValidate.includes(validatorName)){
-                                msgError += '- Debe indicar un <b>'+validatorName+'</b><br>';
-                                error++;
-                                vm.currentError.push(validatorName);
-                        }
-                    }
-                });
-
-                console.log('error: '+error);
-                if(error>0){
-                    $('#modalAlertBody').html(msgError);
-                    $('#modalAlert').modal('show');
-                }else{
-                    if(val){
-                        vm.updateReservation();
-                    }else{
-                        vm.storeReservation();
-                    }
-                }
+        goToHome(){
+            window.location="/home";
         },
-        addErrors(key){
-            let msgError,error;
-            msgError += '- Debe indicar un <b>'+key+'</b><br>';
-            error++;
+        validateReservation(val) {
+            var vm=this;
+            var nombre;
+            var error = 0;
+            var msgError = '';
+            var email = $('input[name="email"]').val();
+            email=email.replace(/ /g,'');
+            var nombre=$('input[name = "nombre"]').val();
+            nombre=nombre.replace(/ /g,'');
+            var telefono=$('input[name = "telefono"]').val();
+            var resEmail = this.valEmail(email);
+            vm.userRole=='seller'?vm.dataToValidate.numeroticket=true:vm.dataToValidate.numeroticket=false;
+            vm.$store.state.formData.origin == 'panel_seller'?vm.dataToValidate.numeroticket=true:vm.dataToValidate.numeroticket=false;
+            if((vm.userRole == "admin" || vm.userRole == "user") && vm.$store.state.formData.origin == 'panel_seller'){
+                vm.dataToValidate.nombrechofer=false;
+                vm.dataToValidate.nombrevendedor=true;
+            }else{
+                vm.dataToValidate.nombrevendedor=false;
+            }
+            if (resEmail != 1) {
+                if(email.length == 0){
+                    msgError += "- Debe indicar un <b>Email</b><br>";
+                }else{
+                    msgError += "- Debe indicar un <b>Email válido.</b><br>";
+                }
+                error++;
+            }
+            if (nombre == '' || nombre.length <= 2) {
+                if(nombre.length == 0) {
+                    msgError += '- Debe indicar un <b>Nombre</b><br>';
+                }else{
+                    msgError += '- Debe indicar un <b>Nombre</b> válido. (mayor a 2 caracteres)<br>';
+                }
+                error++;
+            }
+            var respTel = this.valTel(telefono);
+            if (respTel != 1) {
+                msgError += '- Debe indicar un <b>Teléfono de 10 digitos.</b><br>';
+                error++;
+            }
+            if(vm.formData.service=='Round Trip'){
+                vm.dataToValidate.departuredate=true;
+                vm.dataToValidate.departuretime=true;
+                vm.dataToValidate.departureairline=true;
+                vm.dataToValidate.departureflight=true;
+            }else{
+                vm.dataToValidate.departuredate=false;
+                vm.dataToValidate.departuretime=false;
+                vm.dataToValidate.departureairline=false;
+                vm.dataToValidate.departureflight=false;
+            }
+            var arrayToValidate=Object.keys(vm.formData);
+            Object.keys(vm.dataToValidate).forEach(function(validatorName){
+                if(vm.dataToValidate[validatorName]){/*preguntamos si hay que validar?*/
+                    if(!arrayToValidate.includes(validatorName) || vm.formData[validatorName] == '' || vm.formData[validatorName] == null){
+                            msgError += '- Debe indicar un <b>'+validatorName+'</b><br>';
+                            error++;
+                    }
+                }
+            });
+
+            console.log('error: '+error);
+            if(error>0){
+                $('#modalAlertBody').html(msgError);
+                $('#modalAlert').modal('show');
+            }else{
+                if(val){// if parameter entered to this function is true
+                    vm.updateReservation();
+                }else{
+                    vm.storeReservation();
+                }
+            }
         },
         valEmail(email){
             var emailRegex;
@@ -806,6 +838,9 @@ export default {
                     $('#emailHASH ').val(response.sha);
                 }
             });
+        },
+        clearFormData(){
+            this.$store.state.formData=[];
         }
     },
     computed: {
@@ -815,7 +850,7 @@ export default {
     },
     watch:{
         'formData.unit':function(val){
-            if(val  == ""){return this.unitOptions=false;}
+            if(val  == ""){return this.$store.state.unitOptions=false;}
         },
         'formData.arrivaldate':function(val){
             if(Object.prototype.toString.call(val ) === '[object Date]'){

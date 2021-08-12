@@ -10,9 +10,10 @@ export default new Vuex.Store({
         isLoading: false,
         currentRole: null,
         isEditModalActive:false,
+        unitOptions:true,
         logoutRoute:'',
         formData:{
-            unit:'Chevrolet Suburban'
+            unit:'Private Sedan'
         },
         unitOptions:'',
     },

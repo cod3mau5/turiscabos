@@ -18,10 +18,15 @@
                                 CREAR RESERVA
                             @endif
                         </h1>
-                        @if(auth()->user()->role == 'admin' || auth()->user()->role == 'user')
+                        @if(auth()->user()->role == 'admin')
                             <div class="col text-right">
                                 <a href="{{route('reservations.create')}}" class="btn btn-success">NUEVA RESERVA</a>
                                 <a href="{{route('export-excel')}}" class="btn btn-info">EXPORTAR RESERVAS</a>
+                            </div>
+                            @elseif(auth()->user()->role == 'user')
+                            <div class="col text-right">
+                                {{-- <a href="{{route('reservations.create')}}" class="btn btn-success">NUEVA RESERVA</a> --}}
+                                <a href="{{route('export-user-excel')}}" class="btn btn-info">EXPORTAR RESERVAS</a>
                             </div>
                         @endif
                     </div>

@@ -39,7 +39,7 @@ class Reservation extends Model
         'babysit',
         'shoppingstop',
         'nombrevendedor',
-        'nombrchofer',
+        'nombrechofer',
         'numerounidad',
         'numeroticket'
     ];

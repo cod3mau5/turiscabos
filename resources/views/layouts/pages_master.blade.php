@@ -103,7 +103,9 @@
       <section id="footer">
         <div class="container">
           <div class="row">
-            <div class="col-sm-4"><img src="{{asset('images/logo/turiscabos.png')}}" width="100%"/></div>
+            <div class="col-sm-4">
+                <img src="{{asset('images/logo/turiscabos.png')}}" width="100%"/>
+            </div>
             <div class="col-sm-4">
               <h3>PHONES NUMBERS</h3>
               <p align="center"></p><br/>

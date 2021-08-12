@@ -18,12 +18,12 @@ use Illuminate\Contracts\View\View;
 //         return Reservation::all();
 //     }
 // }
-class ReservationsExport implements FromView
+class ReservationsUserExport implements FromView
 {
     use Exportable;
     public function view(): View
     {
-        return view('exports.reservation',['reservations'=>Reservation::all()]);
+        return view('exports.reservation_user',['reservations'=>Reservation::all()]);
     }
     // public function view(): View
     // {

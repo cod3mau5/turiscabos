@@ -216,7 +216,8 @@ import DataForm from "./DataForm";
                 }
                 axios.get(vm.getReservations).then((r)=>{
                     vm.$store.state.data =r.data;
-                    vm.isLoading=false;
+                     vm.$store.state.isLoading=false;
+                     vm.isLoading=false;
                 });
             },
             fetchEditingData(editRoute){
@@ -238,8 +239,8 @@ import DataForm from "./DataForm";
             deleteReservation(){
                 this.$store.state.isLoading = true;
                 axios.post(this.deleteRoute,{"_method":"delete"}).then(()=>{
-                    this.fetchData(0);
                     this.isDeleteModalActive=false;
+                    this.fetchData(0);
                 });
             },
             storeRole(){
@@ -250,8 +251,17 @@ import DataForm from "./DataForm";
                 this.$refs.DataForm.updateEditModal(val);
             },
             updateFormData(val){
+                let units=[];
+                Object.values(this.transfers.units).forEach(unit=>{
+                    units.push(unit.name);
+                });
+                if(units.includes(val.unit)){
+                    this.$store.state.unitOptions=true;
+                }else{
+                    this.$store.state.unitOptions=false;
+                }
                 this.$store.state.formData=val;
-                 this.$store.dispatch('changeFormData');
+                this.$store.dispatch('changeFormData');
             }
         },
         // computed: mapGetters(['line']),
