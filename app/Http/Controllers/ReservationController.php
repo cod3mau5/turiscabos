@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Mail\SendMail;
 use App\Models\Reservation;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use App\Exports\ReservationsExport;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
@@ -39,9 +40,10 @@ class ReservationController extends Controller
                 }
             }
         }
-
+        $arrivaldate=Carbon::now();
         $request['reservation']= rand(1,100);
         $request['pricenormal'] = preg_replace('/[^0-9.]+/', '', $request['pricenormal']);
+        'TUR-'.$arrivaldate.'-'.$request["reservation"];
         if($request['service'] == 'One Way'){
             $request['departuredate']=null;
             $request['departuretime']=null;

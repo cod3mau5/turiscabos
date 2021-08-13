@@ -48,8 +48,8 @@ $( document ).ready(function() {
 
     $( "#reserve-suburban" ).click(function() {
         $(".modal-body img#carimage").attr("src","../images/units/suburban.png");
-        $("h4#modalLabelSmall").html(`Chevrolet Suburban`);
-        unit = 'Chevrolet Suburban';
+        $("h4#modalLabelSmall").html(`Private Sedan`);
+        unit = 'Private Sedan';
         $("#suburban-capacity").css("display", "block");
         $("#hiace-capacity").css("display", "none");
         $("#sprinter-capacity").css("display", "none");
@@ -57,8 +57,8 @@ $( document ).ready(function() {
 
     $( "#reserve-hiace" ).click(function() {
         $(".modal-body img#carimage").attr("src","../images/units/hiace.png");
-        $("h4#modalLabelSmall").html(`Toyota Hiace`);
-        unit = 'Toyota Hiace';
+        $("h4#modalLabelSmall").html(`Private SUV`);
+        unit = 'Private SUV';
         $("#hiace-capacity").css("display", "block");
         $("#suburban-capacity").css("display", "none");
         $("#sprinter-capacity").css("display", "none");
@@ -66,8 +66,8 @@ $( document ).ready(function() {
 
     $( "#reserve-sprinter" ).click(function() {
         $(".modal-body img#carimage").attr("src","../images/units/sprinter.png");
-        $("h4#modalLabelSmall").html(`Mercedes-Benz Sprinter`);
-        unit = 'Mercedes-Benz Sprinter';
+        $("h4#modalLabelSmall").html(`Shuttle`);
+        unit = 'Shuttle';
         $("#sprinter-capacity").css("display", "block");
         $("#suburban-capacity").css("display", "none");
         $("#hiace-capacity").css("display", "none");

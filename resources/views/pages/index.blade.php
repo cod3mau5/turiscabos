@@ -30,7 +30,7 @@
                     <div id="reserve-suburban" data-toggle="modal" data-target="#reserve-modal">
                     <div class="unit-image"><img src="{{asset('images/units/suburban.png')}}"/></div>
                     <div class="unit-txt">
-                        <p>Chevrolet Suburban</p>
+                        <p>Private Sedan</p>
                         <p class="subtitle">6 Passengers</p>
                         <p class="book">BOOK NOW</p>
                     </div>
@@ -40,7 +40,7 @@
                     <div id="reserve-hiace" data-toggle="modal" data-target="#reserve-modal">
                     <div class="unit-image"><img src="{{asset('images/units/hiace.png')}}"/></div>
                     <div class="unit-txt">
-                        <p>Toyota Hiace</p>
+                        <p>Private SUV</p>
                         <p class="subtitle">10 Passengers</p>
                         <p class="book">BOOK NOW</p>
                     </div>
@@ -50,7 +50,7 @@
                     <div id="reserve-sprinter" data-toggle="modal" data-target="#reserve-modal">
                     <div class="unit-image"><img src="{{asset('images/units/sprinter.png')}}"/></div>
                     <div class="unit-txt">
-                        <p>Mercedes-Benz Sprinter</p>
+                        <p>Shuttle</p>
                         <p class="subtitle">17 Passengers</p>
                         <p class="book">BOOK NOW</p>
                     </div>
