@@ -38,7 +38,7 @@
                 <label>Full Name</label>
                 <input class="input" id="form-name" type="text" name="name" placeholder="Full Name"/>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-6 valEmail">
                 <label>Email</label>
                 <input class="input" id="form-email" type="text" name="email" placeholder="Email"/>
             </div>
@@ -215,3 +215,29 @@
         </div>
     </div>
 </div>
+        <!-- MODAL ERRORS-->
+        <div
+            class="modal fade"
+            id="modalAlert"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="modalAlertCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title text-danger" id="modalAlertTitle"><b>Atention!</b></h2>
+                        <button type="button" class="close modalAlert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modalAlertBody">
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary modalAlert">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>

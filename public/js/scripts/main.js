@@ -43,6 +43,14 @@ $( document ).ready(function() {
         }
         return -1;
     }
+    function valEmail(email){
+        console.log(' - function valEmail: '+email);
+        emailRegex=/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+        resEmail=emailRegex.test(email);
+        resEmail=resEmail==true?1:0;
+        console.log(' - Resultado Email: '+resEmail);
+        return resEmail;
+    }
     function valTel(telefono) {
         var telefono=telefono;
         var respTel;
@@ -162,6 +170,35 @@ $( document ).ready(function() {
         $("#send-prebook").removeAttr('disabled');
     }
 
+    $(document).on('keyup', '.valEmail input', function (event) {
+        event.preventDefault();
+        var respEmail;
+        var email = $(this).val();
+        email = email.replace(/ /g, '');
+        $(this).val(email.toLowerCase());
+        // vm.shaEmail(email);
+        respEmail = valEmail(email);
+        if (respEmail == 1) {
+            $('.valEmail input').removeClass('is-danger');
+            $('.valEmail span').css('display', 'none');
+            $('p.errormail').css('display', 'none');
+            $('p.successmail').css('display', 'block');
+            if($('.valEmail').find('p.successmail').length == 0){
+                $('.valEmail').append('<p class="help successmail" style="color: green; font-size: 12px;">Valid Email.</p>');
+                // $('.valEmail').append('<p class="help successmail" style="color: green; font-size: 12px;">Email válido.</p>');
+            }
+        }else{
+            $('.valEmail input').addClass('is-danger');
+            $('.valEmail span').css('display', 'block');
+            $('p.successmail').css('display', 'none');
+            $('p.errormail').css('display', 'block');
+            if($('.valEmail').find('p.errormail').length == 0){
+                // $('.valEmail').append('<p class="help errormail is-danger" style="color:red;">Email invalido.</p>');
+                $('.valEmail').append('<p class="help errormail is-danger" style="color:red;">Invalid Email.</p>');
+            }
+        }
+    });
+
     $(document).on('keyup', '.valTel input',
         function (event) {
             var respTel;
@@ -183,8 +220,8 @@ $( document ).ready(function() {
                 $('p.success').css('display', 'none');
                 $('p.error').css('display', 'block');
                 if($('.valTel').find('p.error').length == 0){
-                    // $('.valTel').append('<p class="help error is-danger">Debe proporcionar un Número con 10 dígitos.</p>');
-                    $('.valTel').append('<p class="help error is-danger">You must provide a 10 digit Number.</p>');
+                    // $('.valTel').append('<p class="help error is-danger" style="color:red;">Debe proporcionar un Número con 10 dígitos.</p>');
+                    $('.valTel').append('<p class="help error is-danger" style="color:red;">You must provide a 10 digit Number.</p>');
                 }
             }
             $(this).val(tel);
@@ -219,6 +256,73 @@ $( document ).ready(function() {
         };
     });
 
+    $('.modalAlert').on('click', function(){
+        $('#modalAlert').css('display', 'none');
+    });
+
+    function validateReservation(formData,displayed) {
+        var nombre;
+        var error = 0;
+        var msgError = '';
+        var email = $('input[name="email"]').val();
+        email=email.replace(/ /g,'');
+        var nombre=$('input[name="name"]').val();
+        nombre=nombre.replace(/ /g,'');
+        var telefono=$('input[name="phone"]').val();
+        var resEmail = valEmail(email);
+        if (resEmail != 1) {
+            if(email.length == 0){
+                msgError += "- You must provide <b>Email</b><br>";
+            }else{
+                msgError += "- You must provide <b>valid Email.</b><br>";
+            }
+            error++;
+        }
+        if (nombre == '' || nombre.length <= 2) {
+            if(nombre.length == 0) {
+                msgError += '- You must provide <b>Name</b><br>';
+            }else{
+                msgError += '- You must provide valid <b>Name</b>. (more than a 2 characters)<br>';
+            }
+            error++;
+        }
+        var respTel = valTel(telefono);
+        if (respTel != 1) {
+            msgError += '- You must provide <b>a 10 digits phone.</b><br>';
+            error++;
+        }
+
+
+        console.log('error: '+error);
+        if(error>0){
+
+            $('#modalAlertBody').html(msgError);
+            $('#modalAlert').css('display', 'block');
+            $('#modalAlert').modal('show');
+
+
+        }else{
+            storeReservation(formData);
+            $("#step2").css("display", "none");
+            $("#step3").css("display", "block");
+        }
+    };
+    function storeReservation(){
+        $.ajax({
+            type: 'POST',
+            url: postReservationUrl,
+            dataType: "json",
+            data: formData,
+
+            success: function(response) {
+                $("#step2").css("display", "none");
+                $("#step3").css("display", "block");
+            },
+            error: function(xhr, status, error){
+                console.log(xhr);
+            }
+        });
+    };
     $("#send-mail").on("click", function() {
         var formData = {
             "homepage": "https://turiscabos.netlify.app",
@@ -254,22 +358,8 @@ $( document ).ready(function() {
             "_token":_token
         };
         console.log(formData);
-        $.ajax({
-            type: 'POST',
-            url: postReservationUrl,
-            dataType: "json",
-            data: formData,
+        validateReservation(formData);
 
-            success: function(response) {
-                $("#step2").css("display", "none");
-                $("#step3").css("display", "block");
-            },
-            error: function(xhr, status, error){
-                console.log(xhr);
-            }
-        });
-        $("#step2").css("display", "none");
-        $("#step3").css("display", "block");
     });
 
     // Binds
