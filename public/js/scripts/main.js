@@ -43,6 +43,17 @@ $( document ).ready(function() {
         }
         return -1;
     }
+    function valTel(telefono) {
+        var telefono=telefono;
+        var respTel;
+        console.log(' - function valTel: '+telefono)
+        var regexRepeat = /^(?!.*(.)\1{6})/;
+        telefono = telefono.replace(/ /g, '');
+        telefono = telefono.replace(/\D/g, '');
+        var resRepeat = regexRepeat.test(telefono);
+        respTel = (telefono.length == 10 && resRepeat == true) ? 1 : 0; console.log(' - Resultado Telefono: '+respTel);
+        return respTel;
+    }
 
     $( "#reserve-suburban" ).click(function() {
         $(".modal-body img#carimage").attr("src","../images/units/suburban.png");
@@ -150,6 +161,33 @@ $( document ).ready(function() {
         $("#paypal-button-container").val( priceTotal );
         $("#send-prebook").removeAttr('disabled');
     }
+
+    $(document).on('keyup', '.valTel input',
+        function (event) {
+            var respTel;
+            event.preventDefault();
+            console.log('- event keyup valTel');
+            var tel = $(this).val();
+            tel = tel.replace(/ /g, '');
+            tel = tel.replace(/\D/g, '');
+            respTel = valTel(tel);
+            if (respTel == 1) {
+                $('p.error').css('display', 'none');
+                $('p.success').css('display', 'block');
+                if($('.valTel').find('p.success').length == 0){
+                    $('p.error').css('display', 'none');
+                    $('.valTel').append('<p class="help success" style="color: green; font-size: 12px;">Número válido.</p>');
+                }
+            } else {
+                $('p.success').css('display', 'none');
+                $('p.error').css('display', 'block');
+                if($('.valTel').find('p.error').length == 0){
+                    $('.valTel').append('<p class="help error is-danger">Debe proporcionar un Número con 10 dígitos.</p>');
+                }
+            }
+            $(this).val(tel);
+        }
+    );
 
     $.getJSON(routeTransfersJson, function( data ) {
         for (units in data.units){

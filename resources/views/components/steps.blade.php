@@ -44,9 +44,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-6 valTel">
                 <label>Phone</label>
-                <input class="input" id="form-phone" type="phone" name="phone" placeholder="Phone"/>
+                <input
+                    class="input"
+                    id="form-phone"
+                    type="phone"
+                    name="phone"
+                    placeholder="Phone"
+                    maxlength="10"/>
             </div>
             <div class="col-xs-6" id="suburban-capacity">
                 <label>Pax</label>

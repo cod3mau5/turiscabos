@@ -556,7 +556,8 @@ export default {
                         }
                     }
                 });
-                $(document).on('keyup', '.valTel input', function (event) {
+                $(document).on('keyup', '.valTel input',
+                function (event) {
                     var respTel;
                     event.preventDefault();
                     console.log('- event keyup valTel');
@@ -579,7 +580,8 @@ export default {
                         }
                     }
                     $(this).val(tel);
-                });
+                }
+                );
             }
         );
     },
