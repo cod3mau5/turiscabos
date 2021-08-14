@@ -29,17 +29,18 @@ class ReservationController extends Controller
     }
     public function store(Request $request)
     {
-        if(auth()->user()->role !== 'admin'){
-            if(!$request['nombrevendedor'] && !$request['nombrechofer'] || $request['origin']== 'web'){
-                if($request['unit'] == 'Private Sedan'){
-                    $request['passengers']= $request['passengerssuburban'];
-                }elseif($request['unit'] == 'Private SUV'){
-                    $request['passengers']= $request['passengershiace'];
-                }else{
-                    $request['passengers']= $request['passengerssprinter']; //case for Shuttle
-                }
+        $request['shoppingstop']=$request['shoppingstop']=='on'?true:false;
+        $request['babysit']=$request['babysit']=='on'?true:false;
+        if( $request['origin']== 'web'){
+            if($request['unit'] == 'Private Sedan'){
+                $request['passengers']= $request['passengerssuburban'];
+            }elseif($request['unit'] == 'Private SUV'){
+                $request['passengers']= $request['passengershiace'];
+            }else{
+                $request['passengers']= $request['passengerssprinter']; //case for Shuttle
             }
         }
+
         $arrivaldate=Carbon::now();
         $request['reservation']= rand(1,100);
         $request['pricenormal'] = preg_replace('/[^0-9.]+/', '', $request['pricenormal']);

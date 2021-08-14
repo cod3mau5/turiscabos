@@ -31,14 +31,12 @@ $( document ).ready(function() {
         }
         return -1;
     }
-
     function getPositionAirline(airline) {
         for(var plane in planes) {
             if( planes[plane].name === airline) return plane;
         }
         return -1;
     }
-
     function getPositionOcation(special) {
         for(var ocation in ocations) {
             if( ocations[ocation].name === special) return ocation;
@@ -211,10 +209,11 @@ $( document ).ready(function() {
             "pricenormal": $("#priceBig2").text(),
             "pricepaypal": pricepaypal,
             "origin": $("#form-origin").val(),
-            "origin": $("#form-babysit").val(),
-            "origin": $("#form-shoppingstop").val(),
+            "babysit": $("#form-babysit").val(),
+            "shoppingstop": $("#form-shoppingstop").val(),
             "_token":_token
         };
+        console.log(formData);
         $.ajax({
             type: 'POST',
             url: postReservationUrl,
