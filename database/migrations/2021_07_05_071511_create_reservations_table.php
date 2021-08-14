@@ -17,7 +17,7 @@ class CreateReservationsTable extends Migration
             $table->id();
             //user info
             $table->string('reservation');
-            $table->string('name',20);
+            $table->string('name',80);
             $table->string('email');
             $table->bigInteger('phone');
             $table->integer('passengers');
