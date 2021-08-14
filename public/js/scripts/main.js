@@ -176,13 +176,15 @@ $( document ).ready(function() {
                 $('p.success').css('display', 'block');
                 if($('.valTel').find('p.success').length == 0){
                     $('p.error').css('display', 'none');
-                    $('.valTel').append('<p class="help success" style="color: green; font-size: 12px;">Número válido.</p>');
+                    // $('.valTel').append('<p class="help success" style="color: green; font-size: 12px;">Número válido.</p>');
+                    $('.valTel').append('<p class="help success" style="color: green; font-size: 12px;">Valid Number</p>');
                 }
             } else {
                 $('p.success').css('display', 'none');
                 $('p.error').css('display', 'block');
                 if($('.valTel').find('p.error').length == 0){
-                    $('.valTel').append('<p class="help error is-danger">Debe proporcionar un Número con 10 dígitos.</p>');
+                    // $('.valTel').append('<p class="help error is-danger">Debe proporcionar un Número con 10 dígitos.</p>');
+                    $('.valTel').append('<p class="help error is-danger">You must provide a 10 digit Number.</p>');
                 }
             }
             $(this).val(tel);
