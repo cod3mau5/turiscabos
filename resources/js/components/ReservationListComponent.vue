@@ -36,6 +36,27 @@
                     </div>
                 </b-table-column>
 
+                <template v-for="(column, index) in columnsTemplate">
+                    <b-table-column
+                        :key="index"
+                        v-bind="column"
+                         :label="column.title"
+                    :visible="column.visible">
+                        <template
+                            v-if="column.searchable"
+                            #searchable="props">
+                            <b-input
+                                v-model="props.filters[props.column.field]"
+                                placeholder="Search..."
+                                icon="magnify"
+                                size="is-small" />
+                        </template>
+                        <template v-slot="props">
+                            {{ props.row[column.field] }}
+                        </template>
+                    </b-table-column>
+                </template>
+<!--
                 <b-table-column v-for="(column, index) in columnsTemplate"
                     :key="index"
                     :label="column.title"
@@ -56,7 +77,7 @@
 
                 <template #empty>
                     <div class="has-text-centered">No records</div>
-                </template>
+                </template> -->
 
         </b-table>
 
@@ -160,8 +181,8 @@ import DataForm from "./DataForm";
             return {
                 columnsTemplate: [
                     { title: 'RESERVATION', field: 'reservation', visible: false },
-                    { title: 'NAME', field: 'name', visible: true },
-                    { title: 'E-MAIL', field: 'email', visible: true },
+                    { title: 'NAME', field: 'name', visible: true, searchable: true },
+                    { title: 'E-MAIL', field: 'email', visible: true,searchable: true },
                     { title: 'PAX', field: 'passengers', visible: true },
                     { title: 'SERVICE', field: 'service', visible: true },
                     { title: 'BABY CHAIR', field: 'babysit', visible: true },

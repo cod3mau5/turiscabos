@@ -31,6 +31,19 @@ class ReservationController extends Controller
     {
         $request['shoppingstop']=$request['shoppingstop']=='on'?true:false;
         $request['babysit']=$request['babysit']=='on'?true:false;
+        $request['pricenormal']=preg_replace('/[^0-9]/', '', $request['pricenormal']);
+        $request['pricenormal']= (int)$request['pricenormal'];
+        $request['pricepaypal']= (int)$request['pricepaypal'];
+        if($request['shoppingstop']=='on'){
+            $request['pricenormal']= $request['pricenormal'] + 20;
+            $request['pricepaypal']= $request['pricepaypal'] + 20;
+        }
+        if($request['babysit']=='on'){
+            $request['pricenormal']= $request['pricenormal'] + 20;
+            $request['pricepaypal']= $request['pricepaypal'] + 20;
+        }
+
+
         if( $request['origin']== 'web'){
             if($request['unit'] == 'Private Sedan'){
                 $request['passengers']= $request['passengerssuburban'];

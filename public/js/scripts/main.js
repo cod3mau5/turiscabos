@@ -307,7 +307,7 @@ $( document ).ready(function() {
             $("#step3").css("display", "block");
         }
     };
-    function storeReservation(){
+    function storeReservation(formData){
         $.ajax({
             type: 'POST',
             url: postReservationUrl,

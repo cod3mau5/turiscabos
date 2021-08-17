@@ -3119,6 +3119,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3133,11 +3154,13 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'NAME',
         field: 'name',
-        visible: true
+        visible: true,
+        searchable: true
       }, {
         title: 'E-MAIL',
         field: 'email',
-        visible: true
+        visible: true,
+        searchable: true
       }, {
         title: 'PAX',
         field: 'passengers',
@@ -58811,9 +58834,9 @@ var render = function() {
                 [
                   _c("div", { staticClass: "is-size-7" }, [
                     _vm._v(
-                      "\n                    " +
+                      "\n                        " +
                         _vm._s(column.title) +
-                        "\n                "
+                        "\n                    "
                     )
                   ])
                 ]
@@ -58836,20 +58859,7 @@ var render = function() {
             "mobile-cards": "",
             narrowed: "",
             loading: _vm.$store.state.isLoading
-          },
-          scopedSlots: _vm._u([
-            {
-              key: "empty",
-              fn: function() {
-                return [
-                  _c("div", { staticClass: "has-text-centered" }, [
-                    _vm._v("No records")
-                  ])
-                ]
-              },
-              proxy: true
-            }
-          ])
+          }
         },
         [
           _c("b-table-column", {
@@ -58879,7 +58889,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                        Editar\n                    "
+                            "\n                            Editar\n                        "
                           )
                         ]
                       ),
@@ -58897,7 +58907,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                        Eliminar\n                    "
+                            "\n                            Eliminar\n                        "
                           )
                         ]
                       )
@@ -58909,45 +58919,66 @@ var render = function() {
           }),
           _vm._v(" "),
           _vm._l(_vm.columnsTemplate, function(column, index) {
-            return _c("b-table-column", {
-              key: index,
-              attrs: { label: column.title, visible: column.visible },
-              scopedSlots: _vm._u(
-                [
+            return [
+              _c(
+                "b-table-column",
+                _vm._b(
                   {
-                    key: "default",
-                    fn: function(props) {
-                      return [
-                        column.title === "BABY CHAIR" ||
-                        column.title === "SHOPPING STOP"
-                          ? _c("span", [
-                              props.row[column.field] == true
-                                ? _c("div", [
-                                    _vm._v(
-                                      "\n                        YES\n                    "
-                                    )
-                                  ])
-                                : _c("div", [
-                                    _vm._v(
-                                      "\n                        NO\n                    "
-                                    )
-                                  ])
-                            ])
-                          : _c("span", [
+                    key: index,
+                    attrs: { label: column.title, visible: column.visible },
+                    scopedSlots: _vm._u(
+                      [
+                        column.searchable
+                          ? {
+                              key: "searchable",
+                              fn: function(props) {
+                                return [
+                                  _c("b-input", {
+                                    attrs: {
+                                      placeholder: "Search...",
+                                      icon: "magnify",
+                                      size: "is-small"
+                                    },
+                                    model: {
+                                      value: props.filters[props.column.field],
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          props.filters,
+                                          props.column.field,
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "props.filters[props.column.field]"
+                                    }
+                                  })
+                                ]
+                              }
+                            }
+                          : null,
+                        {
+                          key: "default",
+                          fn: function(props) {
+                            return [
                               _vm._v(
-                                "\n                    " +
+                                "\n                            " +
                                   _vm._s(props.row[column.field]) +
-                                  "\n                "
+                                  "\n                        "
                               )
-                            ])
-                      ]
-                    }
-                  }
-                ],
-                null,
-                true
+                            ]
+                          }
+                        }
+                      ],
+                      null,
+                      true
+                    )
+                  },
+                  "b-table-column",
+                  column,
+                  false
+                )
               )
-            })
+            ]
           })
         ],
         2

@@ -106,3 +106,13 @@
 #17 /mnt/c/laragon/www/turiscabos/artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle()
 #18 {main}
 "} 
+[2021-08-17 03:08:50] local.ERROR: There are no commands defined in the "bd" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"bd\" namespace. at /mnt/c/laragon/www/turiscabos/vendor/symfony/console/Application.php:612)
+[stacktrace]
+#0 /mnt/c/laragon/www/turiscabos/vendor/symfony/console/Application.php(663): Symfony\\Component\\Console\\Application->findNamespace()
+#1 /mnt/c/laragon/www/turiscabos/vendor/symfony/console/Application.php(255): Symfony\\Component\\Console\\Application->find()
+#2 /mnt/c/laragon/www/turiscabos/vendor/symfony/console/Application.php(167): Symfony\\Component\\Console\\Application->doRun()
+#3 /mnt/c/laragon/www/turiscabos/vendor/laravel/framework/src/Illuminate/Console/Application.php(92): Symfony\\Component\\Console\\Application->run()
+#4 /mnt/c/laragon/www/turiscabos/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(129): Illuminate\\Console\\Application->run()
+#5 /mnt/c/laragon/www/turiscabos/artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle()
+#6 {main}
+"} 
