@@ -58137,7 +58137,7 @@ var render = function() {
                               attrs: {
                                 placeholder: "Click to select...",
                                 editable: "",
-                                "hour-format": "12",
+                                "hour-format": "24",
                                 locale: "es-MX",
                                 required: ""
                               },
@@ -58296,7 +58296,7 @@ var render = function() {
                                   attrs: {
                                     placeholder: "Click to select...",
                                     editable: "",
-                                    "hour-format": "12",
+                                    "hour-format": "24",
                                     locale: "es-MX",
                                     required: ""
                                   },

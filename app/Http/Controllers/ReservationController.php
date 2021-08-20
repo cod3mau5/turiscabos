@@ -29,19 +29,21 @@ class ReservationController extends Controller
     }
     public function store(Request $request)
     {
-        $request['shoppingstop']=$request['shoppingstop']=='on'?true:false;
-        $request['babysit']=$request['babysit']=='on'?true:false;
+        $request['shoppingstop']=$request['shoppingstop']==='true'?1:0;
+        $request['babysit']=$request['babysit']==='true'?1:0;
         $request['pricenormal']=preg_replace('/[^0-9]/', '', $request['pricenormal']);
         $request['pricenormal']= (int)$request['pricenormal'];
         $request['pricepaypal']= (int)$request['pricepaypal'];
-        if($request['shoppingstop']=='on'){
-            $request['pricenormal']= $request['pricenormal'] + 20;
-            $request['pricepaypal']= $request['pricepaypal'] + 20;
+        if($request['shoppingstop']==1){
+            $request['pricenormal'] += 20;
+            $request['pricepaypal'] += 20;
         }
-        if($request['babysit']=='on'){
-            $request['pricenormal']= $request['pricenormal'] + 20;
-            $request['pricepaypal']= $request['pricepaypal'] + 20;
+        if($request['babysit']==1){
+            $request['pricenormal'] += 20;
+            $request['pricepaypal'] += 20;
         }
+
+        dd('pricenormal: '.$request['pricenormal'].' pricepaypal: '.$request['pricepaypal']);
 
 
         if( $request['origin']== 'web'){

@@ -110,7 +110,7 @@
                     <label class="form-check-label" for="form-babysit">
                       Baby Chair (20usd extra)
                     </label>
-                    <input class="form-check-input" id="form-babysit" type="checkbox" name="babysit">
+                    <input class="form-check-input" id="form-babysit" type="checkbox" name="babysit"  value="true">
                 </div>
             </div>
             <div class="col-xs-6">
@@ -118,7 +118,7 @@
                     <label class="form-check-label" for="form-shoppingstop">
                       Shopping Stop(20usd extra)
                     </label>
-                    <input class="form-check-input" id="form-shoppingstop" type="checkbox" name="shoppingstop">
+                    <input class="form-check-input" id="form-shoppingstop" type="checkbox" name="shoppingstop"  value="true">
                 </div>
             </div>
         </div>
@@ -165,7 +165,7 @@
                 </div>
                 <div class="col-xs-6">
                 <label>Time</label>
-                <input class="input" id="form-departure-time" type="time" name="departuretime"/>
+                <input class="input" id="form-departure-time" type="time" name="departuretime" />
                 </div>
             </div>
             <div class="row roundtrip">

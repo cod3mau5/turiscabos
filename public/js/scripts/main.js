@@ -353,8 +353,8 @@ $( document ).ready(function() {
             "pricenormal": $("#priceBig2").text(),
             "pricepaypal": pricepaypal,
             "origin": $("#form-origin").val(),
-            "babysit": $("#form-babysit").val(),
-            "shoppingstop": $("#form-shoppingstop").val(),
+            "babysit": document.getElementById('form-babysit').checked,
+            "shoppingstop": document.getElementById('form-shoppingstop').checked,
             "_token":_token
         };
         console.log(formData);

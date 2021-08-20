@@ -255,7 +255,7 @@
                                         v-model="$store.state.formData.arrivaltime"
                                         placeholder="Click to select..."
                                         editable
-                                        hour-format="12"
+                                        hour-format="24"
                                         locale="es-MX"
                                         required>
                                     </b-timepicker>
@@ -304,7 +304,7 @@
                                             v-model="$store.state.formData.departuretime"
                                             placeholder="Click to select..."
                                             editable
-                                            hour-format="12"
+                                            hour-format="24"
                                             locale="es-MX"
                                             required>
                                         </b-timepicker>
