@@ -43,9 +43,6 @@ class ReservationController extends Controller
             $request['pricepaypal'] += 20;
         }
 
-        dd('pricenormal: '.$request['pricenormal'].' pricepaypal: '.$request['pricepaypal']);
-
-
         if( $request['origin']== 'web'){
             if($request['unit'] == 'Private Sedan'){
                 $request['passengers']= $request['passengerssuburban'];
