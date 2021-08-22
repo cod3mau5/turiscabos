@@ -29,21 +29,22 @@ class ReservationController extends Controller
     }
     public function store(Request $request)
     {
-        $request['shoppingstop']=$request['shoppingstop']==='true'?1:0;
-        $request['babysit']=$request['babysit']==='true'?1:0;
-        $request['pricenormal']=preg_replace('/[^0-9]/', '', $request['pricenormal']);
-        $request['pricenormal']= (int)$request['pricenormal'];
-        $request['pricepaypal']= (int)$request['pricepaypal'];
-        if($request['shoppingstop']==1){
-            $request['pricenormal'] += 20;
-            $request['pricepaypal'] += 20;
-        }
-        if($request['babysit']==1){
-            $request['pricenormal'] += 20;
-            $request['pricepaypal'] += 20;
-        }
-
         if( $request['origin']== 'web'){
+
+            $request['shoppingstop']=$request['shoppingstop']==='true'?1:0;
+            $request['babysit']=$request['babysit']==='true'?1:0;
+            $request['pricenormal']=preg_replace('/[^0-9]/', '', $request['pricenormal']);
+            $request['pricenormal']= (int)$request['pricenormal'];
+            $request['pricepaypal']= (int)$request['pricepaypal'];
+            if($request['shoppingstop']==1){
+                $request['pricenormal'] += 20;
+                $request['pricepaypal'] += 20;
+            }
+            if($request['babysit']==1){
+                $request['pricenormal'] += 20;
+                $request['pricepaypal'] += 20;
+            }
+
             if($request['unit'] == 'Private Sedan'){
                 $request['passengers']= $request['passengerssuburban'];
             }elseif($request['unit'] == 'Private SUV'){
@@ -53,15 +54,20 @@ class ReservationController extends Controller
             }
         }
 
-        $arrivaldate=Carbon::now();
+        $today=Carbon::now();
         $request['reservation']= rand(1,100);
         $request['pricenormal'] = preg_replace('/[^0-9.]+/', '', $request['pricenormal']);
-        'TUR-'.$arrivaldate.'-'.$request["reservation"];
-        if($request['service'] == 'One Way'){
+        'TUR-'.$today.'-'.$request["reservation"];
+        if($request['service'] == 'One Way' && $request['destination'] != 'Hotel - Airport'){
             $request['departuredate']=null;
             $request['departuretime']=null;
             $request['departureairline']=null;
             $request['departureflight']=null;
+        }elseif($request['destination'] == 'Hotel - Airport'){
+            $request['arrivaldate']=null;
+            $request['arrivaltime']=null;
+            $request['arrivalairline']=null;
+            $request['arrivalflight']=null;
         }
         $validated= $request->validate([
             'name' => 'required',
@@ -74,21 +80,16 @@ class ReservationController extends Controller
 
         if ($reservation) {
             Mail::to($request['email'])->send(new SendMail($request));
-            // $success = @mail($to, $subject, $message, $headers);
-
             $response = array();
             $response[0] = array(
                 'response' => 'success'
             );
-
             return json_encode($response);
-
         } else {
             $response = array();
             $response[0] = array(
                 'response' => 'error'
             );
-
             return json_encode($response);
         }
 
@@ -101,11 +102,16 @@ class ReservationController extends Controller
 
     public function update(Request $request, Reservation $reservation)
     {
-        if($request['service'] == 'One Way'){
+        if($request['service'] == 'One Way' && $request['destination'] != 'Hotel - Airport'){
             $request['departuredate']=null;
             $request['departuretime']=null;
             $request['departureairline']=null;
             $request['departureflight']=null;
+        }elseif($request['destination'] == 'Hotel - Airport'){
+            $request['arrivaldate']=null;
+            $request['arrivaltime']=null;
+            $request['arrivalairline']=null;
+            $request['arrivalflight']=null;
         }
         $reservation->update($request->except('_token'));
     }

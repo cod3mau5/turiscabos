@@ -2418,6 +2418,98 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DataForm",
@@ -2446,7 +2538,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'departureflight': false,
         'pricenormal': true,
         'pricepaypal': true
-      }
+      },
+      currentFormData: []
     };
   },
   mounted: function mounted() {
@@ -2561,59 +2654,58 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     updateEditModal: function updateEditModal(val) {
       this.$store.state.isEditModalActive = val;
     },
-    storeReservation: function storeReservation() {
-      var _this2 = this;
+    parseArrivalData: function parseArrivalData() {
+      if (this.formData.destination !== 'Hotel - Airport') {
+        // lets parse arrivaldate object into string (yyyy-mm-dd)
+        var arrivalDate = this.formData.arrivaldate;
+        var day = arrivalDate.getDate();
+        var month = arrivalDate.getMonth();
+        var year = arrivalDate.getFullYear();
 
-      this.$store.state.isLoading = true;
-      this.formData._token = this._token; // lets parse arrivaldate object into string (yyyy-mm-dd)
+        if (month < 10) {
+          month = month + 1;
+          /*Be careful! January is 0 not 1*/
 
-      var arrivalDate = this.formData.arrivaldate;
-      var day = arrivalDate.getDate();
-      var month = arrivalDate.getMonth();
-      var year = arrivalDate.getFullYear();
+          month = '0' + month;
+        }
 
-      if (month < 10) {
-        month = month + 1;
-        /*Be careful! January is 0 not 1*/
+        if (day < 10) {
+          day = '0' + day;
+        }
 
-        month = '0' + month;
+        var arrivalDateString = year + "-" + month + "-" + day; //lets parse arrivaltime object into string (hh:mm:ss)
+
+        var arrivalTime = this.formData.arrivaltime;
+        var hours = arrivalTime.getHours();
+        var minutes = arrivalTime.getMinutes();
+        var seconds = arrivalTime.getSeconds();
+
+        if (hours < 10) {
+          hours = "0" + arrivalTime.getHours();
+        }
+
+        if (minutes < 10) {
+          minutes = "0" + arrivalTime.getMinutes();
+        }
+
+        if (seconds < 10) {
+          seconds = "0" + arrivalTime.getSeconds();
+        }
+
+        var arrivalTimeString = hours + ":" + minutes + ":" + seconds;
+        this.currentFormData.arrivaldate = arrivalDateString;
+        this.currentFormData.arrivaltime = arrivalTimeString;
+        console.log('this is parseArrivalData() function');
+        console.log(this.currentFormData);
       }
-
-      if (day < 10) {
-        day = '0' + day;
-      }
-
-      var arrivalDateString = year + "-" + month + "-" + day; //lets parse arrivaltime object into string (hh:mm:ss)
-
-      var arrivalTime = this.formData.arrivaltime;
-      var hours = arrivalTime.getHours();
-      var minutes = arrivalTime.getMinutes();
-      var seconds = arrivalTime.getSeconds();
-
-      if (hours < 10) {
-        hours = "0" + arrivalTime.getHours();
-      }
-
-      if (minutes < 10) {
-        minutes = "0" + arrivalTime.getMinutes();
-      }
-
-      if (seconds < 10) {
-        seconds = "0" + arrivalTime.getSeconds();
-      }
-
-      var arrivalTimeString = hours + ":" + minutes + ":" + seconds; //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
-
-      var currentFormData = this.formData;
-      currentFormData.arrivaldate = arrivalDateString;
-      currentFormData.arrivaltime = arrivalTimeString;
-
-      if (this.formData.service == 'Round Trip') {
+    },
+    parseDepartureData: function parseDepartureData() {
+      if (this.formData.service == 'Round Trip' || this.formData.service == 'One Way' && this.formData.destination == 'Hotel - Airport') {
         // lets do the same shit that we do with arrivaldate but this time departuredate
         var departureDate = this.formData.departuredate;
-        day = departureDate.getDate();
-        month = departureDate.getMonth();
-        year = departureDate.getFullYear();
+        var day = departureDate.getDate();
+        var month = departureDate.getMonth();
+        var year = departureDate.getFullYear();
 
         if (month < 10) {
           month = month + 1;
@@ -2626,9 +2718,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         var departureDateString = year + "-" + month + "-" + day;
         var departureTime = this.formData.departuretime;
-        hours = departureTime.getHours();
-        minutes = departureTime.getMinutes();
-        seconds = departureTime.getSeconds();
+        var hours = departureTime.getHours();
+        var minutes = departureTime.getMinutes();
+        var seconds = departureTime.getSeconds();
 
         if (hours < 10) {
           hours = "0" + departureTime.getHours();
@@ -2643,13 +2735,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         var departureTimeString = hours + ":" + minutes + ":" + seconds;
-        currentFormData.departuredate = departureDateString;
-        currentFormData.departuretime = departureTimeString;
-      } //we are ready to update data
+        this.currentFormData.departuredate = departureDateString;
+        this.currentFormData.departuretime = departureTimeString;
+        console.log('this is parseDepartureData() function');
+        console.log(this.currentFormData);
+      }
+    },
+    storeReservation: function storeReservation() {
+      var _this2 = this;
 
+      this.$store.state.isLoading = true;
+      this.formData._token = this._token; //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
 
-      currentFormData.origin = 'panel_' + this.userRole;
-      axios.post(this.storeRoute, currentFormData).then(function (r) {
+      this.currentFormData = this.formData;
+      this.parseArrivalData();
+      this.parseDepartureData(); //we are ready to update data
+
+      this.currentFormData.origin = 'panel_' + this.userRole;
+      axios.post(this.storeRoute, this.currentFormData).then(function (r) {
         _this2.$store.state.isLoading = false;
         _this2.$store.state.isEditModalActive = false;
         _this2.isModalReservationCreated = true;
@@ -2659,90 +2762,56 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this3 = this;
 
       this.$store.state.isLoading = true;
-      this.formData._token = this._token; // lets parse arrivaldate object into string (yyyy-mm-dd)
+      this.formData._token = this._token; //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
 
-      var arrivalDate = this.formData.arrivaldate;
-      var day = arrivalDate.getDate();
-      var month = arrivalDate.getMonth();
-      var year = arrivalDate.getFullYear();
+      this.currentFormData = this.formData;
+      this.parseArrivalData();
+      this.parseDepartureData(); // if(!this.formData.service == 'One Way' && !this.formData.service == 'Hotel - Airport'){
+      //     // lets parse arrivaldate object into string (yyyy-mm-dd)
+      //     let arrivalDate = this.formData.arrivaldate;
+      //     let day = arrivalDate.getDate();
+      //     let month = arrivalDate.getMonth();
+      //     let year = arrivalDate.getFullYear();
+      //     if(month < 10 ){month = month + 1;/*Be careful! January is 0 not 1*/month = '0' + month;}
+      //     if(day < 10 ){ day='0'+day;}
+      //     let arrivalDateString = year + "-" + month + "-" + day;
+      //     //lets parse arrivaltime object into string (hh:mm:ss)
+      //     let arrivalTime= this.formData.arrivaltime;
+      //     let hours=arrivalTime.getHours();
+      //     let minutes=arrivalTime.getMinutes();
+      //     let seconds=arrivalTime.getSeconds();
+      //     if(hours < 10){hours= "0" + arrivalTime.getHours();}
+      //     if(minutes < 10){minutes= "0" + arrivalTime.getMinutes();}
+      //     if(seconds < 10){seconds= "0" + arrivalTime.getSeconds();}
+      //     let arrivalTimeString =  hours+":" + minutes+":" + seconds;
+      //     //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
+      //     let currentFormData = this.formData;
+      //     currentFormData.arrivaldate=arrivalDateString;
+      //     currentFormData.arrivaltime=arrivalTimeString;
+      // }
+      // if(this.formData.service == 'Round Trip'){
+      //     // lets do the same shit that we do with arrivaldate but this time departuredate
+      //     let departureDate = this.formData.departuredate;
+      //     day = departureDate.getDate();
+      //     month = departureDate.getMonth();
+      //     year = departureDate.getFullYear();
+      //     if(month < 10 ){month = month + 1;month = '0' + month;}
+      //     if(day < 10 ){ day='0'+day;}
+      //     let departureDateString = year + "-" + month + "-" + day;
+      //     let departureTime= this.formData.departuretime;
+      //     hours=departureTime.getHours();
+      //     minutes=departureTime.getMinutes();
+      //     seconds=departureTime.getSeconds();
+      //     if(hours < 10){hours= "0" + departureTime.getHours();}
+      //     if(minutes < 10){minutes= "0" + departureTime.getMinutes();}
+      //     if(seconds < 10){seconds= "0" + departureTime.getSeconds();}
+      //     let departureTimeString =  hours+":" + minutes+":" + seconds;
+      //     currentFormData.departuredate=departureDateString;
+      //     currentFormData.departuretime=departureTimeString;
+      // }
+      //we are ready to update data
 
-      if (month < 10) {
-        month = month + 1;
-        /*Be careful! January is 0 not 1*/
-
-        month = '0' + month;
-      }
-
-      if (day < 10) {
-        day = '0' + day;
-      }
-
-      var arrivalDateString = year + "-" + month + "-" + day; //lets parse arrivaltime object into string (hh:mm:ss)
-
-      var arrivalTime = this.formData.arrivaltime;
-      var hours = arrivalTime.getHours();
-      var minutes = arrivalTime.getMinutes();
-      var seconds = arrivalTime.getSeconds();
-
-      if (hours < 10) {
-        hours = "0" + arrivalTime.getHours();
-      }
-
-      if (minutes < 10) {
-        minutes = "0" + arrivalTime.getMinutes();
-      }
-
-      if (seconds < 10) {
-        seconds = "0" + arrivalTime.getSeconds();
-      }
-
-      var arrivalTimeString = hours + ":" + minutes + ":" + seconds; //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
-
-      var currentFormData = this.formData;
-      currentFormData.arrivaldate = arrivalDateString;
-      currentFormData.arrivaltime = arrivalTimeString;
-
-      if (this.formData.service == 'Round Trip') {
-        // lets do the same shit that we do with arrivaldate but this time departuredate
-        var departureDate = this.formData.departuredate;
-        day = departureDate.getDate();
-        month = departureDate.getMonth();
-        year = departureDate.getFullYear();
-
-        if (month < 10) {
-          month = month + 1;
-          month = '0' + month;
-        }
-
-        if (day < 10) {
-          day = '0' + day;
-        }
-
-        var departureDateString = year + "-" + month + "-" + day;
-        var departureTime = this.formData.departuretime;
-        hours = departureTime.getHours();
-        minutes = departureTime.getMinutes();
-        seconds = departureTime.getSeconds();
-
-        if (hours < 10) {
-          hours = "0" + departureTime.getHours();
-        }
-
-        if (minutes < 10) {
-          minutes = "0" + departureTime.getMinutes();
-        }
-
-        if (seconds < 10) {
-          seconds = "0" + departureTime.getSeconds();
-        }
-
-        var departureTimeString = hours + ":" + minutes + ":" + seconds;
-        currentFormData.departuredate = departureDateString;
-        currentFormData.departuretime = departureTimeString;
-      } //we are ready to update data
-
-
-      axios.put(this.updateRoute, currentFormData).then(function (r) {
+      axios.put(this.updateRoute, this.currentFormData).then(function (r) {
         _this3.$store.state.isLoading = false;
         _this3.$store.state.isEditModalActive = false;
 
@@ -2806,6 +2875,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       if (vm.formData.service == 'Round Trip') {
+        vm.dataToValidate.departuredate = true;
+        vm.dataToValidate.departuretime = true;
+        vm.dataToValidate.departureairline = true;
+        vm.dataToValidate.departureflight = true;
+      } else if (vm.formData.service == 'One Way' && vm.formData.destination == 'Hotel - Airport') {
+        vm.dataToValidate.arrivaldate = false;
+        vm.dataToValidate.arrivaltime = false;
+        vm.dataToValidate.arrivalairline = false;
+        vm.dataToValidate.arrivalflight = false;
         vm.dataToValidate.departuredate = true;
         vm.dataToValidate.departuretime = true;
         vm.dataToValidate.departureairline = true;
@@ -2880,6 +2958,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     clearFormData: function clearFormData() {
       this.$store.state.formData = [];
+      location.reload();
     }
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
@@ -2893,7 +2972,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     'formData.arrivaldate': function formDataArrivaldate(val) {
       if (Object.prototype.toString.call(val) === '[object Date]') {
-        return val;
+        if (val < new Date()) {
+          return this.formData.arrivaldate = new Date();
+        } else {
+          return val;
+        }
       } else {
         return this.formData.arrivaldate = new Date(val);
       }
@@ -2901,19 +2984,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     'formData.arrivaltime': function formDataArrivaltime(val) {
       var d = this.formData.arrivaldate;
 
-      if (Object.prototype.toString.call(val) === '[object Date]') {
-        return val;
-      } else {
-        var _val$split = val.split(':'),
-            _val$split2 = _slicedToArray(_val$split, 3),
-            hours = _val$split2[0],
-            minutes = _val$split2[1],
-            seconds = _val$split2[2];
+      if (val && this.formData.destination !== 'Hotel - Airport') {
+        if (Object.prototype.toString.call(val) === '[object Date]') {
+          return val;
+        } else {
+          var _val$split = val.split(':'),
+              _val$split2 = _slicedToArray(_val$split, 3),
+              hours = _val$split2[0],
+              minutes = _val$split2[1],
+              seconds = _val$split2[2];
 
-        d.setHours(+hours);
-        d.setMinutes(minutes);
-        d.setSeconds(seconds);
-        return this.formData.arrivaltime = d;
+          d.setHours(+hours);
+          d.setMinutes(minutes);
+          d.setSeconds(seconds);
+          return this.formData.arrivaltime = d;
+        }
+      } else {
+        return new Date();
       }
     },
     'formData.departuredate': function formDataDeparturedate(val) {
@@ -2928,7 +3015,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     'formData.departuretime': function formDataDeparturetime(val) {
-      if (val && this.formData.service == 'Round Trip') {
+      if (val && this.formData.service == 'Round Trip' || val && this.formData.destination == 'Hotel - Airport') {
         if (Object.prototype.toString.call(val) === '[object Date]') {
           return this.formData.departuretime = val;
         } else {
@@ -2967,6 +3054,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _DataForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataForm */ "./resources/js/components/DataForm.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3237,6 +3342,10 @@ __webpack_require__.r(__webpack_exports__);
         title: 'PRICE PAYPAL',
         field: 'pricepaypal',
         visible: false
+      }, {
+        title: 'CURRENCY',
+        field: 'currency',
+        visible: false
       }],
       isDeleteModalActive: false,
       isEditModalActive: false,
@@ -3284,7 +3393,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$store.state.formData.arrivaldate.setDate(r.data.arrivaldate.getDate() + 1);
 
-        if (_this.$store.state.formData.service == 'Round Trip') {
+        if (_this.$store.state.formData.service == 'Round Trip' || _this.$store.state.formData.destination == 'Hotel - Airport') {
           _this.$store.state.formData.departuredate = new Date(r.data.departuredate);
 
           _this.$store.state.formData.departuredate.setDate(r.data.departuredate.getDate() + 1);
@@ -3435,6 +3544,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     unitOptions: true,
     logoutRoute: '',
     formData: {
+      currency: '',
       unit: 'Private Sedan'
     }
   }, "unitOptions", ''),
@@ -25660,7 +25770,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.delete.is-danger[data-v-f4f1ac0e]{\n    background-color: rgba(230, 57, 70,1);\n}\n.is-size-2 span.label[data-v-f4f1ac0e]{\n    font-size: 2rem !important;\n}\n@media screen and (min-width: 769px){\n.modal-card[data-v-f4f1ac0e] {\n        width: 720px !important;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.delete.is-danger[data-v-f4f1ac0e]{\n    background-color: rgba(230, 57, 70,1);\n}\n.is-size-2 span.label[data-v-f4f1ac0e]{\n    font-size: 2rem !important;\n}\n@media screen and (min-width: 769px){\n.modal-card[data-v-f4f1ac0e] {\n        width: 720px !important;\n}\n}\n.fade-enter-active[data-v-f4f1ac0e],\n.fade-leave-active[data-v-f4f1ac0e] {\n    transition: opacity 0.5s;\n}\n.fade-enter[data-v-f4f1ac0e],\n.fade-leave-to[data-v-f4f1ac0e] {\n    opacity: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -57512,6 +57622,45 @@ var render = function() {
                       ])
                     : _vm._e(),
                   _vm._v(" "),
+                  _vm.userRole == "seller" ||
+                  _vm.$store.state.formData.origin == "panel_seller"
+                    ? _c("div", { staticClass: "columns is-mobile" }, [
+                        _c(
+                          "div",
+                          { staticClass: "column is-full" },
+                          [
+                            _c(
+                              "b-field",
+                              { attrs: { label: "Agencia" } },
+                              [
+                                _c("b-input", {
+                                  attrs: {
+                                    placeholder:
+                                      "Escriba el nobre de la agencia",
+                                    type: "text",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: _vm.$store.state.formData.agency,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.$store.state.formData,
+                                        "agency",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "$store.state.formData.agency"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("div", { staticClass: "columns is-mobile" }, [
                     _c(
                       "div",
@@ -58089,311 +58238,357 @@ var render = function() {
                         )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "columns is-mobile" }, [
-                    _c(
-                      "div",
-                      { staticClass: "column is-one-quarter" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Arrival Date" } },
-                          [
-                            _c("b-datepicker", {
-                              attrs: {
-                                locale: "en-CA",
-                                placeholder: "Click to select...",
-                                "min-date": new Date(),
-                                "trap-focus": "",
-                                required: ""
-                              },
-                              model: {
-                                value: _vm.$store.state.formData.arrivaldate,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.$store.state.formData,
-                                    "arrivaldate",
-                                    $$v
-                                  )
-                                },
-                                expression: "$store.state.formData.arrivaldate"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "column is-one-quarter" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Arrival Time" } },
-                          [
-                            _c("b-timepicker", {
-                              attrs: {
-                                placeholder: "Click to select...",
-                                editable: "",
-                                "hour-format": "24",
-                                locale: "es-MX",
-                                required: ""
-                              },
-                              model: {
-                                value: _vm.$store.state.formData.arrivaltime,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.$store.state.formData,
-                                    "arrivaltime",
-                                    $$v
-                                  )
-                                },
-                                expression: "$store.state.formData.arrivaltime"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "column is-one-quarter" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Arrival Ariline" } },
-                          [
-                            _c("b-input", {
-                              attrs: {
-                                placeholder: "Arrival airline",
-                                type: "text",
-                                required: ""
-                              },
-                              model: {
-                                value: _vm.$store.state.formData.arrivalairline,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.$store.state.formData,
-                                    "arrivalairline",
-                                    $$v
-                                  )
-                                },
-                                expression:
-                                  "$store.state.formData.arrivalairline"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "column is-one-quarter" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Arrival Flight" } },
-                          [
-                            _c("b-input", {
-                              attrs: {
-                                placeholder: "Arrival flight",
-                                type: "text",
-                                required: ""
-                              },
-                              model: {
-                                value: _vm.$store.state.formData.arrivalflight,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.$store.state.formData,
-                                    "arrivalflight",
-                                    $$v
-                                  )
-                                },
-                                expression:
-                                  "$store.state.formData.arrivalflight"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ]),
+                  _c(
+                    "transition",
+                    { attrs: { name: "fade", mode: "out-in" } },
+                    [
+                      !(
+                        _vm.$store.state.formData.service == "One Way" &&
+                        _vm.$store.state.formData.destination ==
+                          "Hotel - Airport"
+                      )
+                        ? _c("div", { staticClass: "columns is-mobile" }, [
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-quarter" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Arrival Date" } },
+                                  [
+                                    _c("b-datepicker", {
+                                      attrs: {
+                                        locale: "en-CA",
+                                        placeholder: "Click to select...",
+                                        "min-date": new Date(),
+                                        "trap-focus": "",
+                                        required: ""
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData.arrivaldate,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "arrivaldate",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.arrivaldate"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-quarter" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Arrival Time" } },
+                                  [
+                                    _c("b-timepicker", {
+                                      attrs: {
+                                        placeholder: "Click to select...",
+                                        editable: "",
+                                        "hour-format": "24",
+                                        locale: "es-MX",
+                                        required: ""
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData.arrivaltime,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "arrivaltime",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.arrivaltime"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-quarter" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Arrival Ariline" } },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Arrival airline",
+                                        type: "text",
+                                        required: ""
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData
+                                            .arrivalairline,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "arrivalairline",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.arrivalairline"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-quarter" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Arrival Flight" } },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Arrival flight",
+                                        type: "text",
+                                        required: ""
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData
+                                            .arrivalflight,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "arrivalflight",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.arrivalflight"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e()
+                    ]
+                  ),
                   _vm._v(" "),
-                  _c("transition", { attrs: { name: "fade" } }, [
-                    _c(
-                      "div",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value:
-                              _vm.$store.state.formData.service == "Round Trip",
-                            expression:
-                              "$store.state.formData.service=='Round Trip'"
-                          }
-                        ],
-                        staticClass: "columns is-mobile"
-                      },
-                      [
-                        _c(
-                          "div",
-                          { staticClass: "column is-one-quarter" },
-                          [
+                  _c(
+                    "transition",
+                    { attrs: { name: "fade", mode: "out-in" } },
+                    [
+                      _vm.$store.state.formData.service == "Round Trip" ||
+                      (_vm.$store.state.formData.service == "One Way" &&
+                        _vm.$store.state.formData.destination ==
+                          "Hotel - Airport")
+                        ? _c("div", { staticClass: "columns is-mobile" }, [
                             _c(
-                              "b-field",
-                              { attrs: { label: "Departure Date" } },
+                              "div",
+                              { staticClass: "column is-one-quarter" },
                               [
-                                _c("b-datepicker", {
-                                  attrs: {
-                                    locale: "en-CA",
-                                    placeholder: "Click to select...",
-                                    "min-date":
-                                      _vm.$store.state.formData.arrivaldate,
-                                    "trap-focus": "",
-                                    required: ""
-                                  },
-                                  model: {
-                                    value:
-                                      _vm.$store.state.formData.departuredate,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.$store.state.formData,
-                                        "departuredate",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "$store.state.formData.departuredate"
-                                  }
-                                })
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Departure Date" } },
+                                  [
+                                    !(
+                                      _vm.$store.state.formData.service ==
+                                        "One Way" &&
+                                      _vm.$store.state.formData.destination ==
+                                        "Hotel - Airport"
+                                    )
+                                      ? _c("b-datepicker", {
+                                          attrs: {
+                                            locale: "en-CA",
+                                            placeholder: "Click to select...",
+                                            "min-date":
+                                              _vm.$store.state.formData
+                                                .arrivaldate,
+                                            "trap-focus": "",
+                                            required: ""
+                                          },
+                                          model: {
+                                            value:
+                                              _vm.$store.state.formData
+                                                .departuredate,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.$store.state.formData,
+                                                "departuredate",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "$store.state.formData.departuredate"
+                                          }
+                                        })
+                                      : _c("b-datepicker", {
+                                          attrs: {
+                                            locale: "en-CA",
+                                            placeholder: "Click to select...",
+                                            "min-date": new Date(),
+                                            "trap-focus": "",
+                                            required: ""
+                                          },
+                                          model: {
+                                            value:
+                                              _vm.$store.state.formData
+                                                .departuredate,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.$store.state.formData,
+                                                "departuredate",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "$store.state.formData.departuredate"
+                                          }
+                                        })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-quarter" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Departure Time" } },
+                                  [
+                                    _c("b-timepicker", {
+                                      attrs: {
+                                        placeholder: "Click to select...",
+                                        editable: "",
+                                        "hour-format": "24",
+                                        locale: "es-MX",
+                                        required: ""
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData
+                                            .departuretime,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "departuretime",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.departuretime"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-quarter" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Departure Ariline" } },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Departure Ariline",
+                                        type: "text",
+                                        required: ""
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData
+                                            .departureairline,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "departureairline",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.departureairline"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-quarter" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Departure Flight" } },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Departure Flight",
+                                        type: "text",
+                                        required: ""
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData
+                                            .departureflight,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "departureflight",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.departureflight"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
                               ],
                               1
                             )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "column is-one-quarter" },
-                          [
-                            _c(
-                              "b-field",
-                              { attrs: { label: "Departure Time" } },
-                              [
-                                _c("b-timepicker", {
-                                  attrs: {
-                                    placeholder: "Click to select...",
-                                    editable: "",
-                                    "hour-format": "24",
-                                    locale: "es-MX",
-                                    required: ""
-                                  },
-                                  model: {
-                                    value:
-                                      _vm.$store.state.formData.departuretime,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.$store.state.formData,
-                                        "departuretime",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "$store.state.formData.departuretime"
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "column is-one-quarter" },
-                          [
-                            _c(
-                              "b-field",
-                              { attrs: { label: "Departure Ariline" } },
-                              [
-                                _c("b-input", {
-                                  attrs: {
-                                    placeholder: "Departure Ariline",
-                                    type: "text",
-                                    required: ""
-                                  },
-                                  model: {
-                                    value:
-                                      _vm.$store.state.formData
-                                        .departureairline,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.$store.state.formData,
-                                        "departureairline",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "$store.state.formData.departureairline"
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "column is-one-quarter" },
-                          [
-                            _c(
-                              "b-field",
-                              { attrs: { label: "Departure Flight" } },
-                              [
-                                _c("b-input", {
-                                  attrs: {
-                                    placeholder: "Departure Flight",
-                                    type: "text",
-                                    required: ""
-                                  },
-                                  model: {
-                                    value:
-                                      _vm.$store.state.formData.departureflight,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.$store.state.formData,
-                                        "departureflight",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "$store.state.formData.departureflight"
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ]
-                    )
-                  ]),
+                          ])
+                        : _vm._e()
+                    ]
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "columns is-mobile" }, [
                     _c(
@@ -58463,29 +58658,30 @@ var render = function() {
                   _c("div", { staticClass: "columns is-mobile" }, [
                     _c(
                       "div",
-                      { staticClass: "column is-half" },
+                      { staticClass: "column is-half has-text-centered" },
                       [
                         _c(
                           "b-field",
-                          { attrs: { label: "Price Normal" } },
+                          { attrs: { label: "USD Dollar" } },
                           [
-                            _c("b-input", {
+                            _c("b-radio", {
                               attrs: {
-                                placeholder: "Price Normal",
-                                type: "number",
+                                name: "currency",
+                                size: "is-medium",
+                                "native-value": "USD",
                                 required: "",
                                 disabled: _vm.userRole == "user"
                               },
                               model: {
-                                value: _vm.$store.state.formData.pricenormal,
+                                value: _vm.$store.state.formData.currency,
                                 callback: function($$v) {
                                   _vm.$set(
                                     _vm.$store.state.formData,
-                                    "pricenormal",
+                                    "currency",
                                     $$v
                                   )
                                 },
-                                expression: "$store.state.formData.pricenormal"
+                                expression: "$store.state.formData.currency"
                               }
                             })
                           ],
@@ -58497,29 +58693,30 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "column is-half" },
+                      { staticClass: "column is-half has-text-centered" },
                       [
                         _c(
                           "b-field",
-                          { attrs: { label: "Price PayPal" } },
+                          { attrs: { label: "Mexican pesos" } },
                           [
-                            _c("b-input", {
+                            _c("b-radio", {
                               attrs: {
-                                placeholder: "Price Paypal",
-                                type: "number",
+                                name: "currency",
+                                size: "is-medium",
+                                "native-value": "MXN",
                                 required: "",
                                 disabled: _vm.userRole == "user"
                               },
                               model: {
-                                value: _vm.$store.state.formData.pricepaypal,
+                                value: _vm.$store.state.formData.currency,
                                 callback: function($$v) {
                                   _vm.$set(
                                     _vm.$store.state.formData,
-                                    "pricepaypal",
+                                    "currency",
                                     $$v
                                   )
                                 },
-                                expression: "$store.state.formData.pricepaypal"
+                                expression: "$store.state.formData.currency"
                               }
                             })
                           ],
@@ -58529,6 +58726,164 @@ var render = function() {
                       1
                     )
                   ]),
+                  _vm._v(" "),
+                  _c(
+                    "transition",
+                    { attrs: { name: "fade", mode: "out-in" } },
+                    [
+                      _vm.$store.state.formData.currency == "USD"
+                        ? _c("div", { staticClass: "columns is-mobile" }, [
+                            _c(
+                              "div",
+                              { staticClass: "column is-half" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Price Normal (usd)" } },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Price Normal (usd)",
+                                        type: "number",
+                                        required: "",
+                                        disabled: _vm.userRole == "user"
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData.pricenormal,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "pricenormal",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.pricenormal"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-half" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Price PayPal (usd)" } },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Price Paypal (usd)",
+                                        type: "number",
+                                        required: "",
+                                        disabled: _vm.userRole == "user"
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData.pricepaypal,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "pricepaypal",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.pricepaypal"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.$store.state.formData.currency == "MXN"
+                        ? _c("div", { staticClass: "columns is-mobile" }, [
+                            _c(
+                              "div",
+                              { staticClass: "column is-half" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Price Normal (mxn)" } },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Price Normal (mxn)",
+                                        type: "number",
+                                        required: "",
+                                        disabled: _vm.userRole == "user"
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData.pricenormal,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "pricenormal",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.pricenormal"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-half" },
+                              [
+                                _c(
+                                  "b-field",
+                                  { attrs: { label: "Price PayPal (mxn)" } },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Price Paypal (mxn)",
+                                        type: "number",
+                                        required: "",
+                                        disabled: _vm.userRole == "user"
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData.pricepaypal,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "pricepaypal",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.pricepaypal"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e()
+                    ]
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "columns is-mobile" }, [
                     _c(
@@ -58960,11 +59315,40 @@ var render = function() {
                           key: "default",
                           fn: function(props) {
                             return [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(props.row[column.field]) +
-                                  "\n                        "
-                              )
+                              column.title === "BABY CHAIR" ||
+                              column.title === "SHOPPING STOP"
+                                ? _c("span", [
+                                    props.row[column.field] == true
+                                      ? _c("div", [
+                                          _vm._v(
+                                            "\n                                    YES\n                                "
+                                          )
+                                        ])
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n                                    NO\n                                "
+                                          )
+                                        ])
+                                  ])
+                                : column.title === "PRICE NORMAL" ||
+                                  column.title === "PRICE PAYPAL"
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(props.row[column.field]) +
+                                        "\n                                "
+                                    ),
+                                    _c("small", [
+                                      _vm._v(
+                                        " " + _vm._s(props.row["currency"])
+                                      )
+                                    ])
+                                  ])
+                                : _c("span", [
+                                    _c("small", [
+                                      _vm._v(_vm._s(props.row[column.field]))
+                                    ])
+                                  ])
                             ]
                           }
                         }

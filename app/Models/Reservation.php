@@ -41,6 +41,8 @@ class Reservation extends Model
         'nombrevendedor',
         'nombrechofer',
         'numerounidad',
-        'numeroticket'
+        'numeroticket',
+        'currency',
+        'agency',
     ];
 }

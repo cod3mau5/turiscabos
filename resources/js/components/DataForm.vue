@@ -55,6 +55,20 @@
                             </div>
                         </div>
 
+                        <!-- AGENCY INFO -->
+                        <div class="columns is-mobile" v-if="userRole == 'seller'|| $store.state.formData.origin == 'panel_seller'">
+                            <div class="column is-full">
+                                <b-field label="Agencia">
+                                    <b-input
+                                    placeholder="Escriba el nobre de la agencia"
+                                    type="text"
+                                    v-model="$store.state.formData.agency"
+                                    required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                        </div>
+
                         <!-- CONTACT INFO -->
                         <div class="columns is-mobile">
                             <div class="column is-one-third">
@@ -235,64 +249,78 @@
 
                         </div>
 
-                        <!-- ARRIVAL INFO -->
-                        <div class="columns is-mobile">
-                            <div class="column is-one-quarter">
-                                <b-field label="Arrival Date">
-                                        <b-datepicker
-                                            v-model="$store.state.formData.arrivaldate"
-                                            locale="en-CA"
+                        <transition name="fade" mode="out-in">
+                            <!-- ARRIVAL INFO -->
+                            <div class="columns is-mobile"
+                                v-if="!($store.state.formData.service=='One Way' && $store.state.formData.destination=='Hotel - Airport')">
+                                <div class="column is-one-quarter">
+                                    <b-field label="Arrival Date">
+                                            <b-datepicker
+                                                v-model="$store.state.formData.arrivaldate"
+                                                locale="en-CA"
+                                                placeholder="Click to select..."
+                                                :min-date="new Date()"
+                                                trap-focus
+                                                required>
+                                            </b-datepicker>
+                                    </b-field>
+                                </div>
+                                <div class="column is-one-quarter">
+                                    <b-field label="Arrival Time">
+                                        <b-timepicker
+                                            v-model="$store.state.formData.arrivaltime"
                                             placeholder="Click to select..."
-                                            :min-date="new Date()"
-                                            trap-focus
+                                            editable
+                                            hour-format="24"
+                                            locale="es-MX"
                                             required>
-                                        </b-datepicker>
-                                </b-field>
+                                        </b-timepicker>
+                                    </b-field>
+                                </div>
+                                <div class="column is-one-quarter">
+                                    <b-field label="Arrival Ariline">
+                                        <b-input
+                                            placeholder="Arrival airline"
+                                            type="text"
+                                            v-model="$store.state.formData.arrivalairline"
+                                            required>
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                                <div class="column is-one-quarter">
+                                    <b-field label="Arrival Flight">
+                                        <b-input
+                                            placeholder="Arrival flight"
+                                            type="text"
+                                            v-model="$store.state.formData.arrivalflight"
+                                            required>
+                                        </b-input>
+                                    </b-field>
+                                </div>
                             </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Arrival Time">
-                                    <b-timepicker
-                                        v-model="$store.state.formData.arrivaltime"
-                                        placeholder="Click to select..."
-                                        editable
-                                        hour-format="24"
-                                        locale="es-MX"
-                                        required>
-                                    </b-timepicker>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Arrival Ariline">
-                                    <b-input
-                                        placeholder="Arrival airline"
-                                        type="text"
-                                        v-model="$store.state.formData.arrivalairline"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                            <div class="column is-one-quarter">
-                                <b-field label="Arrival Flight">
-                                    <b-input
-                                        placeholder="Arrival flight"
-                                        type="text"
-                                        v-model="$store.state.formData.arrivalflight"
-                                        required>
-                                    </b-input>
-                                </b-field>
-                            </div>
-                        </div>
 
-                        <!-- DEPARTURE INFO -->
-                        <transition name="fade">
-                            <div class="columns is-mobile" v-show="$store.state.formData.service=='Round Trip'">
+                        </transition>
+                        <transition name="fade" mode="out-in">
+                            <!-- DEPARTURE INFO -->
+                            <div class="columns is-mobile"
+                                v-if="$store.state.formData.service=='Round Trip' || ($store.state.formData.service=='One Way' && $store.state.formData.destination=='Hotel - Airport')">
                                 <div class="column is-one-quarter">
                                     <b-field label="Departure Date">
                                         <b-datepicker
+                                            v-if="!($store.state.formData.service=='One Way' && $store.state.formData.destination=='Hotel - Airport')"
                                             v-model="$store.state.formData.departuredate"
                                             locale="en-CA"
                                             placeholder="Click to select..."
                                             :min-date="$store.state.formData.arrivaldate"
+                                            trap-focus
+                                            required>
+                                        </b-datepicker>
+                                        <b-datepicker
+                                            v-else
+                                            v-model="$store.state.formData.departuredate"
+                                            locale="en-CA"
+                                            placeholder="Click to select..."
+                                            :min-date="new Date()"
                                             trap-focus
                                             required>
                                         </b-datepicker>
@@ -347,32 +375,87 @@
                             </div>
                         </div>
 
-                        <!-- PRICES -->
+                        <!-- CURRENCY SELECTOR -->
                         <div class="columns is-mobile">
-                            <div class="column is-half">
-                                <b-field label="Price Normal">
-                                    <b-input
-                                        placeholder="Price Normal"
-                                        type="number"
-                                        v-model="$store.state.formData.pricenormal"
+                            <div class="column is-half has-text-centered">
+                                <b-field label="USD Dollar">
+                                    <b-radio
+                                        name="currency"
+                                        size="is-medium"
+                                        native-value="USD"
+                                        v-model="$store.state.formData.currency"
                                         required
                                         :disabled="userRole=='user'">
-                                    </b-input>
+                                    </b-radio>
                                 </b-field>
                             </div>
-                            <div class="column is-half">
-                                <b-field label="Price PayPal">
-                                    <b-input
-                                        placeholder="Price Paypal"
-                                        type="number"
-                                        v-model="$store.state.formData.pricepaypal"
+                            <div class="column is-half has-text-centered">
+                                <b-field label="Mexican pesos">
+                                    <b-radio
+                                        name="currency"
+                                        size="is-medium"
+                                        native-value="MXN"
+                                        v-model="$store.state.formData.currency"
                                         required
                                         :disabled="userRole=='user'">
-                                    </b-input>
+                                    </b-radio>
                                 </b-field>
                             </div>
                         </div>
 
+                        <transition name="fade" mode="out-in">
+                            <!-- PRICES IN DOLLARS -->
+                            <div class="columns is-mobile" v-if="$store.state.formData.currency=='USD'">
+                                <div class="column is-half">
+                                    <b-field label="Price Normal (usd)">
+                                        <b-input
+                                            placeholder="Price Normal (usd)"
+                                            type="number"
+                                            v-model="$store.state.formData.pricenormal"
+                                            required
+                                            :disabled="userRole=='user'">
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                                <div class="column is-half">
+                                    <b-field label="Price PayPal (usd)">
+                                        <b-input
+                                            placeholder="Price Paypal (usd)"
+                                            type="number"
+                                            v-model="$store.state.formData.pricepaypal"
+                                            required
+                                            :disabled="userRole=='user'">
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <!-- PRICES IN MEXICAN PESOS -->
+                            <div class="columns is-mobile" v-if="$store.state.formData.currency=='MXN'">
+                                <div class="column is-half">
+                                    <b-field label="Price Normal (mxn)">
+                                        <b-input
+                                            placeholder="Price Normal (mxn)"
+                                            type="number"
+                                            v-model="$store.state.formData.pricenormal"
+                                            required
+                                            :disabled="userRole=='user'">
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                                <div class="column is-half">
+                                    <b-field label="Price PayPal (mxn)">
+                                        <b-input
+                                            placeholder="Price Paypal (mxn)"
+                                            type="number"
+                                            v-model="$store.state.formData.pricepaypal"
+                                            required
+                                            :disabled="userRole=='user'">
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+                        </transition>
                         <!-- COMMENTS -->
                         <div class="columns is-mobile">
                             <div class="column is-full">
@@ -485,6 +568,15 @@
             width: 720px !important;
         }
     }
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity 0.5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
+    }
 </style>
 <script>
 import { mapGetters } from 'vuex'
@@ -520,7 +612,8 @@ export default {
 
                 'pricenormal': true,
                 'pricepaypal': true
-            }
+            },
+            currentFormData:[]
     }),
     mounted() {
         this.getTransfers();
@@ -620,9 +713,8 @@ export default {
         updateEditModal(val){
             this.$store.state.isEditModalActive=val;
         },
-        storeReservation(){
-                this.$store.state.isLoading = true;
-                this.formData._token = this._token;
+        parseArrivalData(){
+            if(this.formData.destination !== 'Hotel - Airport'){
                 // lets parse arrivaldate object into string (yyyy-mm-dd)
                 let arrivalDate = this.formData.arrivaldate;
                 let day = arrivalDate.getDate();
@@ -631,6 +723,7 @@ export default {
                 if(month < 10 ){month = month + 1;/*Be careful! January is 0 not 1*/month = '0' + month;}
                 if(day < 10 ){ day='0'+day;}
                 let arrivalDateString = year + "-" + month + "-" + day;
+
                 //lets parse arrivaltime object into string (hh:mm:ss)
                 let arrivalTime= this.formData.arrivaltime;
                 let hours=arrivalTime.getHours();
@@ -640,34 +733,48 @@ export default {
                 if(minutes < 10){minutes= "0" + arrivalTime.getMinutes();}
                 if(seconds < 10){seconds= "0" + arrivalTime.getSeconds();}
                 let arrivalTimeString =  hours+":" + minutes+":" + seconds;
-                //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
-                let currentFormData = this.formData;
-                currentFormData.arrivaldate=arrivalDateString;
-                currentFormData.arrivaltime=arrivalTimeString;
 
-                if(this.formData.service == 'Round Trip'){
+                this.currentFormData.arrivaldate=arrivalDateString;
+                this.currentFormData.arrivaltime=arrivalTimeString;
+                console.log('this is parseArrivalData() function');
+                console.log(this.currentFormData);
+            }
+        },
+        parseDepartureData(){
+                if(this.formData.service == 'Round Trip' || (this.formData.service=='One Way' && this.formData.destination=='Hotel - Airport')){
                     // lets do the same shit that we do with arrivaldate but this time departuredate
                     let departureDate = this.formData.departuredate;
-                    day = departureDate.getDate();
-                    month = departureDate.getMonth();
-                    year = departureDate.getFullYear();
+                    let day = departureDate.getDate();
+                    let month = departureDate.getMonth();
+                    let year = departureDate.getFullYear();
                     if(month < 10 ){month = month + 1;month = '0' + month;}
                     if(day < 10 ){ day='0'+day;}
                     let departureDateString = year + "-" + month + "-" + day;
                     let departureTime= this.formData.departuretime;
-                    hours=departureTime.getHours();
-                    minutes=departureTime.getMinutes();
-                    seconds=departureTime.getSeconds();
+                    let hours=departureTime.getHours();
+                    let minutes=departureTime.getMinutes();
+                    let seconds=departureTime.getSeconds();
                     if(hours < 10){hours= "0" + departureTime.getHours();}
                     if(minutes < 10){minutes= "0" + departureTime.getMinutes();}
                     if(seconds < 10){seconds= "0" + departureTime.getSeconds();}
                     let departureTimeString =  hours+":" + minutes+":" + seconds;
-                    currentFormData.departuredate=departureDateString;
-                    currentFormData.departuretime=departureTimeString;
+
+                    this.currentFormData.departuredate=departureDateString;
+                    this.currentFormData.departuretime=departureTimeString;
+                    console.log('this is parseDepartureData() function');
+                    console.log(this.currentFormData);
                 }
+        },
+        storeReservation(){
+                this.$store.state.isLoading = true;
+                this.formData._token = this._token;
+                //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
+                this.currentFormData = this.formData;
+                this.parseArrivalData();
+                this.parseDepartureData();
                 //we are ready to update data
-                currentFormData.origin='panel_'+this.userRole;
-                axios.post(this.storeRoute,currentFormData).then((r)=>{
+                this.currentFormData.origin='panel_'+this.userRole;
+                axios.post(this.storeRoute,this.currentFormData).then((r)=>{
                     this.$store.state.isLoading=false;
                     this.$store.state.isEditModalActive=false;
                     this.isModalReservationCreated=true;
@@ -676,51 +783,57 @@ export default {
         updateReservation(){
                 this.$store.state.isLoading = true;
                 this.formData._token = this._token;
-                // lets parse arrivaldate object into string (yyyy-mm-dd)
-                let arrivalDate = this.formData.arrivaldate;
-                let day = arrivalDate.getDate();
-                let month = arrivalDate.getMonth();
-                let year = arrivalDate.getFullYear();
-                if(month < 10 ){month = month + 1;/*Be careful! January is 0 not 1*/month = '0' + month;}
-                if(day < 10 ){ day='0'+day;}
-                let arrivalDateString = year + "-" + month + "-" + day;
-                //lets parse arrivaltime object into string (hh:mm:ss)
-                let arrivalTime= this.formData.arrivaltime;
-                let hours=arrivalTime.getHours();
-                let minutes=arrivalTime.getMinutes();
-                let seconds=arrivalTime.getSeconds();
-                if(hours < 10){hours= "0" + arrivalTime.getHours();}
-                if(minutes < 10){minutes= "0" + arrivalTime.getMinutes();}
-                if(seconds < 10){seconds= "0" + arrivalTime.getSeconds();}
-                let arrivalTimeString =  hours+":" + minutes+":" + seconds;
                 //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
-                let currentFormData = this.formData;
-                currentFormData.arrivaldate=arrivalDateString;
-                currentFormData.arrivaltime=arrivalTimeString;
+                this.currentFormData = this.formData;
+                this.parseArrivalData();
+                this.parseDepartureData();
+                // if(!this.formData.service == 'One Way' && !this.formData.service == 'Hotel - Airport'){
+                //     // lets parse arrivaldate object into string (yyyy-mm-dd)
+                //     let arrivalDate = this.formData.arrivaldate;
+                //     let day = arrivalDate.getDate();
+                //     let month = arrivalDate.getMonth();
+                //     let year = arrivalDate.getFullYear();
+                //     if(month < 10 ){month = month + 1;/*Be careful! January is 0 not 1*/month = '0' + month;}
+                //     if(day < 10 ){ day='0'+day;}
+                //     let arrivalDateString = year + "-" + month + "-" + day;
+                //     //lets parse arrivaltime object into string (hh:mm:ss)
+                //     let arrivalTime= this.formData.arrivaltime;
+                //     let hours=arrivalTime.getHours();
+                //     let minutes=arrivalTime.getMinutes();
+                //     let seconds=arrivalTime.getSeconds();
+                //     if(hours < 10){hours= "0" + arrivalTime.getHours();}
+                //     if(minutes < 10){minutes= "0" + arrivalTime.getMinutes();}
+                //     if(seconds < 10){seconds= "0" + arrivalTime.getSeconds();}
+                //     let arrivalTimeString =  hours+":" + minutes+":" + seconds;
+                //     //lets put parsed data into new object (avoiding issues with buefy datetime and time inputs)
+                //     let currentFormData = this.formData;
+                //     currentFormData.arrivaldate=arrivalDateString;
+                //     currentFormData.arrivaltime=arrivalTimeString;
+                // }
 
-                if(this.formData.service == 'Round Trip'){
-                    // lets do the same shit that we do with arrivaldate but this time departuredate
-                    let departureDate = this.formData.departuredate;
-                    day = departureDate.getDate();
-                    month = departureDate.getMonth();
-                    year = departureDate.getFullYear();
-                    if(month < 10 ){month = month + 1;month = '0' + month;}
-                    if(day < 10 ){ day='0'+day;}
-                    let departureDateString = year + "-" + month + "-" + day;
-                    let departureTime= this.formData.departuretime;
-                    hours=departureTime.getHours();
-                    minutes=departureTime.getMinutes();
-                    seconds=departureTime.getSeconds();
-                    if(hours < 10){hours= "0" + departureTime.getHours();}
-                    if(minutes < 10){minutes= "0" + departureTime.getMinutes();}
-                    if(seconds < 10){seconds= "0" + departureTime.getSeconds();}
-                    let departureTimeString =  hours+":" + minutes+":" + seconds;
-                    currentFormData.departuredate=departureDateString;
-                    currentFormData.departuretime=departureTimeString;
-                }
+                // if(this.formData.service == 'Round Trip'){
+                //     // lets do the same shit that we do with arrivaldate but this time departuredate
+                //     let departureDate = this.formData.departuredate;
+                //     day = departureDate.getDate();
+                //     month = departureDate.getMonth();
+                //     year = departureDate.getFullYear();
+                //     if(month < 10 ){month = month + 1;month = '0' + month;}
+                //     if(day < 10 ){ day='0'+day;}
+                //     let departureDateString = year + "-" + month + "-" + day;
+                //     let departureTime= this.formData.departuretime;
+                //     hours=departureTime.getHours();
+                //     minutes=departureTime.getMinutes();
+                //     seconds=departureTime.getSeconds();
+                //     if(hours < 10){hours= "0" + departureTime.getHours();}
+                //     if(minutes < 10){minutes= "0" + departureTime.getMinutes();}
+                //     if(seconds < 10){seconds= "0" + departureTime.getSeconds();}
+                //     let departureTimeString =  hours+":" + minutes+":" + seconds;
+                //     currentFormData.departuredate=departureDateString;
+                //     currentFormData.departuretime=departureTimeString;
+                // }
 
                 //we are ready to update data
-                axios.put(this.updateRoute,currentFormData).then((r)=>{
+                axios.put(this.updateRoute,this.currentFormData).then((r)=>{
                     this.$store.state.isLoading=false;
                     this.$store.state.isEditModalActive=false;
                     this.fetchData(0);
@@ -779,7 +892,18 @@ export default {
                 vm.dataToValidate.departuretime=true;
                 vm.dataToValidate.departureairline=true;
                 vm.dataToValidate.departureflight=true;
-            }else{
+            }else if(vm.formData.service=='One Way' && vm.formData.destination=='Hotel - Airport'){
+                vm.dataToValidate.arrivaldate= false;
+                vm.dataToValidate.arrivaltime= false;
+                vm.dataToValidate.arrivalairline= false;
+                vm.dataToValidate.arrivalflight= false;
+
+                vm.dataToValidate.departuredate=true;
+                vm.dataToValidate.departuretime=true;
+                vm.dataToValidate.departureairline=true;
+                vm.dataToValidate.departureflight=true;
+            }
+            else{
                 vm.dataToValidate.departuredate=false;
                 vm.dataToValidate.departuretime=false;
                 vm.dataToValidate.departureairline=false;
@@ -843,6 +967,7 @@ export default {
         },
         clearFormData(){
             this.$store.state.formData=[];
+            location.reload()
         }
     },
     computed: {
@@ -856,20 +981,26 @@ export default {
         },
         'formData.arrivaldate':function(val){
             if(Object.prototype.toString.call(val ) === '[object Date]'){
-                return val;
+                if(val < new Date()){
+                    return this.formData.arrivaldate= new Date();
+                }else{
+                    return val;
+                }
             }else{return this.formData.arrivaldate= new Date(val);}
         },
         'formData.arrivaltime':function(val){
             let d= this.formData.arrivaldate;
-            if(Object.prototype.toString.call(val ) === '[object Date]'){
-                return val;
-            }else{
-                let [hours, minutes, seconds] = val.split(':');
-                d.setHours(+hours);
-                d.setMinutes(minutes);
-                d.setSeconds(seconds);
-                return this.formData.arrivaltime=d;
-            }
+            if(val && this.formData.destination !== 'Hotel - Airport'){
+                if(Object.prototype.toString.call(val ) === '[object Date]'){
+                    return val;
+                }else{
+                    let [hours, minutes, seconds] = val.split(':');
+                    d.setHours(+hours);
+                    d.setMinutes(minutes);
+                    d.setSeconds(seconds);
+                    return this.formData.arrivaltime=d;
+                }
+            }else{return new Date();}
         },
         'formData.departuredate':function(val){
             if(val){
@@ -879,7 +1010,7 @@ export default {
             }else{return this.formData.departuredate= Date();}
         },
         'formData.departuretime':function(val){
-            if(val && this.formData.service == 'Round Trip'){
+            if((val && this.formData.service == 'Round Trip') || (val && this.formData.destination == 'Hotel - Airport')){
                 if(Object.prototype.toString.call(val ) === '[object Date]'){
                     return this.formData.departuretime=val;
                 }else{

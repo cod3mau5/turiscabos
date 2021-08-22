@@ -40,8 +40,8 @@
                     <b-table-column
                         :key="index"
                         v-bind="column"
-                         :label="column.title"
-                    :visible="column.visible">
+                        :label="column.title"
+                        :visible="column.visible">
                         <template
                             v-if="column.searchable"
                             #searchable="props">
@@ -51,8 +51,26 @@
                                 icon="magnify"
                                 size="is-small" />
                         </template>
+
+
                         <template v-slot="props">
-                            {{ props.row[column.field] }}
+
+                            <span v-if="column.title === 'BABY CHAIR' || column.title === 'SHOPPING STOP'">
+                                <div v-if="props.row[column.field] == true">
+                                    YES
+                                </div>
+                                <div v-else>
+                                    NO
+                                </div>
+                            </span>
+                            <span v-else-if="column.title === 'PRICE NORMAL' || column.title === 'PRICE PAYPAL'">
+                                {{ props.row[column.field] }}
+                                <small> {{props.row["currency"]}}</small>
+                            </span>
+                            <span v-else>
+                                <small>{{ props.row[column.field] }}</small>
+                            </span>
+
                         </template>
                     </b-table-column>
                 </template>
@@ -207,6 +225,7 @@ import DataForm from "./DataForm";
 
                     { title: 'PRICE NORMAL', field: 'pricenormal', visible: true },
                     { title: 'PRICE PAYPAL', field: 'pricepaypal', visible: false },
+                    { title: 'CURRENCY', field: 'currency', visible: false },
 
                 ],
                 isDeleteModalActive:false,
@@ -249,7 +268,7 @@ import DataForm from "./DataForm";
                     this.$store.state.formData.shoppingstop==1?this.$store.state.formData.shoppingstop=true:this.$store.state.formData.shoppingstop==false;
                     this.$store.state.formData.arrivaldate=new Date(r.data.arrivaldate);
                     this.$store.state.formData.arrivaldate.setDate(r.data.arrivaldate.getDate() + 1);
-                    if(this.$store.state.formData.service == 'Round Trip'){
+                    if(this.$store.state.formData.service == 'Round Trip' || this.$store.state.formData.destination == 'Hotel - Airport'){
                         this.$store.state.formData.departuredate=new Date(r.data.departuredate);
                         this.$store.state.formData.departuredate.setDate(r.data.departuredate.getDate() + 1);
                     }

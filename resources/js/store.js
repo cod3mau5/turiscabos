@@ -13,6 +13,7 @@ export default new Vuex.Store({
         unitOptions:true,
         logoutRoute:'',
         formData:{
+            currency:'',
             unit:'Private Sedan'
         },
         unitOptions:'',
