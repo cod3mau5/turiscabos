@@ -5,20 +5,8 @@
 @endsection
 
 @section('content')
-@if(auth()->user()->role == 'admin')
-    <div class="container-fluid" id="app">
-        <create-reservation
-            user-role="{{auth()->user()->role}}"
-            route-transfers="{{route('get-transfers')}}"
-            _token="{{csrf_token()}}"
-            store-route="{{route('reservations.store')}}"
-            logout-route="{{route('logout')}}">
-        </create-reservation>
-    </div>
-    @elseif(auth()->user()->role == 'user')
-<h1 class="text-center">NO ERES UN ADMINISTRADOR</h1>
-
-        {{-- <div class="container-fluid" id="app">
+    @if(auth()->user()->role == 'admin' || auth()->user()->role == 'user')
+        <div class="container-fluid" id="app">
             <create-reservation
                 user-role="{{auth()->user()->role}}"
                 route-transfers="{{route('get-transfers')}}"
@@ -26,10 +14,10 @@
                 store-route="{{route('reservations.store')}}"
                 logout-route="{{route('logout')}}">
             </create-reservation>
-        </div> --}}
-@else
-<h1 class="text-center">NO ERES UN ADMINISTRADOR</h1>
-@endif
+        </div>
+    @else
+        <h1 class="text-center">NO ERES UN ADMINISTRADOR</h1>
+    @endif
 
 @endsection
 @section('scripts')

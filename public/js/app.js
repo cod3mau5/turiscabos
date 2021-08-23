@@ -58681,7 +58681,8 @@ var render = function() {
                                 size: "is-medium",
                                 "native-value": "USD",
                                 required: "",
-                                disabled: _vm.userRole == "user"
+                                disabled:
+                                  _vm.userRole == "user" && !_vm.storeRoute
                               },
                               model: {
                                 value: _vm.$store.state.formData.currency,
@@ -58716,7 +58717,8 @@ var render = function() {
                                 size: "is-medium",
                                 "native-value": "MXN",
                                 required: "",
-                                disabled: _vm.userRole == "user"
+                                disabled:
+                                  _vm.userRole == "user" && !_vm.storeRoute
                               },
                               model: {
                                 value: _vm.$store.state.formData.currency,
@@ -58757,7 +58759,9 @@ var render = function() {
                                         placeholder: "Price Normal (usd)",
                                         type: "number",
                                         required: "",
-                                        disabled: _vm.userRole == "user"
+                                        disabled:
+                                          _vm.userRole == "user" &&
+                                          !_vm.storeRoute
                                       },
                                       model: {
                                         value:
@@ -58793,7 +58797,9 @@ var render = function() {
                                         placeholder: "Price Paypal (usd)",
                                         type: "number",
                                         required: "",
-                                        disabled: _vm.userRole == "user"
+                                        disabled:
+                                          _vm.userRole == "user" &&
+                                          !_vm.storeRoute
                                       },
                                       model: {
                                         value:
@@ -58833,7 +58839,9 @@ var render = function() {
                                         placeholder: "Price Normal (mxn)",
                                         type: "number",
                                         required: "",
-                                        disabled: _vm.userRole == "user"
+                                        disabled:
+                                          _vm.userRole == "user" &&
+                                          !_vm.storeRoute
                                       },
                                       model: {
                                         value:
@@ -58869,7 +58877,9 @@ var render = function() {
                                         placeholder: "Price Paypal (mxn)",
                                         type: "number",
                                         required: "",
-                                        disabled: _vm.userRole == "user"
+                                        disabled:
+                                          _vm.userRole == "user" &&
+                                          !_vm.storeRoute
                                       },
                                       model: {
                                         value:

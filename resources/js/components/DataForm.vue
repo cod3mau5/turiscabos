@@ -385,7 +385,7 @@
                                         native-value="USD"
                                         v-model="$store.state.formData.currency"
                                         required
-                                        :disabled="userRole=='user'">
+                                        :disabled="userRole=='user' && !storeRoute">
                                     </b-radio>
                                 </b-field>
                             </div>
@@ -397,7 +397,7 @@
                                         native-value="MXN"
                                         v-model="$store.state.formData.currency"
                                         required
-                                        :disabled="userRole=='user'">
+                                        :disabled="userRole=='user' && !storeRoute">
                                     </b-radio>
                                 </b-field>
                             </div>
@@ -413,7 +413,7 @@
                                             type="number"
                                             v-model="$store.state.formData.pricenormal"
                                             required
-                                            :disabled="userRole=='user'">
+                                            :disabled="userRole=='user' && !storeRoute">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -424,7 +424,7 @@
                                             type="number"
                                             v-model="$store.state.formData.pricepaypal"
                                             required
-                                            :disabled="userRole=='user'">
+                                            :disabled="userRole=='user' && !storeRoute">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -439,7 +439,7 @@
                                             type="number"
                                             v-model="$store.state.formData.pricenormal"
                                             required
-                                            :disabled="userRole=='user'">
+                                            :disabled="userRole=='user' && !storeRoute">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -450,7 +450,7 @@
                                             type="number"
                                             v-model="$store.state.formData.pricepaypal"
                                             required
-                                            :disabled="userRole=='user'">
+                                            :disabled="userRole=='user' && !storeRoute">
                                         </b-input>
                                     </b-field>
                                 </div>
