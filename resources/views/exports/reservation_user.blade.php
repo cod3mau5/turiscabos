@@ -11,6 +11,7 @@
             <th style="background-color:#fdc500;width:25px;"><b>UNIDAD</b></th>
             <td style="background-color:#fdc500;width:25px;"><b>PRECIO NORMAL</b></td>
             <td style="background-color:#fdc500;width:25px;"><b>PRECIO PAYPAL</b></td>
+            <td style="background-color:#fdc500;width:25px;"><b>COMENTARIOS</b></td>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +27,7 @@
                 <td>{{$reservation->unit}}</td>
                 <td>{{$reservation->pricenormal}}</td>
                 <td>{{$reservation->pricepaypal}}</td>
+                <td>{{$reservation->comments}}</td>
             </tr>
         @endforeach
     </tbody>

@@ -25,7 +25,7 @@
                             </div>
                             @elseif(auth()->user()->role == 'user')
                             <div class="col text-right">
-                                {{-- <a href="{{route('reservations.create')}}" class="btn btn-success">NUEVA RESERVA</a> --}}
+                                <a href="{{route('reservations.create')}}" class="btn btn-success">NUEVA RESERVA</a>
                                 <a href="{{route('export-user-excel')}}" class="btn btn-info">EXPORTAR RESERVAS</a>
                             </div>
                         @endif

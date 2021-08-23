@@ -3255,7 +3255,8 @@ __webpack_require__.r(__webpack_exports__);
       columnsTemplate: [{
         title: 'RESERVATION',
         field: 'reservation',
-        visible: false
+        visible: false,
+        searchable: true
       }, {
         title: 'NAME',
         field: 'name',
@@ -3273,7 +3274,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'SERVICE',
         field: 'service',
-        visible: true
+        visible: true,
+        searchable: true
       }, {
         title: 'BABY CHAIR',
         field: 'babysit',
@@ -3285,11 +3287,13 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'DESTINATION',
         field: 'destination',
-        visible: true
+        visible: true,
+        searchable: true
       }, {
         title: 'HOTEL',
         field: 'hotel',
-        visible: true
+        visible: true,
+        searchable: true
       }, {
         title: 'ARRIVAL DATE',
         field: 'arrivaldate',
@@ -3301,11 +3305,13 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'ARRIVAL AIRLINE',
         field: 'arrivalairline',
-        visible: true
+        visible: true,
+        searchable: true
       }, {
         title: 'ARRIVAL FLIGHT',
         field: 'arrivalflight',
-        visible: true
+        visible: true,
+        searchable: true
       }, {
         title: 'DEPARTURE DATE',
         field: 'departuredate',
@@ -3317,19 +3323,23 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'DEPARTURE AIRLINE',
         field: 'departureairline',
-        visible: false
+        visible: false,
+        searchable: true
       }, {
         title: 'DEPARTURE FLIGHT',
         field: 'departureflight',
-        visible: false
+        visible: false,
+        searchable: true
       }, {
         title: 'OCATION',
         field: 'ocation',
-        visible: false
+        visible: false,
+        searchable: true
       }, {
         title: 'COMMENTS',
         field: 'comments',
-        visible: false
+        visible: false,
+        searchable: true
       }, {
         title: 'ORIGIN',
         field: 'origin',
@@ -3345,7 +3355,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         title: 'CURRENCY',
         field: 'currency',
-        visible: false
+        visible: false,
+        searchable: true
       }],
       isDeleteModalActive: false,
       isEditModalActive: false,

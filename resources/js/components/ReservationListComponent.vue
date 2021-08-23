@@ -198,34 +198,34 @@ import DataForm from "./DataForm";
         data() {
             return {
                 columnsTemplate: [
-                    { title: 'RESERVATION', field: 'reservation', visible: false },
+                    { title: 'RESERVATION', field: 'reservation', visible: false,searchable: true },
                     { title: 'NAME', field: 'name', visible: true, searchable: true },
                     { title: 'E-MAIL', field: 'email', visible: true,searchable: true },
                     { title: 'PAX', field: 'passengers', visible: true },
-                    { title: 'SERVICE', field: 'service', visible: true },
+                    { title: 'SERVICE', field: 'service', visible: true,searchable: true },
                     { title: 'BABY CHAIR', field: 'babysit', visible: true },
-                    { title: 'SHOPPING STOP', field: 'shoppingstop', visible: true },
+                    { title: 'SHOPPING STOP', field: 'shoppingstop', visible: true, },
 
-                    { title: 'DESTINATION', field: 'destination', visible: true },
-                    { title: 'HOTEL', field: 'hotel', visible: true },
+                    { title: 'DESTINATION', field: 'destination', visible: true,searchable: true },
+                    { title: 'HOTEL', field: 'hotel', visible: true,searchable: true },
 
                     { title: 'ARRIVAL DATE', field: 'arrivaldate', visible: true,},
                     { title: 'ARRIVAL TIME', field: 'arrivaltime', visible: true },
-                    { title: 'ARRIVAL AIRLINE', field: 'arrivalairline', visible: true },
-                    { title: 'ARRIVAL FLIGHT', field: 'arrivalflight', visible: true },
+                    { title: 'ARRIVAL AIRLINE', field: 'arrivalairline', visible: true,searchable: true },
+                    { title: 'ARRIVAL FLIGHT', field: 'arrivalflight', visible: true,searchable: true },
 
                     { title: 'DEPARTURE DATE', field: 'departuredate', visible: false },
                     { title: 'DEPARTURE TIME', field: 'departuretime', visible: false },
-                    { title: 'DEPARTURE AIRLINE', field: 'departureairline', visible: false },
-                    { title: 'DEPARTURE FLIGHT', field: 'departureflight', visible: false },
+                    { title: 'DEPARTURE AIRLINE', field: 'departureairline', visible: false,searchable: true },
+                    { title: 'DEPARTURE FLIGHT', field: 'departureflight', visible: false,searchable: true },
 
-                    { title: 'OCATION', field: 'ocation', visible: false },
-                    { title: 'COMMENTS', field: 'comments', visible: false },
+                    { title: 'OCATION', field: 'ocation', visible: false,searchable: true },
+                    { title: 'COMMENTS', field: 'comments', visible: false,searchable: true },
                     { title: 'ORIGIN', field: 'origin', visible: false },
 
                     { title: 'PRICE NORMAL', field: 'pricenormal', visible: true },
                     { title: 'PRICE PAYPAL', field: 'pricepaypal', visible: false },
-                    { title: 'CURRENCY', field: 'currency', visible: false },
+                    { title: 'CURRENCY', field: 'currency', visible: false,searchable: true },
 
                 ],
                 isDeleteModalActive:false,

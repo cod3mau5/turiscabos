@@ -54,10 +54,10 @@ class ReservationController extends Controller
             }
         }
 
-        $today=Carbon::now();
+        $today=Carbon::now()->format('Y-m-d');
         $request['reservation']= rand(1,100);
         $request['pricenormal'] = preg_replace('/[^0-9.]+/', '', $request['pricenormal']);
-        'TUR-'.$today.'-'.$request["reservation"];
+        $request['reservation']='TUR-'.$today.'-'.$request["reservation"];
         if($request['service'] == 'One Way' && $request['destination'] != 'Hotel - Airport'){
             $request['departuredate']=null;
             $request['departuretime']=null;
@@ -72,7 +72,7 @@ class ReservationController extends Controller
         $validated= $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'reservation' => 'required|numeric',
+            'reservation' => 'required|string',
             'phone' => 'required',
             'passengers'=> 'required|numeric'
         ]);
