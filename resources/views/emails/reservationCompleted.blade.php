@@ -14,7 +14,7 @@
         <tr style="width: 796px\">
             <td colspan=2 style="border: 1px solid #000;">
                 <h1 style="font-size: 14px;text-align: center;margin: 0;padding: 0;color: #000; width: 100%;">
-                    Reservation Number: TUR-{{$request['arrivaldate']}}-{{$request['reservation']}}</h1>
+                    Reservation Number: {{$request['reservation']}}</h1>
             </td>
         </tr>
         <tr style="width: 796px\">
