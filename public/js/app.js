@@ -2538,6 +2538,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DataForm",
@@ -2570,7 +2587,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       currentFormData: []
     };
   },
+  beforeMount: function beforeMount() {},
   mounted: function mounted() {
+    if (typeof this.$store.state.formData.arrivaldate == "undefined") {
+      var d = new Date();
+      d.setDate(d.getDate() - 1);
+      this.$store.state.minDate = new Date(d.getTime());
+    }
+
     this.getTransfers();
     this.setUnitOptions();
     this.dataToValidate.nombrechofer = this.userRole == 'seller' ? false : true;
@@ -58153,19 +58177,27 @@ var render = function() {
                                   expression: "$store.state.formData.hotel"
                                 }
                               },
-                              _vm._l(_vm.transfers.hotel, function(
-                                option,
-                                index
-                              ) {
-                                return _c("option", { key: index }, [
-                                  _vm._v(
-                                    "\n                                            " +
-                                      _vm._s(option.name) +
-                                      "\n                                        "
-                                  )
+                              [
+                                _vm._l(_vm.transfers.hotel, function(
+                                  option,
+                                  index
+                                ) {
+                                  return _c("option", { key: index }, [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(option.name) +
+                                        "\n                                        "
+                                    )
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("optgroup", { attrs: { label: "Otros" } }, [
+                                  _c("option", { attrs: { value: "Airbnb" } }, [
+                                    _vm._v("Airbnb")
+                                  ])
                                 ])
-                              }),
-                              0
+                              ],
+                              2
                             )
                           ],
                           1
@@ -58279,6 +58311,45 @@ var render = function() {
                         )
                   ]),
                   _vm._v(" "),
+                  _vm.$store.state.formData.hotel == "Airbnb"
+                    ? _c("div", { staticClass: "columns is-mobile" }, [
+                        _c(
+                          "div",
+                          { staticClass: "column is-full-width" },
+                          [
+                            _c(
+                              "b-field",
+                              { attrs: { label: "Direction" } },
+                              [
+                                _c("b-input", {
+                                  attrs: {
+                                    placeholder:
+                                      "Escriba brevemente la dirección del destino",
+                                    type: "text",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: _vm.$store.state.formData.direction,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.$store.state.formData,
+                                        "direction",
+                                        $$v
+                                      )
+                                    },
+                                    expression:
+                                      "$store.state.formData.direction"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     "transition",
                     { attrs: { name: "fade", mode: "out-in" } },
@@ -58301,7 +58372,8 @@ var render = function() {
                                       attrs: {
                                         locale: "en-CA",
                                         placeholder: "Click to select...",
-                                        "min-date": new Date(),
+                                        "min-date":
+                                          _vm.$store.state.formData.minDate,
                                         "trap-focus": "",
                                         required: ""
                                       },

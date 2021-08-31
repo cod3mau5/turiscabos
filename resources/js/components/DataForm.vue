@@ -212,6 +212,9 @@
                                         <option v-for="(option, index) in transfers.hotel" :key="index">
                                             {{option.name}}
                                         </option>
+                                        <optgroup label="Otros">
+                                            <option value="Airbnb">Airbnb</option>
+                                        </optgroup>
                                     </b-select>
                                 </b-field>
                             </div>
@@ -249,6 +252,20 @@
 
                         </div>
 
+                        <!-- Direciotn case airbnb -->
+                        <div class="columns is-mobile" v-if="$store.state.formData.hotel == 'Airbnb'">
+                            <div class="column is-full-width">
+                                <b-field label="Direction">
+                                    <b-input
+                                    placeholder="Escriba brevemente la dirección del destino"
+                                    type="text"
+                                    v-model="$store.state.formData.direction"
+                                    required>
+                                    </b-input>
+                                </b-field>
+                            </div>
+                        </div>
+
                         <transition name="fade" mode="out-in">
                             <!-- ARRIVAL INFO -->
                             <div class="columns is-mobile"
@@ -259,7 +276,7 @@
                                                 v-model="$store.state.formData.arrivaldate"
                                                 locale="en-CA"
                                                 placeholder="Click to select..."
-                                                :min-date="new Date()"
+                                                :min-date="$store.state.formData.minDate"
                                                 trap-focus
                                                 required>
                                             </b-datepicker>
@@ -643,7 +660,15 @@ export default {
             },
             currentFormData:[]
     }),
+    beforeMount(){
+
+    },
     mounted() {
+        if(typeof(this.$store.state.formData.arrivaldate)=="undefined"){
+            var d = new Date();
+            d.setDate(d.getDate() - 1);
+            this.$store.state.minDate = new Date(d.getTime());
+        }
         this.getTransfers();
         this.setUnitOptions();
         this.dataToValidate.nombrechofer=this.userRole=='seller' ? false: true;

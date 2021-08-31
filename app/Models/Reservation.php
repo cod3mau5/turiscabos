@@ -45,5 +45,6 @@ class Reservation extends Model
         'numeroticket',
         'currency',
         'agency',
+        'direction'
     ];
 }
