@@ -56,7 +56,7 @@
                         </div>
 
                         <!-- AGENCY INFO -->
-                        <div class="columns is-mobile" v-if="userRole == 'seller'|| $store.state.formData.origin == 'panel_seller'">
+                        <div class="columns is-mobile" v-if="userRole == 'seller'|| userRole == 'admin'||  userRole == 'user'|| $store.state.formData.origin == 'panel_seller'">
                             <div class="column is-full">
                                 <b-field label="Agencia">
                                     <b-input
@@ -404,9 +404,10 @@
                         </div>
 
                         <transition name="fade" mode="out-in">
+
                             <!-- PRICES IN DOLLARS -->
                             <div class="columns is-mobile" v-if="$store.state.formData.currency=='USD'">
-                                <div class="column is-half">
+                                <div class="column is-one-third">
                                     <b-field label="Price Normal (usd)">
                                         <b-input
                                             placeholder="Price Normal (usd)"
@@ -417,7 +418,7 @@
                                         </b-input>
                                     </b-field>
                                 </div>
-                                <div class="column is-half">
+                                <div class="column is-one-third">
                                     <b-field label="Price PayPal (usd)">
                                         <b-input
                                             placeholder="Price Paypal (usd)"
@@ -428,11 +429,22 @@
                                         </b-input>
                                     </b-field>
                                 </div>
+                                <div class="column is-one-third">
+                                    <b-field label="Price Credit Card (usd)">
+                                        <b-input
+                                            placeholder="Price Credit Card (usd)"
+                                            type="number"
+                                            v-model="$store.state.formData.pricecreditcard"
+                                            required
+                                            :disabled="userRole=='user' && !storeRoute">
+                                        </b-input>
+                                    </b-field>
+                                </div>
                             </div>
 
                             <!-- PRICES IN MEXICAN PESOS -->
                             <div class="columns is-mobile" v-if="$store.state.formData.currency=='MXN'">
-                                <div class="column is-half">
+                                <div class="column is-one-third">
                                     <b-field label="Price Normal (mxn)">
                                         <b-input
                                             placeholder="Price Normal (mxn)"
@@ -443,7 +455,7 @@
                                         </b-input>
                                     </b-field>
                                 </div>
-                                <div class="column is-half">
+                                <div class="column is-one-third">
                                     <b-field label="Price PayPal (mxn)">
                                         <b-input
                                             placeholder="Price Paypal (mxn)"
@@ -454,8 +466,24 @@
                                         </b-input>
                                     </b-field>
                                 </div>
+                                <div class="column is-one-third">
+                                    <b-field label="Price Credit Card (mxn)">
+                                        <b-input
+                                            placeholder="Price Credit Card (mxn)"
+                                            type="number"
+                                            v-model="$store.state.formData.pricecreditcard"
+                                            required
+                                            :disabled="userRole=='user' && !storeRoute">
+                                        </b-input>
+                                    </b-field>
+                                </div>
                             </div>
+
+
+
+
                         </transition>
+
                         <!-- COMMENTS -->
                         <div class="columns is-mobile">
                             <div class="column is-full">

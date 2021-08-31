@@ -35,6 +35,7 @@ class Reservation extends Model
         'destination',
         'pricenormal',
         'pricepaypal',
+        'pricecreditcard',
         'origin',
         'babysit',
         'shoppingstop',

@@ -2510,6 +2510,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DataForm",
@@ -57634,6 +57662,8 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.userRole == "seller" ||
+                  _vm.userRole == "admin" ||
+                  _vm.userRole == "user" ||
                   _vm.$store.state.formData.origin == "panel_seller"
                     ? _c("div", { staticClass: "columns is-mobile" }, [
                         _c(
@@ -58748,7 +58778,7 @@ var render = function() {
                         ? _c("div", { staticClass: "columns is-mobile" }, [
                             _c(
                               "div",
-                              { staticClass: "column is-half" },
+                              { staticClass: "column is-one-third" },
                               [
                                 _c(
                                   "b-field",
@@ -58786,7 +58816,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "div",
-                              { staticClass: "column is-half" },
+                              { staticClass: "column is-one-third" },
                               [
                                 _c(
                                   "b-field",
@@ -58820,6 +58850,47 @@ var render = function() {
                                 )
                               ],
                               1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-third" },
+                              [
+                                _c(
+                                  "b-field",
+                                  {
+                                    attrs: { label: "Price Credit Card (usd)" }
+                                  },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Price Credit Card (usd)",
+                                        type: "number",
+                                        required: "",
+                                        disabled:
+                                          _vm.userRole == "user" &&
+                                          !_vm.storeRoute
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData
+                                            .pricecreditcard,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "pricecreditcard",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.pricecreditcard"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
                             )
                           ])
                         : _vm._e(),
@@ -58828,7 +58899,7 @@ var render = function() {
                         ? _c("div", { staticClass: "columns is-mobile" }, [
                             _c(
                               "div",
-                              { staticClass: "column is-half" },
+                              { staticClass: "column is-one-third" },
                               [
                                 _c(
                                   "b-field",
@@ -58866,7 +58937,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "div",
-                              { staticClass: "column is-half" },
+                              { staticClass: "column is-one-third" },
                               [
                                 _c(
                                   "b-field",
@@ -58893,6 +58964,47 @@ var render = function() {
                                         },
                                         expression:
                                           "$store.state.formData.pricepaypal"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column is-one-third" },
+                              [
+                                _c(
+                                  "b-field",
+                                  {
+                                    attrs: { label: "Price Credit Card (mxn)" }
+                                  },
+                                  [
+                                    _c("b-input", {
+                                      attrs: {
+                                        placeholder: "Price Credit Card (mxn)",
+                                        type: "number",
+                                        required: "",
+                                        disabled:
+                                          _vm.userRole == "user" &&
+                                          !_vm.storeRoute
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.$store.state.formData
+                                            .pricecreditcard,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.$store.state.formData,
+                                            "pricecreditcard",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "$store.state.formData.pricecreditcard"
                                       }
                                     })
                                   ],
