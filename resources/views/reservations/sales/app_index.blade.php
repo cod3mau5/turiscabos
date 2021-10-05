@@ -72,7 +72,7 @@
             <form method="get" action="{{route('get-reservations')}}">
                 <header class="modal-card-head">
                     <p class="modal-card-title">Exportar Reservas</p>
-                    <button class="delete" aria-label="close" onclick="$('#modalExport').modal('hide');"></button>
+                    <button class="delete" aria-label="close" onclick="$('#modalExport').modal('hide');prevent(event);"></button>
                 </header>
                 <section class="modal-card-body">
                     @if($errors->any())
@@ -120,6 +120,11 @@
       </div>
 @endsection
 @section('scripts')
+    <script type="text/javascript">
+        function prevent(e) {
+            e.preventDefault();
+        }
+    </script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') .'?'.rand(5, 15) }}" defer></script>
 
