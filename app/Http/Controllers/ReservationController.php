@@ -126,12 +126,22 @@ class ReservationController extends Controller
     {
         $date=date('Y-m-d H:i:s');
         // return Excel::download(new ReservationsExport, 'reservations.xlsx');
-        return (new ReservationsExport)->download('reservations_'.$date.'.xlsx');
+        return (new ReservationsExport(null,null,null))->download('reservations_'.$date.'.xlsx');
     }
     public function exportUserExcel()
     {
         $date=date('Y-m-d H:i:s');
         return (new ReservationsUserExport)->download('reservations_'.$date.'.xlsx');
     }
-
+    public function getReservations(Request $request){
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+        $date=date('Y-m-d H:i:s');
+        return (new ReservationsExport($startDate,$endDate,null))->download('reservations_'.$date.'.xlsx');
+    }
+    public function getReservationsToday(){
+        $today = Carbon::now()->format('Y-m-d');
+        $date=date('Y-m-d H:i:s');
+        return (new ReservationsExport(null,null,$today))->download('reservations_'.$date.'.xlsx');
+    }
 }

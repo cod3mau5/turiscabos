@@ -42,7 +42,7 @@
                     </header>
                     <section class="modal-card-body">
                         <!-- TICKET INFO -->
-                        <div class="columns is-mobile" v-if="userRole == 'seller'|| $store.state.formData.origin == 'panel_seller'">
+                        <div class="columns is-mobile" v-if="userRole == 'seller'|| $store.state.formData.origin == 'panel_seller'|| userRole == 'admin'">
                             <div class="column is-full">
                                 <b-field label="Numero de Ticket">
                                     <b-input

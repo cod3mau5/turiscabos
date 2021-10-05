@@ -3297,6 +3297,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3305,6 +3306,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       columnsTemplate: [{
+        title: '# TICKET',
+        field: 'numeroticket',
+        visible: false,
+        searchable: true
+      }, {
         title: 'RESERVATION',
         field: 'reservation',
         visible: false,
@@ -3412,6 +3418,7 @@ __webpack_require__.r(__webpack_exports__);
       }],
       isDeleteModalActive: false,
       isEditModalActive: false,
+      isExportModalActive: false,
       deleteRoute: '',
       updateRoute: '',
       editingData: [],
@@ -3612,6 +3619,10 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     }
   }, "unitOptions", ''),
   mutations: {
+    openExportModal: function openExportModal() {
+      var vm = this;
+      vm.isExportModalActive = true;
+    },
     getRole: function getRole(state) {
       state.currentRole = state.currentRole;
     },
@@ -57645,7 +57656,8 @@ var render = function() {
                 { staticClass: "modal-card-body" },
                 [
                   _vm.userRole == "seller" ||
-                  _vm.$store.state.formData.origin == "panel_seller"
+                  _vm.$store.state.formData.origin == "panel_seller" ||
+                  _vm.userRole == "admin"
                     ? _c("div", { staticClass: "columns is-mobile" }, [
                         _c(
                           "div",

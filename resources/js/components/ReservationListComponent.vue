@@ -148,6 +148,7 @@
             <b-loading  v-model="$store.state.isLoading"></b-loading>
         </b-modal>
 
+
     </section>
 
 </template>
@@ -198,7 +199,8 @@ import DataForm from "./DataForm";
         data() {
             return {
                 columnsTemplate: [
-                    { title: 'RESERVATION', field: 'reservation', visible: false,searchable: true },
+                    { title: '# TICKET', field: 'numeroticket', visible: false,searchable: true},
+                    { title: 'RESERVATION', field: 'reservation', visible: false,searchable: true},
                     { title: 'NAME', field: 'name', visible: true, searchable: true },
                     { title: 'E-MAIL', field: 'email', visible: true,searchable: true },
                     { title: 'PAX', field: 'passengers', visible: true },
@@ -230,6 +232,7 @@ import DataForm from "./DataForm";
                 ],
                 isDeleteModalActive:false,
                 isEditModalActive:false,
+                isExportModalActive:false,
                 deleteRoute:'',
                 updateRoute:'',
                 editingData:[],
@@ -246,6 +249,7 @@ import DataForm from "./DataForm";
             // ...mapActions([
             //     'update'
             // ]),
+
             fetchData(val){
                 let vm=this;
                 vm.isLoading = true;

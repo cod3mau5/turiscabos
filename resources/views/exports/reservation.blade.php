@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <td style="background-color:#fdc500;width:25px;"><b>NOMBRE DEL CLIENTE</b></td>
-            <td style="background-color:#fdc500;width:25px;"><b>CORREO ELECtdONICO</b></td>
+            <td style="background-color:#fdc500;width:25px;"><b>CORREO ELECTRONICO</b></td>
             <td style="background-color:#fdc500;width:15px;"><b>TELEFONO</b></td>
             <td style="background-color:#fdc500;width:15px;"><b>PERSONAS</b></td>
             <td style="background-color:#fdc500;width:25px;"><b>SERVICIO</b></td>
@@ -24,7 +24,6 @@
     <tbody>
         @foreach ($reservations as $reservation)
             <tr>
-
                 <td>{{$reservation->name}}</td>
                 <td>{{$reservation->email}}</td>
                 <td>{{$reservation->phone}}</td>

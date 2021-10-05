@@ -21,6 +21,10 @@ export default new Vuex.Store({
 
 
     mutations: {
+        openExportModal(){
+            let vm=this;
+            vm.isExportModalActive= true;
+        },
        getRole(state){
            state.currentRole=state.currentRole;
        },
