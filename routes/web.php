@@ -21,3 +21,4 @@ Route::get('/reservations-user-excel',[ Controllers\ReservationController::class
 
 Route::get('/get-reservations', [Controllers\ReservationController::class, 'getReservations'])->name('get-reservations');
 Route::get('/get-reservations-today', [Controllers\ReservationController::class, 'getReservationsToday'])->name('get-reservations-today');
+Route::get('/get-reservations-departures-today', [Controllers\ReservationController::class, 'getReservationsDeparturesToday'])->name('get-reservations-departures-today');

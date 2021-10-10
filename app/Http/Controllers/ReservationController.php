@@ -9,7 +9,6 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Exports\ReservationsExport;
 use Illuminate\Support\Facades\Mail;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReservationsUserExport;
 
 
@@ -99,7 +98,6 @@ class ReservationController extends Controller
         $reservation->setAttribute('updateRoute', route('reservations.update',$reservation->id));
         return $reservation;
     }
-
     public function update(Request $request, Reservation $reservation)
     {
         if($request['service'] == 'One Way' && $request['destination'] != 'Hotel - Airport'){
@@ -134,14 +132,55 @@ class ReservationController extends Controller
         return (new ReservationsUserExport)->download('reservations_'.$date.'.xlsx');
     }
     public function getReservations(Request $request){
-        $startDate = $request->input('startDate');
-        $endDate = $request->input('endDate');
-        $date=date('Y-m-d H:i:s');
-        return (new ReservationsExport($startDate,$endDate,null))->download('reservations_'.$date.'.xlsx');
+        if($request->input('filter') == 'arrivalDates'){
+            $startDate = $request->input('startDate');
+            $endDate = $request->input('endDate');
+            $reservations=Reservation::whereBetween('arrivaldate',[$startDate,$endDate])->get();
+
+            if($reservations == '[]'){
+                return redirect()->back()->withErrors(['message'=>'No hay reservas para ese rango de fechas']);
+            }else{
+                $date=date('Y-m-d H:i:s');
+                return (new ReservationsExport($reservations,'ranges'))->download('reservations_'.$date.'.xlsx');
+            }
+        }else{
+            $startDate = $request->input('startDepartureDate');
+            $endDate = $request->input('endDepartureDate');
+            $reservations=Reservation::whereBetween('departuredate',[$startDate,$endDate])->get();
+            if($reservations == '[]'){
+                return redirect()->back()->withErrors(['message'=>'No hay reservas para ese rango de fechas']);
+            }else{
+                $date=date('Y-m-d H:i:s');
+                return (new ReservationsExport($reservations,'ranges'))->download('reservations_'.$date.'.xlsx');
+            }
+        }
     }
     public function getReservationsToday(){
-        $today = Carbon::now()->format('Y-m-d');
-        $date=date('Y-m-d H:i:s');
-        return (new ReservationsExport(null,null,$today))->download('reservations_'.$date.'.xlsx');
+        $today = Carbon::now('America/Mazatlan')->format('Y-m-d');
+        $reservations=Reservation::where('arrivaldate',$today)->get();
+        if($reservations == '[]'){
+            return redirect()->back()->withErrors(['message'=>'No hay llegadas para hoy']);
+        }else{
+            $date=date('Y-m-d H:i:s');
+            if(count($reservations) > 1){
+                return (new ReservationsExport($reservations,'today'))->download('reservations_'.$date.'.xlsx');
+            }else{
+                return (new ReservationsExport($reservations,'today_only_one'))->download('reservations_'.$date.'.xlsx');
+            }
+        }
+    }
+    public function getReservationsDeparturesToday(){
+        $today = Carbon::now('America/Mazatlan')->format('Y-m-d');
+        $reservations=Reservation::where('departuredate',$today)->get();
+        if($reservations == '[]'){
+            return redirect()->back()->withErrors(['message'=>'No hay salidas para hoy']);
+        }else{
+            $date=date('Y-m-d H:i:s');
+            if(count($reservations) > 1){
+                return (new ReservationsExport($reservations,'today'))->download('reservations_'.$date.'.xlsx');
+            }else{
+                return (new ReservationsExport($reservations,'today_only_one'))->download('reservations_'.$date.'.xlsx');
+            }
+        }
     }
 }

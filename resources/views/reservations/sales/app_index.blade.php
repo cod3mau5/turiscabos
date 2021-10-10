@@ -9,6 +9,13 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                    @if($errors->any())
+                    <div class="notification is-danger" id="notification" style="font-size:1rem;text-align:center;">
+                        <button class="delete" onclick="$('#notification').css('display','none');"></button>
+                        <b>{{$errors->first()}}</b>
+                    </div>
+
+                    @endif
                 <div class="card">
                     <div class="card-header text-center">
                         <h1 class="mx-auto">
@@ -75,9 +82,6 @@
                     <button class="delete" aria-label="close" onclick="$('#modalExport').modal('hide');prevent(event);"></button>
                 </header>
                 <section class="modal-card-body">
-                    @if($errors->any())
-                        <h4>{{$errors->first()}}</h4>
-                    @endif
                     <p class="card-header-title has-text-centered is-justify-content-center pt-0 mt-0 mb-1">
                         Exportar todas las reservas
                     </p>
@@ -86,30 +90,75 @@
                     <p class="card-header-title has-text-centered is-justify-content-center pt-0 mt-0 mb-1">
                         Exportar las reservas de hoy
                     </p>
-                    <a href="{{route('get-reservations-today')}}" class="button is-fullwidth is-success is-outlined mb-3">Exportar reservas de hoy</a>
+                    <a href="{{route('get-reservations-today')}}" class="button is-fullwidth is-success is-outlined mb-3">Exportar llegadas de hoy</a>
+                    <a href="{{route('get-reservations-departures-today')}}" class="button is-fullwidth is-success is-outlined mb-3">Exportar salidas de hoy</a>
 
                     <div class="columns is-mobile mb-0">
                         <div class="column is-full">
                             <p class="card-header-title has-text-centered is-justify-content-center pt-0 pb-0 mt-0 mb-1">
-                                Filtrar por fecha
+                                Filtrar por rango de fechas
                             </p>
                         </div>
                     </div>
 
                     <div class="columns is-mobile">
-                        <div class="column is-half">
-                            <!-- START DATE -->
-                            <label for="start">Fecha inicial:</label>
-                            <input type="date" id="start" name="startDate"
-                                value="2021-07-22">
+                        <div class="column is-half has-text-centered">
+                            <div class="control">
+                                <label class="radio">
+                                    <input 
+                                    type="radio" 
+                                    name="filter"
+                                    value="arrivalDates" 
+                                    onclick="$('#departureDates').css('display','none');$('#arrivalDates').css('display','flex');"
+                                    checked>
+                                    Por fechas de llegada
+                                </label>
+                            </div>
                         </div>
-                        <div class="column ishalf">
-                            <!-- END DATE DATE -->
-                            <label for="start">Fecha final:</label>
-                            <input type="date" id="start" name="endDate"
-                                value="2021-07-22">
+                        <div class="column is-half has-text-centered">
+                            <div class="control">
+                                <label class="radio">
+                                    <input 
+                                    type="radio" 
+                                    name="filter"
+                                    value="departureDates"
+                                    onclick="$('#departureDates').css('display','flex');$('#arrivalDates').css('display','none');">
+                                    Por fechas de salida
+                                </label>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="columns is-mobile mb-0 has-text-centered" id="arrivalDates" style="display:flex">
+                        <div class="column is-half">
+                            <!-- START DATE -->
+                            <label for="start">Fecha inicial (arrival):</label>
+                            <input type="date" id="start" name="startDate"
+                                value="{{Carbon\Carbon::now('America/Mazatlan')->format('Y-m-d')}}">
+                        </div>
+                        <div class="column is-half">
+                            <!-- END DATE DATE -->
+                            <label for="start">Fecha final (arrival):</label>
+                            <input type="date" id="start" name="endDate"
+                                value="{{Carbon\Carbon::now('America/Mazatlan')->format('Y-m-d')}}">
+                        </div>
+                    </div>
+
+                    <div class="columns is-mobile mb-0 has-text-centered" id="departureDates" style="display:none">
+                        <div class="column is-half">
+                            <!-- START DATE -->
+                            <label for="start">Fecha inicial (departure):</label>
+                            <input type="date" id="start" name="startDepartureDate"
+                                value="{{Carbon\Carbon::now('America/Mazatlan')->format('Y-m-d')}}">
+                        </div>
+                        <div class="column is-half">
+                            <!-- END DATE DATE -->
+                            <label for="start">Fecha final (departure):</label>
+                            <input type="date" id="start" name="endDepartureDate"
+                                value="{{Carbon\Carbon::now('America/Mazatlan')->format('Y-m-d')}}">
+                        </div>
+                    </div>
+
                 </section>
                 <footer class="modal-card-foot is-justify-content-end">
                     <button class="button is-danger" onclick="$('#modalExport').modal('hide');">Cancelar</button>

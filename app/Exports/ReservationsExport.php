@@ -3,48 +3,35 @@
 namespace App\Exports;
 
 use App\Models\Reservation;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 
-// class ReservationsExport implements FromCollection
-// {
-//     /**
-//     * @return \Illuminate\Support\Collection
-//     */
-//     public function collection()
-//     {
-//         return Reservation::all();
-//     }
-// }
-class ReservationsExport implements FromView
+class ReservationsExport implements FromView, WithStrictNullComparison
 {
     use Exportable;
-    protected $startDate,$endDate;
+    protected $reservations,$filterBy;
 
-    function __construct($startDate,$endDate,$today) {
-            $this->startDate = $startDate;
-            $this->endDate = $endDate;
-            $this->today = $today;
+    public function __construct($reservations,$filterBy) {
+            $this->reservations = $reservations;
+            $this->filterBy=$filterBy;
     }
+
     public function view(): View
     {
-        // return $this->startDate . ' ' . $this->endDate . ' ' . $this->today;
-        if($this->startDate && $this->endDate){
-            $reservations=Reservation::whereBetween('arrivaldate',array($this->startDate,$this->endDate))->get();
-            // if($reservations->isEmpty()){
-            //     return redirect()->back()->withErrors(['message'=>'No hay reservas para ese rango de fechas']);
-            // }else{
-            //     return view('exports.reservation',compact($reservations));
-            // }
-            return view('exports.reservation',['reservations'=>$reservations]);
-
-        }elseif($this->today){
-            return view('exports.reservation',['reservations'=>Reservation::where('arrivaldate',$this->today)->get()]);
-        }else{
+        if($this->filterBy == 'ranges'){
+            return view('exports.reservation',['reservations'=>$this->reservations]);
+        }elseif($this->filterBy == 'today'){
+            return view('exports.reservation',['reservations'=>$this->reservations]);
+        }elseif($this->filterBy == 'today_only_one'){
+            $reservation=$this->reservations->toArray();
+            return view('exports.one_reservation',['reservations'=>$reservation[0]]);
+        }
+        else{
             return view('exports.reservation',['reservations'=>Reservation::all()]);
         }
     }
+
 
 }
