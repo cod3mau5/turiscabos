@@ -52,8 +52,10 @@ class ReservationController extends Controller
                 $request['passengers']= $request['passengerssprinter']; //case for Shuttle
             }
         }
-
-        $today=Carbon::now()->format('Y-m-d');
+        $request['pricenormal']==null ?  $request['pricenormal']=0.00 : $request['pricenormal']= $request['pricenormal'];
+        $request['pricepaypal']==null ?  $request['pricepaypal']=0.00 : $request['pricepaypal']= $request['pricepaypal'];
+        $request['pricecreditcard']==null ?  $request['pricecreditcard']=0.00 : $request['pricecreditcard']= $request['pricecreditcard'];
+        $today=Carbon::now('America/Mazatlan')->format('Y-m-d');
         $request['reservation']= rand(1,100);
         $request['pricenormal'] = preg_replace('/[^0-9.]+/', '', $request['pricenormal']);
         $request['reservation']='TUR-'.$today.'-'.$request["reservation"];
@@ -75,6 +77,7 @@ class ReservationController extends Controller
             'phone' => 'required',
             'passengers'=> 'required|numeric'
         ]);
+
         if($validated){$reservation=Reservation::create($request->except('_token'));}
 
         if ($reservation) {
@@ -111,6 +114,9 @@ class ReservationController extends Controller
             $request['arrivalairline']=null;
             $request['arrivalflight']=null;
         }
+        $request['pricenormal']==null ?  $request['pricenormal']=0.00 : $request['pricenormal']= $request['pricenormal'];
+        $request['pricepaypal']==null ?  $request['pricepaypal']=0.00 : $request['pricepaypal']= $request['pricepaypal'];
+        $request['pricecreditcard']==null ?  $request['pricecreditcard']=0.00 : $request['pricecreditcard']= $request['pricecreditcard'];
         $reservation->update($request->except('_token'));
     }
     public function destroy(Reservation $reservation)

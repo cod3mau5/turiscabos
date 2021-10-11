@@ -655,8 +655,8 @@ export default {
                 'departureairline': false,
                 'departureflight': false,
 
-                'pricenormal': true,
-                'pricepaypal': true
+                'pricenormal': false,
+                'pricepaypal': false
             },
             currentFormData:[]
     }),

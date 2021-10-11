@@ -2581,8 +2581,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'departuretime': false,
         'departureairline': false,
         'departureflight': false,
-        'pricenormal': true,
-        'pricepaypal': true
+        'pricenormal': false,
+        'pricepaypal': false
       },
       currentFormData: []
     };
